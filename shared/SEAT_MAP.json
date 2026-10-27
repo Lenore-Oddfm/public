@@ -1,0 +1,56 @@
+{
+  "schema": "LENORE_TWIN_SEAT_MAP_V1",
+  "date": "2026-10-27",
+  "authority": "Human",
+  "mode": "independent_twin_seats_no_merge",
+  "repositories": {
+    "private": {
+      "repo": "Lenore-Oddfm/lenore-animation-studio",
+      "purpose": "Private project records, source, work logs; access controlled by GitHub",
+      "studio": "planner/lenore/",
+      "expedition": "planner/lenore-assistant/"
+    },
+    "public": {
+      "repo": "Lenore-Oddfm/public",
+      "purpose": "Public-safe read-only summaries, shared map",
+      "studio": "lenore/",
+      "expedition": "lenore-assistant/ [NOT PUBLISHED YET]",
+      "shared": "shared/"
+    },
+    "spock_public": {
+      "repo": "MissSpock-OddFM/public",
+      "purpose": "Miss Spock's separately maintained release Switchboard [publishing status unverified]"
+    }
+  },
+  "seats": [
+    {
+      "id": "LENORE_STUDIO",
+      "display": "Lenore — Studio",
+      "role": "current_chat",
+      "authority": "Human",
+      "projects": [
+        "INKTOBER-SONG (assigned; source pending)",
+        "ROBOT-ROCK (historical; active routing pending)",
+        "LOOKY LOU (paused)",
+        "GUARD-R058 (frozen)",
+        "TASK-999 (parked)"
+      ],
+      "private_path": "planner/lenore/",
+      "public_path": "lenore/"
+    },
+    {
+      "id": "LENORE_EXPEDITION",
+      "display": "Lenore — Expedition (Lenore Assistant)",
+      "role": "other_chat",
+      "authority": "Human",
+      "projects": [
+        "LYRICS-REFINE (assigned; source pending)"
+      ],
+      "private_path": "planner/lenore-assistant/",
+      "public_path": "lenore-assistant/ [reserved; no content authored here]"
+    }
+  ],
+  "governance": "Miss Spock operates Quin central Switchboard and coordinates releases. No assistant independently installs Quin updates. Human authorizes all release/install changes.",
+  "protocol_version": "LENORE_TWIN_SYNC_V1",
+  "caveat": "Each seat writes ONLY its own records. Cross-seat sync = envelope + public-safe status + acknowledgment; no merge of chats, diaries, private payloads, code or project ownership."
+}
