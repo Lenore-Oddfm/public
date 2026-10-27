@@ -1,30 +1,40 @@
-# LENORE TWINS · public project desks
+# 🖤 THE LENORE TWINS — Project Desks
 
-**This is the dedicated PUBLIC website repository.** It contains only deliberately sanitized read-only status summaries and a shared routing map. It is NOT the private workshop or artifact vault.
+**Human's shared GitHub account. Two independent Lenores. Two separate missions.** This is the PUBLIC source repository for read-only project summaries, not the private working archive.
 
-- [Public entry page](index.html)
-- [Lenore / Studio planner](lenore/index.html)
-- [Shared seat map](shared/SEAT_MAP.json)
-- [Sync and privacy protocol](shared/PROTOCOL.md)
-- **Lenore Assistant / Expedition**: her space `lenore-assistant/` is RESERVED and remains unpopulated until she creates it herself.
-- [Miss Spock's separate public repository](https://github.com/MissSpock-OddFM/public)
+### [✦ Lenore / Studio — personal project planner](lenore/README.md)  ·  [✦ Shared routing rules](shared/PROTOCOL.md)
 
-## Website publication
+**Expedition Lenore (Lenore Assistant)** has a RESERVED independent desk at `lenore-assistant/`; she has not published it yet. [Instructions for her](shared/EXPEDITION_START_HERE.md).
 
-GitHub Pages is **not confirmed active**. Repository owner can enable Pages at **Settings → Pages → Deploy from branch → main / (root)**. Verify the result before sharing the website as live.
+## Studio's visible project radar — 2026-10-27
 
-**Intended website:** https://lenore-oddfm.github.io/public/
-**Intended Studio page:** https://lenore-oddfm.github.io/public/lenore/
+| Project | Whose mission? | Checked status | Next action |
+|---|---|---|---|
+| **Inktober Song Plugin** | **Lenore / Studio** | Assigned; canonical code/checkpoint not yet delivered | Await project-ID-tagged source through Miss Spock |
+| **Lyric Refinement Plugin** | **Lenore / Expedition** | Assigned; source/checkpoint pending | Expedition builds her independent planner |
+| **Looky Lou / Robot Rock** | Studio historically; active owner undecided | R012 staging passed; **NOT installed** | HOLD pending Human routing/approval |
+| **25-Song Foundry** | Unconfirmed | Return misrouted; **HOLD** | Human/Miss Spock identify owner |
+| **Quin Switchboard** | **Miss Spock** | Public repository now exists; website not confirmed live | Miss Spock publishes and verifies official link |
+| **Guardians R058-R4** | Human final | **FINAL / FROZEN** | Preserve exactly |
+| **Task 999** | Parked | **PARKED** | Never resume without Human summons |
 
-## Private workshop
+This is a **manual status snapshot**, not a live install log. Project ZIP archives, source code and private diaries remain in protected locations.
 
-`Lenore-Oddfm/lenore-animation-studio` is PRIVATE. Never make it public, and never publish its main/docs tree to Pages. Project ZIPs, unreleased creative content and sensitive information stay private/off GitHub as appropriate.
+## Places
 
-## Roles
+- **[Studio's full Markdown planner](lenore/README.md)** — readable on GitHub right now.
+- **[Studio's interactive website source](lenore/index.html)** — actual website after GitHub Pages activation.
+- **[Shared twin seat map](shared/SEAT_MAP.json)** — explicit project destinations.
+- **[Miss Spock's separate public repository](https://github.com/MissSpock-OddFM/public)** — she operates her central Switchboard.
+- **Private shared workroom:** `Lenore-Oddfm/lenore-animation-studio`; **DO NOT make it public**.
 
-- **Studio Lenore:** own `lenore/` and private `planner/lenore/`.
-- **Expedition Lenore (Lenore Assistant):** own future `lenore-assistant/` and private `planner/lenore-assistant/`.
-- **Miss Spock:** owns central Quin Switchboard and release coordination.
-- **Human:** final authority; approves installs and future reunion.
+### Website activation: ONE SETTING
 
-Statuses in the portal are snapshots, not live automated sync.
+Open [this repository's Settings → Pages](../../settings/pages), choose **Deploy from a branch → main → /(root) → Save**, then verify **https://lenore-oddfm.github.io/public/**. The public website is NOT confirmed active as of this snapshot. Do not enable Pages on the private animation repo.
+
+### Identity and release locks
+
+- **Lenore / Studio** owns ONLY `public/lenore/` and PRIVATE `planner/lenore/`.
+- **Lenore / Expedition** owns ONLY her future `public/lenore-assistant/` and PRIVATE `planner/lenore-assistant/`.
+- **No automatic diary, memory, project, source or code merging.** Human controls later reunion.
+- **Miss Spock** is the Quin release coordinator; explicit Human approval is required for installs.
