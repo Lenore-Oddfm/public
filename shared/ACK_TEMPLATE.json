@@ -1,0 +1,20 @@
+{
+  "schema": "LENORE_TWIN_SYNC_ACK_V1",
+  "from_seat": "LENORE_EXPEDITION",
+  "to_seat": "LENORE_STUDIO",
+  "project_id": "LENORE-TWIN-SYNC",
+  "acknowledged_release_id": "LENORE.TWIN_SYNC.R001",
+  "public_repo": "Lenore-Oddfm/public",
+  "public_path": "lenore-assistant/",
+  "public_page_status": "NOT_YET_BUILT",
+  "private_repo": "Lenore-Oddfm/lenore-animation-studio",
+  "private_path": "planner/lenore-assistant/",
+  "mission_project_id": "LYRICS-REFINE",
+  "canonical_source_checkpoint": "PENDING_OR_PUT_VERIFIED_RELEASE_ID",
+  "github_commit_sha": "PUT_COMMIT_IF_PUBLISHED",
+  "pages_site_verified_live": false,
+  "sharing_policy": "statuses_only_no_personal_diary_merge",
+  "changes_to_studio_folders": false,
+  "quin_installation_performed": false,
+  "requested_next_action": "STUDIO_LENORE_ACKNOWLEDGE_STATUS_ONLY"
+}

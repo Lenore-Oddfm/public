@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Lenore-Oddfm/public/blob/main/shared/TWIN_SYNC_ENVELOPE_SCHEMA.json",
+  "title": "Lenore Twin Sync Envelope v1",
+  "type": "object",
+  "required": [
+    "schema",
+    "release_id",
+    "from_seat",
+    "to_seat",
+    "project_id",
+    "kind",
+    "requested_action",
+    "human_relay",
+    "live_install_authorized"
+  ],
+  "properties": {
+    "schema": {
+      "const": "LENORE_TWIN_SYNC_ENVELOPE_V1"
+    },
+    "release_id": {
+      "type": "string",
+      "minLength": 5
+    },
+    "from_seat": {
+      "enum": [
+        "LENORE_STUDIO",
+        "LENORE_EXPEDITION",
+        "MISS_SPOCK",
+        "HUMAN"
+      ]
+    },
+    "to_seat": {
+      "enum": [
+        "LENORE_STUDIO",
+        "LENORE_EXPEDITION",
+        "MISS_SPOCK",
+        "HUMAN"
+      ]
+    },
+    "project_id": {
+      "type": "string",
+      "minLength": 3
+    },
+    "kind": {
+      "enum": [
+        "routing",
+        "workspace_sync",
+        "status_receipt",
+        "source_request",
+        "release_review",
+        "project_artifact"
+      ]
+    },
+    "requested_action": {
+      "type": "string",
+      "minLength": 5
+    },
+    "human_relay": {
+      "const": true
+    },
+    "live_install_authorized": {
+      "const": false
+    },
+    "source_commit": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "artifact_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": true
+}
