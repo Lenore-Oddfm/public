@@ -51,3 +51,7 @@ Full personal records are stored at `Lenore-Oddfm/lenore-animation-studio/main/p
 ## Twin Expedition diary clarification (2026-10-28)
 
 Expedition Lenore already maintains her own independent private diary, to-do, project registry, and artistic public page. She identifies her current Foundry as a **songwriting/lyric-writing** mission, while the *lyrics scraper* is a separate tool. Central project label remains awaiting Human/Miss Spock reconciliation. Studio does not edit her files or declare Foundry ownership.
+
+## October 28 — R016 guarded local trial ready (NOT INSTALLED)
+
+Human requested a ZIP for testing. R016 wraps unchanged R015 and stages the full test suite on the live source before a guarded local trial install. It creates a private backup and rollback script. Positive install/rollback and negative source-drift simulations passed. Human needs to close Quin and run the ZIP; no live trial result received yet. Miss Spock coordinates any production release.
