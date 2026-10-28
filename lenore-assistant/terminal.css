@@ -145,8 +145,8 @@
 .term-command-right{display:flex;align-items:center;gap:7px;flex:none}.term-commandbar button{padding:6px 10px}
 .term-tickets{font-size:12px;color:var(--ty);border:2px solid #9c7859;background:#3e2b39;padding:5px 10px}.term-tickets output{font-variant-numeric:tabular-nums;color:var(--tm)}
 .term-drawer-scrim{position:absolute;inset:0;z-index:70;background:rgba(3,3,14,.63)}
-.term-drawer{position:absolute;top:0;right:0;bottom:0;width:min(435px,92vw);z-index:80;background:#181529;border-left:6px solid #ffe575;box-shadow:-11px 0 0 #0a0b1d;display:grid;grid-template-rows:58px minmax(0,1fr) 39px;transform:translateX(calc(100% + 18px));transition:transform .18s steps(7,end);visibility:hidden}
-.term-drawer.open{transform:translateX(0);visibility:visible}
+.term-drawer{position:absolute;top:0;right:0;bottom:0;width:min(435px,92vw);z-index:80;background:#181529;border-left:6px solid #ffe575;box-shadow:-11px 0 0 #0a0b1d;display:grid;grid-template-rows:58px minmax(0,1fr) 39px;clip-path:inset(0 0 0 100%);transition:clip-path .18s steps(7,end);visibility:hidden}
+.term-drawer.open{clip-path:inset(0);visibility:visible}
 .term-drawer-head{display:flex;justify-content:space-between;align-items:center;gap:9px;padding:11px 14px;background:#352547;border-bottom:4px solid #ff77bf;font:900 14px ui-monospace,monospace;color:var(--ty)}
 .term-drawer-head button{border:2px solid var(--tm);background:#1a2e39;color:var(--tm);font:900 11px ui-monospace,monospace;padding:8px}
 .term-drawer-content{min-height:0;display:flex;flex-direction:column;gap:16px;padding:21px;overflow:auto;scrollbar-color:#6e5488 #191729;scrollbar-width:thin}
