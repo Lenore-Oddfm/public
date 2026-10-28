@@ -153,7 +153,10 @@
     }catch{stopBeat();$('beatState').textContent='AUDIO BLOCKED IN THIS BROWSER';}
   });
   $('beatRandom').addEventListener('click',()=>{
-    for(let row=0;row<4;row++)for(let step=0;step<8;step++)pattern[row][step]=Math.random()<(row===0?.36:row===1?.24:row===2?.68:.25)?1:0;
+    for(let row=0;row<4;row++)for(let step=0;step<8;step++){
+      const density=row===0?.36:row===1?.24:row===2?.68:.25;
+      pattern[row][step]=Math.random()<density?1:0;
+    }
     pattern[0][0]=1;syncBeatButtons();prize(4);
   });
   $('beatClear').addEventListener('click',()=>{for(const row of pattern)row.fill(0);syncBeatButtons();prize(1)});
@@ -191,7 +194,7 @@
   function pet(){
     sleeping=false;pets++;heartFrames=22;$('petCount').textContent=pets;
     const moods=['PURRING LOUDLY','YOU MAY STAY','SECRETLY IMPRESSED','MORE PETS, LESS MEETINGS','ART DIRECTOR APPROVES'];
-    mood(moods[pets%moods.length],'GREMble HAS APPROVED YOUR TOUCH.');prize(2);
+    mood(moods[pets%moods.length],'GREMBLE HAS APPROVED YOUR TOUCH.');prize(2);
   }
   $('petPat').addEventListener('click',pet);petCanvas.addEventListener('click',pet);
   $('petFeed').addEventListener('click',()=>{sleeping=false;fish++;heartFrames=12;mood('STUFFED WITH FISH','A FISH WAS CONVERTED INTO CREATIVE ENERGY.');prize(3)});
