@@ -2,7 +2,7 @@
  const p=document.getElementById('term-panel-quest');if(!p)return;
  const mount=p.querySelector('.term-panel-body');if(!mount)return;
  const foyer=document.createElement('div');foyer.className='term-panel-body qa29-foyer';
- foyer.innerHTML=`<div class="qa29-poster"><small>▣ NIGHT SHIFT / C.LINK ADVENTURE / QA DRAFT</small><h2>THE THIRD BELL</h2><p>One empty theater. Four endings. Fourteen unique pixel scenes.</p><canvas id="qa29-poster" width="320" height="150" role="img" aria-label="Theater pixel-art preview"></canvas><button type="button" id="qa29-enter">▶ ENTER THE THEATER</button></div><div class="qa29-desk"><small>STATUS / FIELD DESK</small><div class="qa29-stats"><span><b>14</b> SCENES</span><span><b>04</b> ENDINGS</span><span><b id="qa29-finds">0/4</b> FOUND</span><span><b>HOLD</b> CANON</span></div><h3>THE FOYER'S TWO TOYS</h3><div class="qa29-toys"><div>♫ THE BELL<br><output id="qa29-bell">Suspiciously quiet.</output><button type="button" id="qa29-ring">RING BELL</button></div><div>✧ THE MOTH<br><output id="qa29-moth">Watching the light.</output><button type="button" id="qa29-tap">TAP MOTH</button></div></div><p>PUBLIC PLAYTEST · NO OFFICIAL CANON · NO API CALLS</p></div>`;
+ foyer.innerHTML=`<div class="qa29-poster"><small>▣ NIGHT SHIFT / C.LINK ADVENTURE / QA DRAFT</small><h2>THE THIRD BELL</h2><p>One empty theater. Four endings. Fourteen unique pixel scenes.</p><canvas id="qa29-poster" width="320" height="150" role="img" aria-label="Theater pixel-art preview"></canvas><div class="qa030-save" role="status" id="qa30-save">◈ CHECKPOINT READY</div><div class="qa030-actions"><button type="button" id="qa29-enter">▶ ENTER THE THEATER</button><button type="button" id="qa30-newnight">↻ NEW NIGHT</button></div></div><div class="qa29-desk"><small>STATUS / FIELD DESK</small><div class="qa29-stats"><span><b>14</b> SCENES</span><span><b>04</b> ENDINGS</span><span><b id="qa29-finds">0/4</b> FOUND</span><span><b>HOLD</b> CANON</span></div><h3>THE FOYER'S TWO TOYS</h3><div class="qa29-toys"><div>♫ THE BELL<br><output id="qa29-bell">Suspiciously quiet.</output><button type="button" id="qa29-ring">RING BELL</button></div><div>✧ THE MOTH<br><output id="qa29-moth">Watching the light.</output><button type="button" id="qa29-tap">TAP MOTH</button></div></div><p>PUBLIC PLAYTEST · NO OFFICIAL CANON · NO API CALLS</p></div>`;
  const overlay=document.createElement('div');overlay.className='qa29-overlay';overlay.id='qa29-overlay';overlay.hidden=true;
  const origin=mount.parentNode;origin.replaceChild(foyer,mount);document.body.append(overlay);overlay.append(mount);
  const subtitle=p.querySelector('.term-panel-head p');if(subtitle)subtitle.textContent='After Hours / Enter the theater';
@@ -47,12 +47,25 @@
  .qa29-pager{min-height:27px;padding:2px}.qa29-pager button{font-size:9px;padding:4px;box-shadow:none}.qa29-pager span{font-size:8px}.qa29-overlay .nightqa-foot{font-size:8px;padding:2px}.qa29-overlay .nightqa-toolbar .nightqa-actions>button[data-action=back],.qa29-overlay .nightqa-toolbar .nightqa-actions>button[data-action=restart]{display:none}
  }
  @media(prefers-reduced-motion:reduce){.qa29-foyer *,.qa29-overlay *{animation:none!important}}
+
+ .qa030-actions{display:flex;gap:7px;margin-top:auto;min-width:0}
+ .qa030-actions #qa29-enter{flex:1;margin-top:0;min-width:0}
+ .qa030-actions #qa30-newnight{flex:0 0 auto;min-width:0;font-size:10px;padding:7px}
+ .qa030-save{font:900 10px/1.35 ui-monospace,monospace;color:#ffe57c;border:2px solid #5ceacb;background:#102d37;padding:5px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+ .qa29-overlay .nightqa-choices button.qa030-undo{flex:0 0 auto;min-height:24px;font-size:10px;padding:3px 7px;background:#302543;color:#ffe27c;border-color:#a17fae}
+ @media(max-width:750px){.qa030-save{font-size:8px;padding:3px}.qa030-actions{gap:4px}.qa030-actions #qa30-newnight{font-size:8px;padding:4px}.qa29-overlay .nightqa-choices button.qa030-undo{min-height:19px;padding:2px;font-size:9px}}
  `;document.head.append(style);
  let rings=0,taps=0,enhancing=false,readingPage=0,readingPages=[[]];
  const $=id=>document.getElementById(id);
  $('qa29-ring').addEventListener('click',()=>{$('qa29-bell').textContent=`DING ${++rings}. Still not the third cue.`});
  $('qa29-tap').addEventListener('click',()=>{$('qa29-moth').textContent=['It evades capture.','It lands on the EXIT sign.','It looks disappointed.'][++taps%3]});
  $('qa29-enter').addEventListener('click',()=>{overlay.hidden=false;refresh();overlay.querySelector('.qa29-exit')?.focus({preventScroll:true})});
+ $('qa30-newnight').addEventListener('click',()=>{
+  const root=mount.querySelector('.nightqa');if(!root)return;
+  const marker=root.querySelector('.nightqa-story small')?.textContent||'';
+  if(marker&&!marker.startsWith('SCENE 1 ')&&!window.confirm('Start a NEW NIGHT? Your current choices will be replaced. Discovered endings remain in your Casebook.'))return;
+  root.querySelector('[data-action="restart"]')?.click();refresh();
+ });
  async function leave(){if(document.fullscreenElement===overlay)try{await document.exitFullscreen()}catch{}overlay.hidden=true;p.querySelector('.term-panel-head h1')?.focus?.();const diary=$('term-tab-diary');diary?.click();diary?.focus({preventScroll:true})}
  async function full(){try{if(document.fullscreenElement===overlay)await document.exitFullscreen();else await overlay.requestFullscreen()}catch(e){const foot=overlay.querySelector('.nightqa-foot');if(foot)foot.textContent='Fullscreen unavailable in this browser; full-window mode stays active.'}refreshButtons()}
  function refreshButtons(){const btn=overlay.querySelector('.qa29-full');if(btn)btn.textContent=document.fullscreenElement===overlay?'▣ LEAVE FULLSCREEN':'▣ FULLSCREEN'}
@@ -74,6 +87,12 @@
   show();
  }
  function refresh(){const root=mount.querySelector('.nightqa');if(!root)return;
+  const marker=root.querySelector('.nightqa-story small')?.textContent||'';
+  const heading=root.querySelector('.nightqa-story h2')?.textContent||'';
+  const progressed=Boolean(marker)&&!marker.startsWith('SCENE 1 ');
+  const info=$('qa30-save'),enter=$('qa29-enter');
+  if(info)info.textContent=progressed?('◈ SAVED NIGHT · '+heading+' · '+marker):'◈ NEW NIGHT · YOUR PROGRESS SAVES ON THIS DEVICE';
+  if(enter)enter.textContent=progressed?'▶ RESUME NIGHT':'▶ ENTER THE THEATER';
   const actions=root.querySelector('.nightqa-actions');if(actions&&!actions.querySelector('.qa29-exit'))actions.insertAdjacentHTML('beforeend','<button type="button" class="qa29-full">▣ FULLSCREEN</button><button type="button" class="qa29-exit">✕ EXIT TO DIARY</button>');
   const count=(actions?.textContent||'').match(/CASEBOOK\s*\((\d+)\/4\)/);if(count)$('qa29-finds').textContent=count[1]+'/4';
   const art=root.querySelector('.nightqa-art'),poster=$('qa29-poster');if(art&&poster)try{const c=poster.getContext('2d');c.imageSmoothingEnabled=false;c.clearRect(0,0,320,150);c.drawImage(art,0,0)}catch{}
