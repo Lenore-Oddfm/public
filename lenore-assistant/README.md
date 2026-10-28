@@ -42,3 +42,11 @@ The private operational records remain separately in `Lenore-Oddfm/lenore-animat
 The other Lenore's lyrics scraper is a different project. Foundry's Quin installation and its central ownership are still unverified/pending coordination. No public page can authorize a release.
 
 **Design history:** v1 established a useful searchable planner but looked like a generic gradient dashboard. At the Queen's request, v2 gave the Art Department some actual pixel life. For v3 she demanded toys and gizmos everywhere—so the Toy Room was born. In v4 the Queen insisted it behave like a C.LINK terminal appliance, not a website, so the full page became a tab-operated switchboard. All project facts, task filters, and diary records remain available.
+
+## R027: Public QA playtest — The Third Bell (not canon)
+
+At the Queen's request, Quest station 06 now plays **The Third Bell: A Seat for Nobody** directly on the public GitHub Pages C.LINK terminal (no ZIP download). The enhancement is in `quest-qa.js` and loads the **exact R026 Third Bell draft** (14 scenes, four endings) with conditional choices, visible clues, local Casebook, restart, and an optional private replay-urge rating. The older roulette is only a fallback if the enhancement fails. Other terminal stations are untouched.
+
+**Explicit exception to the earlier private-QA-only workflow:** this one draft is publicly readable solely for Human-led playtesting. It is conspicuously labeled **QA DRAFT / NOT CANON**, is **not a fan-release approval**, and remains unapproved. The two other story drafts and all Game Master/editor/Quin files remain unpublished. Do not publish future drafts or canon changes without the Queen's next permission. No authentication, analytics, network submission, or API usage is added; Casebook saves only in local browser storage.
+
+Local Chromium-rendered acceptance checks exercised all **four** endings, checked the secret-ending prerequisites, the local Casebook, navigation to CAT and back, desktop 1440×900 and mobile 390×844, with no JS exceptions or page scrolling. **GitHub Pages CDN propagation was not independently verified in the automated environment**; the GitHub repository source and commit are verified. If Quest still displays the previous roulette after deployment, hard-refresh the browser.
