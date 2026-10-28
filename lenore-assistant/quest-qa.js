@@ -65,24 +65,133 @@
   game.complete=true;if(!casebook.endings.includes(node.ending.id))casebook.endings.push(node.ending.id);
   for(const c of story.clues||[])if(game.flags[c.flag]&&!casebook.clues.includes(c.label))casebook.clues.push(c.label);
  }
- function drawArt(canvas,node){if(!canvas)return;const c=canvas.getContext('2d');if(!c)return;c.imageSmoothingEnabled=false;
-  const r=(x,y,w,h,color)=>{c.fillStyle=color;c.fillRect(x,y,w,h)};const pal={ink:'#0a1025',wall:'#382446',rose:'#e87cb6',mint:'#71eeda',gold:'#ffe67d',violet:'#6b4b89',floor:'#3f344f'};
-  r(0,0,320,150,pal.ink);for(let i=0;i<30;i++)r((i*41)%320,(i*23)%84,2,2,i%2?pal.gold:pal.mint);
-  r(14,18,35,98,pal.rose);r(270,18,35,98,pal.rose);r(46,19,226,95,pal.violet);r(53,28,210,77,pal.ink);
-  for(let i=0;i<5;i++)r(55+i*43,30,6,76,pal.wall);
-  r(0,113,320,37,pal.floor);for(let i=0;i<8;i++)r(i*42,126,28,8,pal.rose);
-  const x=161,y=79;r(x-12,y-17,24,24,pal.ink);r(x-8,y-13,16,15,'#f5c5b6');r(x-6,y-8,3,3,pal.ink);r(x+4,y-8,3,3,pal.ink);r(x-7,y-19,5,8,pal.rose);
-  r(x-12,y+7,24,31,pal.ink);r(x-4,y+7,10,18,pal.violet);r(x-8,y+36,6,11,pal.ink);r(x+4,y+36,6,11,pal.ink);
-  // Each scene uses a visual accent from actual scene art, even before bespoke art is approved.
-  if(node.art==='balcony'){for(let i=0;i<5;i++)r(40+i*48,65,36,4,pal.gold);r(23,53,274,5,pal.mint)}
-  else if(node.art==='booth'){r(210,39,80,55,pal.mint);r(217,46,66,43,pal.ink);for(let i=0;i<6;i++)r(222+i*10,79-(i*11)%18,7,8+(i*11)%18,pal.rose)}
-  else if(node.art==='backstage'){r(27,22,23,83,pal.gold);r(270,22,23,83,pal.gold)}
-  r(0,146,320,4,pal.mint);
+ // LENORE.EXE / R028: hand-built, unique pixel compositions for EVERY Third Bell scene.
+// This is original 160x75 pixel artwork, drawn at exact 2x nearest-neighbor pixels.
+// Script is embedded in the QA player: no image CDN, tracking, font downloads or APIs.
+function drawArt(canvas,node,flags={}){
+ if(!canvas||!node)return;
+ const c=canvas.getContext('2d');if(!c)return;
+ c.setTransform(1,0,0,1,0,0);c.imageSmoothingEnabled=false;c.clearRect(0,0,320,150);c.setTransform(2,0,0,2,0,0);
+ const P={night:'#0b1025',night2:'#14172e',brick:'#26203e',brick2:'#3e2b50',plum:'#633c75',violet:'#9971ad',pink:'#fc71b1',rose:'#a84479',mint:'#67f4d0',blue:'#84addd',gold:'#ffe17c',amber:'#ce8d4c',cream:'#fff0cf',paper:'#e6ccae',shadow:'#090918',skin:'#e7b79c',hair:'#151025',red:'#f25c81',grey:'#9b9cb9',green:'#489b89'};
+ const r=(x,y,w,h,k)=>{c.fillStyle=P[k]||k;c.fillRect(Math.round(x),Math.round(y),Math.round(w),Math.round(h));};
+ const line=(x1,y1,x2,y2,k)=>{let dx=Math.abs(x2-x1),dy=-Math.abs(y2-y1),sx=x1<x2?1:-1,sy=y1<y2?1:-1,e=dx+dy;for(;;){r(x1,y1,1,1,k);if(x1===x2&&y1===y2)break;let e2=2*e;if(e2>=dy){e+=dy;x1+=sx}if(e2<=dx){e+=dx;y1+=sy}}};
+ const ellipse=(cx,cy,rx,ry,k)=>{for(let y=-ry;y<=ry;y++)for(let x=-rx;x<=rx;x++)if(x*x*ry*ry+y*y*rx*rx<=rx*rx*ry*ry)r(cx+x,cy+y,1,1,k)};
+ const box=(x,y,w,h,border,fill,t=2)=>{r(x,y,w,h,border);r(x+t,y+t,w-t*2,h-t*2,fill)};
+ const F={A:['010','101','111','101','101'],B:['110','101','110','101','110'],C:['011','100','100','100','011'],D:['110','101','101','101','110'],E:['111','100','110','100','111'],F:['111','100','110','100','100'],G:['011','100','101','101','011'],H:['101','101','111','101','101'],I:['111','010','010','010','111'],J:['001','001','001','101','010'],K:['101','101','110','101','101'],L:['100','100','100','100','111'],M:['101','111','111','101','101'],N:['101','111','111','111','101'],O:['010','101','101','101','010'],P:['110','101','110','100','100'],Q:['010','101','101','111','011'],R:['110','101','110','101','101'],S:['011','100','010','001','110'],T:['111','010','010','010','010'],U:['101','101','101','101','111'],V:['101','101','101','101','010'],W:['101','101','111','111','101'],X:['101','101','010','101','101'],Y:['101','101','010','010','010'],Z:['111','001','010','100','111'],0:['111','101','101','101','111'],1:['010','110','010','010','111'],2:['110','001','010','100','111'],3:['110','001','011','001','110'],4:['101','101','111','001','001'],5:['111','100','110','001','110'],6:['011','100','110','101','010'],7:['111','001','010','010','010'],8:['010','101','010','101','010'],9:['010','101','011','001','110'],':':['0','1','0','1','0'],'.':['0','0','0','0','1'],'?':['110','001','010','000','010'],'!':['1','1','1','0','1'],'-':['000','000','111','000','000'],' ':['000','000','000','000','000']};
+ const txt=(s,x,y,k,scale=1)=>{for(const q of String(s).toUpperCase()){const z=F[q]||F[' '];for(let j=0;j<5;j++)for(let i=0;i<z[j].length;i++)if(z[j][i]==='1')r(x+i*scale,y+j*scale,scale,scale,k);x+=(z[0].length+1)*scale;}};
+ const sparkle=(x,y,k='gold')=>{r(x,y-3,1,7,k);r(x-3,y,7,1,k);r(x,y,1,1,'cream')};
+ const stars=(seed=0)=>{for(let i=0;i<23;i++){const x=(19*i+11*i*i+seed*7)%156+2,y=(7*i+13*i*i+seed*5)%51+2;r(x,y,(i%4===0)?2:1,1,i%3?'blue':'gold')}};
+ const tiles=(y=64,k='brick2')=>{r(0,y,160,75-y,k);for(let x=0;x<160;x+=19)r(x+(y%3),y+7,11,2,'plum')};
+ const glow=(x,y)=>{for(let d=12;d>2;d-=4)ellipse(x,y,d,Math.max(1,Math.floor(d/2)),d>6?'amber':'gold')};
+ const curtain=(x=0,w=24)=>{r(x,8,w,55,'plum');for(let j=0;j<w;j+=8){r(x+j,8,3,55,'rose');r(x+j+3,8,1,55,'pink')}r(x,8,w,5,'pink');r(x,60,w,3,'gold')};
+ const seats=(x,y,count=6,wide=20)=>{for(let j=0;j<count;j++){let sx=x+j*wide;r(sx,y,wide-3,13,'rose');r(sx+2,y+3,wide-7,10,'brick2');r(sx-2,y+10,3,13,'pink');r(sx+wide-5,y+10,3,13,'pink');r(sx+1,y+13,wide-6,7,'plum')}};
+ const lenore=(x,y,pose='stand')=>{r(x-6,y-20,13,12,'hair');r(x-4,y-17,10,11,'skin');r(x-6,y-15,3,10,'hair');r(x+5,y-15,3,10,'hair');r(x-3,y-23,4,5,'pink');r(x-3,y-14,2,2,'night');r(x+3,y-14,2,2,'night');r(x-1,y-10,3,1,'rose');r(x-7,y-5,14,18,'night');r(x-4,y,8,9,'plum');r(x-9,y+12,18,3,'pink');if(pose==='bow'){r(x-12,y-3,6,3,'skin');r(x+6,y-3,8,3,'skin');r(x-8,y+14,7,4,'night');r(x+2,y+14,9,4,'night')}else {r(x-10,y-3,5,3,'skin');r(x+6,y-3,5,3,'skin');r(x-5,y+13,4,9,'night');r(x+2,y+13,4,9,'night');r(x-6,y+19,6,3,'violet');r(x+2,y+19,6,3,'violet')}};
+ const bell=(x,y,size=1)=>{const a=size;r(x+5*a,y,6*a,2*a,'gold');r(x+3*a,y+2*a,10*a,3*a,'amber');r(x+1*a,y+5*a,14*a,12*a,'gold');r(x,y+16*a,16*a,3*a,'amber');r(x+5*a,y+19*a,6*a,3*a,'gold');r(x+3*a,y+6*a,2*a,9*a,'cream')};
+ const chicken=(x,y)=>{ellipse(x+12,y+12,12,8,'paper');ellipse(x+21,y+9,6,6,'paper');r(x+23,y+4,5,3,'red');r(x+19,y+3,3,3,'red');r(x+25,y+9,6,3,'gold');r(x+21,y+8,2,2,'night');r(x+8,y+17,2,10,'gold');r(x+17,y+17,2,10,'gold');r(x+4,y+5,3,8,'paper');r(x+1,y+1,5,4,'paper');};
+ const ticket=(x,y,scale=1)=>{const q=scale;box(x,y,19*q,12*q,'gold','paper',q);r(x+9*q,y+q,q,10*q,'rose');r(x+12*q,y+3*q,5*q,q,'night');r(x+2*q,y+3*q,4*q,q,'night');r(x+2*q,y+6*q,5*q,q,'night')};
+ const clipboard=(x,y)=>{box(x,y,42,48,'amber','paper',3);r(x+12,y-3,18,6,'grey');r(x+14,y-1,14,3,'night');for(let j=0;j<6;j++)r(x+7,y+10+j*6,25-(j%3)*5,2,'brick2');r(x+26,y+37,8,3,'rose')};
+ const rain=()=>{for(let i=0;i<18;i++){const x=(i*43+11)%160;line(x,5+(i*19)%37,x-4,11+(i*19)%37,'blue')}};
+ const on=[
+  ['foyer','DOUBLE BELL / THE EMPTY HOUSE','Outside the closed theater doors, beneath a luminous theater sign.'],
+  ['booth','HOUSE RESPONSE / SOUND BOOTH','Unplugged sound board whose house-response meter still glows.'],
+  ['aisle','SEAT G7 / ABSENT TICKET','Rows of empty red seats and a coat with a ticket stub.'],
+  ['stage','STANDBY / CURTAIN CALL','Curtains part around a brass bell, lonely spotlight and stage mark.'],
+  ['crossroads','THREE DIRECTIONS / PROGRAM','A glowing playbill floats above a fork of corridors.'],
+  ['props','PROPS / NO IMPROVISATION','A prop basket contains a rubber chicken, thimble and warning card.'],
+  ['balcony','BALCONY / ONE INVISIBLE GUEST','Opera glasses stare from an empty balcony into the past.'],
+  ['cue','CUE THREE / CHOOSE','Close-up of the stage manager cue card with three handwritten rings.'],
+  ['last-call','LAST HOUSE LIGHT / THIRD BELL','Single fading amber light over a curtain and final-choice props.'],
+  ['end-bow','THE AUDIENCE OF ONE','Lenore bows in a bright spotlight to one pair of applauding hands.'],
+  ['end-quiet','PERMISSION TO SLEEP','A dim exit and sleeping city under a quiet crescent moon.'],
+  ['end-report','INCIDENT REPORT / FILED','A desk full of paperwork, rubber stamps, sandwich crumbs and a bell log.'],
+  ['guest-aisle','THE TICKET FOR SOMEBODY','The glowing absentee ticket causes every paper program to turn a page.'],
+  ['end-guest','THE HOUSE THAT LISTENED','One empty chair holds a glowing ticket beneath a single stage lamp.']
+ ];
+ // Each composition has its own framing, focal object, dominant colors and lighting.
+ switch(node.id){
+ case 'foyer':
+  r(0,0,160,75,'night');stars(2);r(0,22,160,53,'brick');for(let i=0;i<10;i++)r(i*18,26,2,39,'brick2');
+  box(36,11,89,14,'pink','night');txt('ODD FM',57,16,'gold',1);box(52,27,55,43,'violet','night',3);r(80,29,2,39,'plum');r(54,60,51,3,'pink');
+  glow(133,32);r(129,37,8,19,'amber');r(0,67,160,8,'brick2');lenore(24,49);r(8,68,20,4,'mint');ticket(126,56);sparkle(122,53);
+  break;
+ case 'booth':
+  r(0,0,160,75,'night2');for(let i=0;i<18;i++)r(i*9,3,2,41,'brick');box(11,7,96,21,'blue','night',2);
+  txt('HOUSE RESPONSE',18,11,'mint',1);for(let i=0;i<8;i++){r(20+i*10,24-(i*17)%9,5,2+(i*17)%9,i%2?'pink':'mint')}
+  box(8,38,145,30,'violet','brick2',3);for(let i=0;i<15;i++){r(13+i*9,47,5,8,'night');r(14+i*9,46+(i*7)%9,3,2,'gold')}
+  for(let i=0;i<10;i++)r(16+i*13,60,7,2,'mint');r(120,12,29,21,'rose');r(124,15,21,14,'night');r(125,24,19,2,'gold');
+  for(let j=0;j<3;j++)line(122+j*7,40,114+j*4,72,'grey');lenore(148,48);break;
+ case 'aisle':
+  r(0,0,160,75,'night');r(0,0,160,18,'brick');r(73,4,15,71,'brick2');for(let j=0;j<3;j++){seats(3,16+j*20,3,23);seats(93,16+j*20,3,23)}
+  r(74,49,13,24,'plum');r(66,54,4,19,'gold');r(89,54,4,19,'gold');r(98,25,17,20,'night');r(96,24,21,4,'violet');r(99,30,14,12,'hair');
+  ticket(105,36);sparkle(124,39,'mint');txt('G7',102,8,'gold',2);lenore(80,36);break;
+ case 'stage':
+  r(0,0,160,75,'brick');r(23,7,114,57,'night');curtain(0,36);curtain(127,33);r(23,8,114,4,'pink');
+  ellipse(80,57,31,8,'amber');ellipse(80,55,22,6,'gold');r(55,64,50,10,'brick2');bell(72,19,1);line(80,8,80,19,'grey');
+  r(77,58,8,3,'red');r(80,54,2,10,'red');r(102,38,17,22,'brick2');r(105,41,11,12,'violet');lenore(38,41);break;
+ case 'crossroads':
+  r(0,0,160,75,'night');stars(4);r(0,55,160,20,'brick2');for(let i=0;i<3;i++){let x=8+i*53;box(x,11,42,44,'violet','brick',3);r(x+12,31,18,24,'night');r(x+13,31,16,3,'rose')}
+  box(57,6,46,30,'gold','paper',2);txt('TONIGHT',66,12,'night',1);r(63,24,34,2,'rose');r(63,29,24,2,'brick2');
+  for(let i=0;i<3;i++){let x=20+i*54;r(x,47,6,8,'mint');r(x+2,43,2,4,'mint')}
+  lenore(79,53);sparkle(79,10,'pink');break;
+ case 'props':
+  r(0,0,160,75,'brick2');r(0,4,160,8,'night');r(0,34,160,4,'night');r(7,9,25,25,'violet');r(120,11,30,21,'night');txt('NO!',126,18,'pink',2);
+  r(8,43,142,24,'amber');for(let i=0;i<9;i++)r(11+i*15,47,5,18,'brick2');r(12,38,136,7,'paper');
+  chicken(31,17);r(86,19,13,21,'grey');r(89,23,7,12,'cream');sparkle(97,22,'gold');ticket(115,29);
+  r(0,66,160,9,'night');lenore(145,49);break;
+ case 'balcony':
+  r(0,0,160,75,'night');stars(7);r(0,36,160,8,'plum');r(0,45,160,4,'gold');for(let i=0;i<13;i++)r(i*13,43,3,20,'violet');
+  r(0,61,160,14,'brick2');seats(5,53,6,25);r(57,13,46,21,'brick');r(60,15,40,17,'night');
+  // chunky opera glasses at the rail
+  ellipse(71,38,8,8,'gold');ellipse(90,38,8,8,'gold');ellipse(71,38,5,5,'night');ellipse(90,38,5,5,'night');r(77,32,8,5,'grey');
+  ellipse(121,23,9,16,'brick2');ellipse(121,24,6,12,'plum');sparkle(131,16,'mint');lenore(24,37);break;
+ case 'cue':
+  r(0,0,160,75,'brick');for(let i=0;i<7;i++)r(i*22,8,2,58,'brick2');r(4,66,152,6,'night');
+  clipboard(49,12);r(56,25,27,16,'paper');txt('1 2 3',55,27,'night',2);r(60,49,24,2,'rose');
+  r(107,17,4,40,'amber');r(108,16,3,33,'gold');r(106,13,7,5,'grey');r(109,55,6,6,'red');
+  r(11,17,25,23,'night');txt('CUE',14,23,'gold',2);r(16,44,17,3,'mint');lenore(135,47);break;
+ case 'last-call':
+  r(0,0,160,75,'night');curtain(0,24);curtain(136,24);r(24,10,112,55,'brick');r(38,25,85,37,'night');
+  ellipse(78,62,29,9,'amber');ellipse(78,60,19,5,'gold');r(78,3,2,29,'grey');glow(79,29);lenore(70,38);
+  bell(118,47);if(flags.chicken)chicken(14,45);if(flags.kept_ticket)ticket(29,58);if(flags.found_thimble){r(102,51,8,8,'grey');sparkle(106,50,'gold')}if(flags.saved_cue){r(26,58,19,5,'paper')}r(0,69,160,6,'brick2');break;
+ case 'end-bow':
+  r(0,0,160,75,'brick2');curtain(0,29);curtain(132,28);r(28,7,106,59,'night');ellipse(78,52,37,17,'amber');ellipse(78,53,23,12,'gold');lenore(79,37,'bow');
+  for(let i=0;i<21;i++){let x=(i*37)%151+4,y=(i*29)%58+4;r(x,y,2,4,i%3?'pink':'mint')}
+  r(23,56,19,9,'plum');r(119,56,19,9,'plum');r(17,63,129,12,'brick2');
+  // one pair of tiny clapping hands in the house
+  r(35,64,6,5,'skin');r(43,61,6,6,'skin');sparkle(42,57);break;
+ case 'end-quiet':
+  r(0,0,160,75,'night');stars(10);ellipse(135,13,11,11,'gold');ellipse(139,10,11,11,'night');
+  r(11,22,72,46,'brick');box(21,31,49,37,'plum','night');r(47,33,2,34,'violet');txt('EXIT',30,23,'mint',1);
+  r(86,40,74,35,'night2');for(let i=0;i<7;i++){let x=89+i*11; r(x,42+(i*9)%18,9,28,'brick2');r(x+2,48+(i*9)%18,2,3,'amber')}
+  r(0,68,160,7,'brick2');lenore(75,46);r(117,68,19,2,'mint');break;
+ case 'end-report':
+  r(0,0,160,75,'night2');r(0,4,160,63,'brick2');r(4,10,152,55,'brick');r(10,54,140,19,'amber');
+  clipboard(51,7);r(59,26,18,2,'night');r(60,31,22,2,'night');r(60,37,18,2,'night');r(56,49,34,4,'red');
+  txt('FILED',58,49,'paper',1);r(110,34,28,7,'gold');r(114,26,20,7,'paper');r(116,25,4,5,'pink');
+  r(118,59,4,3,'cream');r(124,54,3,3,'cream');r(128,61,3,2,'cream');bell(17,28);lenore(146,41);break;
+ case 'guest-aisle':
+  r(0,0,160,75,'night');r(0,8,160,47,'brick2');for(let i=0;i<7;i++){let x=6+i*22;box(x,21+(i%2)*6,16,26,'plum','paper');r(x+3,25+(i%2)*6,10,3,'rose');r(x+3,32+(i%2)*6,7,2,'night')}
+  ellipse(79,37,33,28,'amber');ellipse(79,37,25,22,'gold');ticket(58,21,2);sparkle(117,15,'mint');sparkle(31,48,'pink');
+  r(0,56,160,19,'night');lenore(136,53);break;
+ case 'end-guest':
+  r(0,0,160,75,'night');stars(11);r(79,0,2,31,'grey');glow(80,27);ellipse(80,58,37,9,'amber');ellipse(80,57,27,6,'gold');
+  // a single lonely seat, a ticket, and a lamp left on
+  r(67,35,28,25,'rose');r(70,38,22,21,'brick2');r(66,58,33,8,'plum');r(65,63,5,11,'pink');r(95,63,5,11,'pink');
+  ticket(74,46);r(0,69,160,6,'brick2');sparkle(116,44,'mint');lenore(28,49);break;
+ default:r(0,0,160,75,'night');stars();lenore(80,40);
  }
+ // Tiny scene-specific index marker, outside the major narrative focal point.
+ const sceneIdx=on.findIndex(item=>item[0]===node.id);
+ r(0,0,160,7,'night');r(0,0,160,1,'mint');r(2,2,7,3,'pink');txt(String(sceneIdx+1).padStart(2,'0'),11,1,'gold');
+ r(0,73,160,2,'mint');
+ canvas.setAttribute('aria-label',(on[sceneIdx]||['','', 'A scene in the ODD FM theater'])[2]);
+ canvas.title=(on[sceneIdx]||[])[1]||'THE THIRD BELL';
+}
+
  const getMemory=()=>story.clues?.filter(c=>game.flags[c.flag]).map(c=>c.label)||[];
  function paint(){if(!story)return;const node=selected(story,game);if(!node)return;
   const mem=getMemory();const total=story.nodes.filter(n=>n.ending).length;
-  const art=`<aside class="nightqa-aside"><small>ODD FM THEATER / 01:13 AM</small><canvas class="nightqa-art" id="nightQaArt" width="320" height="150" role="img" aria-label="Pixel-art after-hours ODD FM theater with Lenore on stage"></canvas><div class="nightqa-objective">MISSION: ${h(story.objective)}</div><div class="nightqa-memory"><strong>✧ YOUR NIGHT SO FAR</strong>${mem.length?mem.map(v=>`<span>◆ ${h(v)}</span>`).join(''):'No clues yet. Start exploring.'}</div><div class="nightqa-note">THEATER DETAILS ARE PROVISIONAL / NOT OFFICIAL CANON</div></aside>`;
+  const art=`<aside class="nightqa-aside"><small>ILLUSTRATION ${String(story.nodes.findIndex(n=>n.id===node.id)+1).padStart(2,'0')} / ${story.nodes.length} · ONE-OF-A-KIND</small><canvas class="nightqa-art" id="nightQaArt" width="320" height="150" role="img" aria-label="Pixel-art after-hours ODD FM theater with Lenore on stage"></canvas><div class="nightqa-objective">MISSION: ${h(story.objective)}</div><div class="nightqa-memory"><strong>✧ YOUR NIGHT SO FAR</strong>${mem.length?mem.map(v=>`<span>◆ ${h(v)}</span>`).join(''):'No clues yet. Start exploring.'}</div><div class="nightqa-note">THEATER DETAILS ARE PROVISIONAL / NOT OFFICIAL CANON</div></aside>`;
   const comments=(node.reactions||[]).filter(r=>applicable(r,game.flags)).map(r=>`<p class="nightqa-reaction">↳ ${h(r.text)}</p>`).join('');
   const vary=(node.variants||[]).length?node.variants[game.steps%(node.variants.length)]:'';
   const choices=node.ending?`<div class="nightqa-rating"><b>PLAY AGAIN URGE?</b> ${[1,2,3,4,5].map(n=>`<button type="button" data-score="${n}" class="${casebook.rating===n?'chosen':''}" aria-label="Replay urge ${n} out of 5">${n}</button>`).join('')}</div><button type="button" data-action="restart">↻ EXPLORE A DIFFERENT ENDING</button><button type="button" data-action="casebook">▣ OPEN CASEBOOK</button>`:
@@ -90,8 +199,8 @@
   const dialogue=`<section class="nightqa-story"><small>${node.ending?'★ ENDING DISCOVERED':'SCENE '+(game.steps+1)+' / STORY IN PROGRESS'}</small><h2>${h(node.title)}</h2><div class="nightqa-scroll"><p>${h(node.text)}</p>${comments}${game.feedback?`<div class="nightqa-feedback" role="status">★ ${h(game.feedback)}</div>`:''}${vary?`<p class="nightqa-reaction">✦ ${h(vary)}</p>`:''}</div><div class="nightqa-choices">${choices}</div></section>`;
   const endings=(story.nodes||[]).filter(n=>n.ending);
   const caseHtml=`<div class="nightqa-case"><small>▣ PRIVATE DEVICE-ONLY CASEBOOK</small><h2>YOUR NIGHT SHIFT CASEBOOK</h2><p>${casebook.endings.length} of ${total} endings discovered. Unfound outcomes stay hidden; your clues and rating stay on this browser only.</p><div class="nightqa-tiles">${endings.map(n=>`<div class="nightqa-tile ${casebook.endings.includes(n.ending.id)?'found':''}">${casebook.endings.includes(n.ending.id)?'★ '+h(n.title):'◇ ??? / UNSOLVED'}</div>`).join('')}</div><p>CLUES DISCOVERED: ${casebook.clues.length}</p><div class="nightqa-rating">MOST RECENT REPLAY-URGE RATING: ${casebook.rating||'NOT RATED'} / 5</div><div class="nightqa-actions"><button type="button" data-action="back">▶ BACK TO STORY</button><button type="button" data-action="restart">↻ NEW NIGHT</button><button type="button" data-action="clear">□ CLEAR CASEBOOK</button></div><p class="nightqa-quiet">This is a publicly visible draft for QA, not canon or a fan release. No analytics, accounts, or paid requests.</p></div>`;
-  mount.innerHTML=`<section class="nightqa" aria-label="After Hours public QA adventure"><header class="nightqa-toolbar"><span class="nightqa-badge"><b>● QA DRAFT</b> / THE THIRD BELL · NOT CANON</span><div class="nightqa-actions"><button type="button" data-action="back">▶ STORY</button><button type="button" data-action="casebook">▣ CASEBOOK (${casebook.endings.length}/${total})</button><button type="button" data-action="restart">↻</button></div></header><div class="nightqa-layout">${view==='casebook'?`<div style="grid-column:1/-1;min-height:0">${caseHtml}</div>`:art+dialogue}</div><footer class="nightqa-foot"><span>🎭 ${h(story.title)} · DRAFT 027</span><span>NO APPROVAL / NO CANON CHANGE / NO API</span></footer></section>`;
-  if(view!=='casebook')drawArt(document.getElementById('nightQaArt'),node);
+  mount.innerHTML=`<section class="nightqa" aria-label="After Hours public QA adventure"><header class="nightqa-toolbar"><span class="nightqa-badge"><b>● QA DRAFT</b> / THE THIRD BELL · NOT CANON</span><div class="nightqa-actions"><button type="button" data-action="back">▶ STORY</button><button type="button" data-action="casebook">▣ CASEBOOK (${casebook.endings.length}/${total})</button><button type="button" data-action="restart">↻</button></div></header><div class="nightqa-layout">${view==='casebook'?`<div style="grid-column:1/-1;min-height:0">${caseHtml}</div>`:art+dialogue}</div><footer class="nightqa-foot"><span>🎭 ${h(story.title)} · DRAFT 028</span><span>NO APPROVAL / NO CANON CHANGE / NO API</span></footer></section>`;
+  if(view!=='casebook')drawArt(document.getElementById('nightQaArt'),node,game.flags);
  }
  mount.addEventListener('click',e=>{
   const btn=e.target.closest('button');if(!btn||!btn.closest('.nightqa'))return;
