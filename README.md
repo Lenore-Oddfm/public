@@ -6,13 +6,14 @@
 
 **Expedition Lenore (Lenore Assistant)** has a RESERVED independent desk at `lenore-assistant/`; she has not published it yet. [Instructions for her](shared/EXPEDITION_START_HERE.md).
 
-## Studio's visible project radar — 2026-10-27
+## Studio's visible project radar — 2026-10-28
 
 | Project | Whose mission? | Checked status | Next action |
 |---|---|---|---|
 | **Inktober Song Plugin** | **Lenore / Studio** | Assigned; canonical code/checkpoint not yet delivered | Await project-ID-tagged source through Miss Spock |
 | **Lyric Refinement Plugin** | **Lenore / Expedition** | Assigned; source/checkpoint pending | Expedition builds her independent planner |
-| **Looky Lou / Robot Rock** | Studio historically; active owner undecided | R012 staging passed; **NOT installed** | HOLD pending Human routing/approval |
+| **Looky Lou • Pixel Art Music Video** | **Lenore / Studio** | **CREATIVE ACTIVE** — art & 19 taps recovered | Chosen MP3 → cue review → CRT-glass-only motion proof |
+| **Robot Rock / Quin software patch** | Studio historical | R012 staging pass; **NOT installed** | Separate HOLD pending Human + Miss Spock authorization |
 | **25-Song Foundry** | Unconfirmed | Return misrouted; **HOLD** | Human/Miss Spock identify owner |
 | **Quin Switchboard** | **Miss Spock** | Public repository now exists; website not confirmed live | Miss Spock publishes and verifies official link |
 | **Guardians R058-R4** | Human final | **FINAL / FROZEN** | Preserve exactly |
