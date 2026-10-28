@@ -63,7 +63,7 @@
  $('qa30-newnight').addEventListener('click',()=>{
   const root=mount.querySelector('.nightqa');if(!root)return;
   const marker=root.querySelector('.nightqa-story small')?.textContent||'';
-  if(marker&&!marker.startsWith('SCENE 1 ')&&!window.confirm('Start a NEW NIGHT? Your current choices will be replaced. Discovered endings remain in your Casebook.'))return;
+  if(Number(root.dataset.qa030Steps||0)>0&&!window.confirm('Start a NEW NIGHT? Your current choices will be replaced. Discovered endings remain in your Casebook.'))return;
   root.querySelector('[data-action="restart"]')?.click();refresh();
  });
  async function leave(){if(document.fullscreenElement===overlay)try{await document.exitFullscreen()}catch{}overlay.hidden=true;p.querySelector('.term-panel-head h1')?.focus?.();const diary=$('term-tab-diary');diary?.click();diary?.focus({preventScroll:true})}
@@ -88,8 +88,8 @@
  }
  function refresh(){const root=mount.querySelector('.nightqa');if(!root)return;
   const marker=root.querySelector('.nightqa-story small')?.textContent||'';
-  const heading=root.querySelector('.nightqa-story h2')?.textContent||'';
-  const progressed=Boolean(marker)&&!marker.startsWith('SCENE 1 ');
+  const heading=root.dataset.qa030Title||root.querySelector('.nightqa-story h2')?.textContent||'';
+  const progressed=Number(root.dataset.qa030Steps||0)>0;
   const info=$('qa30-save'),enter=$('qa29-enter');
   if(info)info.textContent=progressed?('◈ SAVED NIGHT · '+heading+' · '+marker):'◈ NEW NIGHT · YOUR PROGRESS SAVES ON THIS DEVICE';
   if(enter)enter.textContent=progressed?'▶ RESUME NIGHT':'▶ ENTER THE THEATER';
