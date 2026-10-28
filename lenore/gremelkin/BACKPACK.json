@@ -1,13 +1,13 @@
 {
-  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R004",
-  "release": "R004",
-  "previous_release": "R001 pet core; R003 header perch",
+  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R005",
+  "release": "R005",
+  "previous_release": "R004 C.Link appliance and tactile care; R001 pet core; R003 header perch",
   "updated_utc": "2026-10-28",
   "entity_id": "ODDFM-GREMELKIN-ONE",
   "character": "Gremelkin",
   "author": "Lenore Studio",
   "human_authority": "Human",
-  "home_site": "https://lenore-oddfm.github.io/public/lenore/#gremelkin-home",
+  "home_site": "https://lenore-oddfm.github.io/public/lenore/#port-cat",
   "home_repository": "Lenore-Oddfm/public",
   "canonical_state": "single design and identity, not a globally running pet",
   "visuals": {
@@ -15,7 +15,8 @@
     "source": "the existing approved Studio header SVG is cloned into the playable room",
     "design_lock": "Human explicitly requested a C.Link appliance-style Personal Planner on 2026-10-28; ODD FM pixel cat and palette retained",
     "interface": "Fixed viewport and seven switchable Studio stations; upper-right cat opens quick care instead of scrolling; flyout utility menus",
-    "interaction": "Six draggable care icons surround the room cat; drop on the sprite or click/tap a tool; pointer, keyboard and touch input supported"
+    "interaction": "Six draggable care icons surround the room cat; drop on the sprite or click/tap a tool; pointer, keyboard and touch input supported",
+    "reactions": "Brief original floating icons after care, occasional eye blink, optional quiet synthesized chirps gated by a user-controlled SOUND toggle (off by default and stored locally)"
   },
   "care": {
     "actions": [
@@ -35,7 +36,9 @@
     ],
     "no_death": true,
     "travel_friendly_decay": true,
-    "minigame": "catch five pixel mice within eighteen seconds"
+    "minigame": "catch five pixel mice within eighteen seconds",
+    "mementos": "Eight low-pressure tiny treasures derived from existing R001 stats/achievements (no extra save fields or penalty)",
+    "postcard": "One original quirky cat line per local calendar day, deterministic and repeatable; no streaks or network calls"
   },
   "storage": {
     "format": "ODD_FM_GREMELKIN_LOCAL_BACKPACK v1",
@@ -43,7 +46,8 @@
     "export": "GREMELKIN_LOCAL_SAVE_YYYY-MM-DD.json",
     "restore": "manual JSON import with identity/schema validation",
     "autosync_to_github": false,
-    "privacy": "never publish player local save or identifiers"
+    "privacy": "never publish player local save or identifiers",
+    "optional_preference": "ODDFM.GREMELKIN.R005.SOUND (off by default; local only; portable pet save format unaffected)"
   },
   "presence": {
     "current": "Studio page only; localStorage tab lease best effort",
@@ -54,6 +58,7 @@
   },
   "dependencies": [
     "pet-core.js",
+    "pet-delights.js",
     "pet-ui.js",
     "pet.css",
     "../terminal.js",
@@ -66,5 +71,5 @@
     "Guardians frozen",
     "Other Lenore's workspace untouched"
   ],
-  "director_note": "R004 changes presentation and interaction only. R001 local pet save identity/schema, slow decay and existing chase rules remain unchanged. Browser-local state is not a worldwide cat lease. Human visual approval is pending."
+  "director_note": "R005 adds playful reactions, eight discoverable treasures, a repeatable daily mischief dispatch and opt-in chirps while preserving R001 local pet save identity/schema, slow decay, and existing chase. Browser-local state is not a worldwide cat lease. Human visual approval remains pending."
 }

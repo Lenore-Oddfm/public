@@ -1,10 +1,10 @@
-/* GREMELKIN R004 | Studio C.Link Personal Planner | R001 save/core preserved */
+/* GREMELKIN R005 | responsive reactions, collected treasures, daily mischief | R001 saves preserved */
 (function(){
 "use strict";
-const P=window.GremelkinCore,root=document.getElementById("gremelkin-app");
+const P=window.GremelkinCore,D=window.GremelkinDelights,root=document.getElementById("gremelkin-app");
 if(!root)return;
-if(!P){root.textContent="Gremelkin's engine did not load. The diary is still safe.";return;}
-const DATA="ODDFM.GREMELKIN.R001.STATE",LOCK="ODDFM.GREMELKIN.R001.TAB";
+if(!P||!D){root.textContent="Gremelkin's engine did not load. Your saved diary is still safe.";return;}
+const DATA="ODDFM.GREMELKIN.R001.STATE",LOCK="ODDFM.GREMELKIN.R001.TAB",SOUND="ODDFM.GREMELKIN.R005.SOUND";
 const tid=window.crypto&&crypto.randomUUID?crypto.randomUUID():"tab"+Date.now()+Math.random();
 let state=P.create(),owner=false,storageOK=true,visitCounted=false,game=null,timer=null;
 const $=s=>root.querySelector(s);
@@ -25,6 +25,28 @@ function claim(){
 }
 function release(){const l=lease();if(l&&l.id===tid)remove(LOCK);owner=false}
 function speak(s){$("#grem-dialogue").textContent=s}
+let soundOn=read(SOUND)==="on",audioContext=null;
+function chirp(action){
+ if(!soundOn||document.hidden)return;
+ try{
+  const Context=window.AudioContext||window.webkitAudioContext;if(!Context)return;
+  audioContext=audioContext||new Context();if(audioContext.state==='suspended')audioContext.resume().catch(()=>{});
+  const t=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();
+  const notes={feed:[260,180],pet:[145,185],brush:[380,270],nap:[180,95],talk:[330,440],laser:[420,580],win:[440,660]};
+  const [start,end]=notes[action]||notes.pet;
+  osc.type='triangle';osc.frequency.setValueAtTime(start,t);osc.frequency.exponentialRampToValueAtTime(end,t+.17);
+  gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.045,t+.025);
+  gain.gain.exponentialRampToValueAtTime(.0001,t+.24);
+  osc.connect(gain);gain.connect(audioContext.destination);osc.start(t);osc.stop(t+.25);
+ }catch(_){soundOn=false;write(SOUND,'off');updateSound()}
+}
+function updateSound(){const b=$("#grem-sound");if(b){b.textContent=soundOn?'♫ SOUND ON':'♫ SOUND OFF';b.setAttribute('aria-pressed',String(soundOn))}}
+function react(action){
+ const stage=$("#grem-stage"),fx=document.createElement('span');
+ fx.className='grem-float';fx.setAttribute('aria-hidden','true');
+ fx.textContent=({feed:'🐟 ✦',pet:'💗 ♥',brush:'✧ ✧',nap:'☾ z z',talk:'♫ ♪',win:'✦ ★',laser:'🐭 !'})[action]||'♥';
+ stage.append(fx);setTimeout(()=>fx.remove(),1050);chirp(action);
+}
 root.innerHTML=[
 "<div class='grem-room'>",
 "<div class='grem-kicker'>CAT.EXE // WORLD ID: GREMELKIN-ONE // HOME: LENORE STUDIO</div>",
@@ -49,9 +71,9 @@ root.innerHTML=[
 "<button type='button' data-act='nap'>🌙 NAP</button><button type='button' data-act='talk'>♫ TALK</button><button type='button' data-act='laser'>🐭 CHASE!</button></div>",
 "<div id='grem-dialogue' class='grem-dialogue' role='status' aria-live='polite'>*mrrp*</div>",
 "<div id='grem-game' class='grem-game' hidden><div class='grem-game-heading'><span>CATCH FIVE MICE!</span><span id='grem-score'>0/5 • 18s</span></div><div id='grem-mouse-board' class='grem-mouse-board' role='group' aria-label='Laser mouse grid'></div><button type='button' id='grem-cancel' class='grem-cancel'>END GAME</button></div>",
-"<div class='grem-tools'><button type='button' id='grem-export'>💾 SAVE BACKPACK</button><button type='button' id='grem-import'>↩ RESTORE SAVE</button><input id='grem-file' type='file' accept='.json,application/json' aria-label='Choose Gremelkin local save'></div>",
+"<div class='grem-tools'><button type='button' id='grem-treasures'>✦ TREASURES <span id='grem-find-count'>0/8</span></button><button type='button' id='grem-sound' aria-pressed='false'>♫ SOUND OFF</button><button type='button' id='grem-export'>💾 SAVE BACKPACK</button><button type='button' id='grem-import'>↩ RESTORE SAVE</button><input id='grem-file' type='file' accept='.json,application/json' aria-label='Choose Gremelkin local save'></div>",
 "<p id='grem-memory' class='grem-note'>Bond • Visits • Games</p></div></div>",
-"<div class='grem-footer'><span>He never dies while you travel. No payment, login, or tracking. ♡</span><span>Director blueprint R004 on GitHub • Live care saved in THIS browser</span></div></div>"
+"<div class='grem-footer'><span>He never dies while you travel. No payment, login, or tracking. ♡</span><span>Director blueprint R005 • Live care saved in THIS browser</span></div></div>"
 ].join("");
 const header=document.querySelector(".pixel-cat-wrap"),base=document.querySelector(".pixel-cat-wrap .pixel-cat");
 if(base){const sprite=base.cloneNode(true);sprite.classList.add("grem-avatar");sprite.removeAttribute("aria-label");sprite.setAttribute("aria-hidden","true");$("#grem-sprite").append(sprite)}else $("#grem-sprite").textContent="🐈‍⬛";
@@ -74,13 +96,26 @@ function render(){
  $("#grem-location").textContent=owner?"STUDIO • HERE WITH YOU":"VISITING ANOTHER TAB";$("#grem-location").classList.toggle("live",owner);
  $("#grem-save").textContent=storageOK?"AUTO-SAVED ON THIS DEVICE":"TEMPORARY • STORAGE BLOCKED";
  $("#grem-memory").textContent="💖 BOND "+Math.round(state.affection)+"%  •  VISITS "+state.visits+"  •  FISH "+state.meals+"  •  MOUSE GAMES "+state.games+"  •  BADGES "+state.achievements.length;
+ $("#grem-find-count").textContent=D.collection(state).filter(x=>x.unlocked).length+"/8";
  root.querySelectorAll("[data-act],#grem-export,#grem-import").forEach(b=>b.disabled=!owner);
 }
 function perform(act){
  if(!owner)return speak("Gremelkin is in another tab. Bring that tab to the foreground to visit.");
  if(game)return speak("Finish the mouse chase first!");
- try{state=P.care(state,act);save();render();speak(state.lastAction);bounce()}catch(e){speak(e.message)}
+ try{
+  const old=new Set(D.collection(state).filter(x=>x.unlocked).map(x=>x.id));
+  state=P.care(state,act);save();render();
+  const find=D.collection(state).find(x=>x.unlocked&&!old.has(x.id));
+  speak(find?`✦ NEW TREASURE: ${find.title}! Open TREASURES to see it.`:state.lastAction);
+  bounce();react(find?'win':act);
+ }catch(e){speak(e.message)}
 }
+$("#grem-sound").addEventListener('click',()=>{soundOn=!soundOn;write(SOUND,soundOn?'on':'off');updateSound();speak(soundOn?'Tiny chirps enabled. Gremelkin promises to use his inside voice.':'Quiet mode. The purrs are now imaginary.');if(soundOn)chirp('pet')});
+$("#grem-treasures").addEventListener('click',()=>{
+ if(document.documentElement.classList.contains('terminal-ready'))window.dispatchEvent(new CustomEvent('gremelkin:treasures'));
+ else speak('Treasures: '+D.collection(state).filter(x=>x.unlocked).map(x=>x.title).join(', '));
+});
+window.GremelkinCompanion=Object.freeze({collection:()=>D.collection(state),postcard:()=>D.postcard(),isHere:()=>owner});
 root.querySelectorAll("[data-act]").forEach(btn=>btn.addEventListener("click",()=>{
  if(btn.dataset.dragEnded){delete btn.dataset.dragEnded;return}
  btn.dataset.act==="laser"?startGame():perform(btn.dataset.act);
@@ -157,7 +192,13 @@ function catchMouse(i){
 function endGame(won,silent){
  if(!game)return;clearInterval(timer);timer=null;game=null;$("#grem-game").hidden=true;
  if(silent)return;
- try{state=P.care(state,won?"game-win":"game-miss");save();render();speak(state.lastAction);if(won)bounce()}catch(e){speak(e.message)}
+ try{
+  const old=new Set(D.collection(state).filter(x=>x.unlocked).map(x=>x.id));
+  state=P.care(state,won?"game-win":"game-miss");save();render();
+  const find=D.collection(state).find(x=>x.unlocked&&!old.has(x.id));
+  speak(find?`✦ NEW TREASURE: ${find.title}! Open TREASURES to see it.`:state.lastAction);
+  if(won){bounce();react('win')}
+ }catch(e){speak(e.message)}
 }
 $("#grem-cancel").addEventListener("click",()=>endGame(false));
 $("#grem-export").addEventListener("click",()=>{
@@ -183,7 +224,13 @@ window.addEventListener("storage",e=>{
 });
 document.addEventListener("visibilitychange",visible);window.addEventListener("pagehide",release);
 state=load();claim();if(owner){state=P.visit(state);save();visitCounted=true}
-render();speak(owner?"*MRRP!* Feed me, pet me, or catch a mouse with me.":"Gremelkin is visiting another tab. One tab at a time here.");
+render();updateSound();speak(owner?"*MRRP!* Feed me, pet me, or catch a mouse with me.":"Gremelkin is visiting another tab. One tab at a time here.");
+// A rare little blink gives him a life of his own, without touching saved state.
+setInterval(()=>{
+ if(document.hidden||!owner||game||Math.random()>.7)return;
+ const el=$(".grem-avatar");if(!el)return;
+ el.classList.add('grem-blink');setTimeout(()=>el.classList.remove('grem-blink'),220);
+},8500);
 setInterval(()=>{
  if(document.hidden)return;
  if(owner){

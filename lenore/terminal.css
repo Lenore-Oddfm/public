@@ -1,4 +1,4 @@
-/* LENORE.STUDIO / C.LINK PERSONAL PLANNER R004
+/* LENORE.STUDIO / C.LINK PERSONAL PLANNER R005
    Dedicated Studio appliance shell. Expedition source is not modified. */
 .ctl-terminal{display:none}
 .terminal-ready,.terminal-ready body{width:100%;height:100%;overflow:hidden!important;overscroll-behavior:none}
@@ -116,6 +116,18 @@
 .ctl-statgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.ctl-statgrid>div{border:2px solid #705a86;background:#12152b;padding:11px;display:flex;flex-direction:column}
 .ctl-statgrid b{font-size:22px;color:var(--ctl-yellow)}.ctl-statgrid small{color:var(--ctl-mint);font-size:9px}
 .ctl-drawer-actions{display:flex;gap:8px;flex-wrap:wrap}.ctl-keygrid{display:grid;grid-template-columns:100px 1fr;gap:8px;font-size:11px}.ctl-keygrid span{color:var(--ctl-yellow)}
+.ctl-drawer-body:has(.ctl-treasure-grid){gap:10px;padding:13px;overflow:hidden}
+.ctl-drawer-body:has(.ctl-treasure-grid) h2{font-size:23px}
+.ctl-treasure-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;min-height:0}
+.ctl-treasure{display:flex;gap:7px;align-items:center;min-height:76px;border:2px dashed #664e80;padding:8px;background:#181429;color:#aa9ab7}
+.ctl-treasure[hidden]{display:none}
+.ctl-treasure.earned{background:#302341;border:2px solid var(--ctl-mint);color:#fff0ec}
+.ctl-treasure-icon{flex:none;display:grid;place-items:center;width:34px;height:34px;background:#0b0c21;color:var(--ctl-yellow);font-size:22px}
+.ctl-treasure strong{display:block;font-size:10px;line-height:1.2;color:var(--ctl-yellow)}
+.ctl-treasure small{display:block;font-size:9px;line-height:1.35;margin-top:4px}
+.ctl-treasure-pager{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--ctl-yellow);font-size:10px}
+.ctl-treasure-pager button{padding:5px 8px;font-size:10px}.ctl-treasure-pager button:disabled{opacity:.35;cursor:default}
+.ctl-drawer-body .ctl-postcard{padding:9px;border:2px dashed #a783b4;color:var(--ctl-yellow);font-size:12px;min-height:47px}
 .ctl-quick{position:absolute;top:66px;right:9px;width:300px;z-index:15;border:4px solid var(--ctl-mint);background:#1d1730;box-shadow:8px 8px 0 #080a18;padding:10px;display:flex;flex-direction:column;gap:9px}
 .ctl-quick-head{display:flex;justify-content:space-between;align-items:center;gap:7px;font-size:12px;color:var(--ctl-yellow)}
 .ctl-quick-cat{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:64px;border:2px dashed #9b75b2;background:#100f22;font-size:32px;cursor:pointer;user-select:none}
@@ -159,6 +171,7 @@
 .ctl-panel .grem-mouse-board{width:min(100%,200px);gap:3px}.ctl-panel .grem-mouse{min-height:26px;font-size:15px;padding:0;border-width:1px;box-shadow:none}
 .ctl-panel .grem-cancel{margin-top:5px;min-height:26px;padding:3px 8px;font-size:10px}
 .ctl-panel .grem-tools{margin-top:auto;flex:none;gap:5px}.ctl-panel .grem-tools button{min-height:30px;padding:5px 8px;font-size:9px;box-shadow:none;border-width:2px}
+.ctl-panel .grem-tools #grem-treasures{flex:1 1 118px}.ctl-panel .grem-tools #grem-sound{flex:0 1 90px}
 .ctl-panel #grem-memory{flex:none;font-size:10px;line-height:1.3;margin:0}
 .ctl-panel .grem-footer{margin:5px 0 0;padding-top:4px;font-size:9px;gap:5px;line-height:1.25}
 
@@ -209,6 +222,8 @@
  .ctl-panel .grem-vital-label{font-size:8px}.ctl-panel .grem-track{height:5px;margin-top:2px}
  .ctl-panel .grem-dialogue{min-height:22px;font-size:10px;padding:3px 6px;border-left-width:3px}
  .ctl-panel .grem-tools button{min-height:25px;padding:3px;font-size:8px;border-width:1px}
+ .ctl-panel .grem-tools #grem-treasures{flex:1 1 95px}.ctl-panel .grem-tools #grem-sound{flex:1 1 80px}
+ .ctl-panel .grem-tools #grem-export,.ctl-panel .grem-tools #grem-import{display:none}
  .ctl-panel #grem-memory{font-size:8px}.ctl-panel .grem-footer{display:none}
  .ctl-panel .grem-mouse-board{width:min(100%,140px)}.ctl-panel .grem-mouse{min-height:20px;font-size:12px}
  .ctl-panel #mission{padding:10px!important}.ctl-panel #mission h2{font-size:23px!important;margin:7px 0!important}.ctl-panel #mission p{font-size:11px;line-height:1.4;margin:5px 0}
@@ -225,6 +240,8 @@
  .ctl-panel #rules .block{padding:10px}.ctl-panel #rules .block h3{font-size:20px}.ctl-panel #rules .block p{font-size:11px}
  .ctl-pager{padding:4px 0 0;gap:5px}.ctl-pager button{padding:6px;min-width:64px;font-size:9px}.ctl-pager output{font-size:9px;min-width:108px}
  .ctl-drawer{top:53px;bottom:37px}.ctl-shade{top:53px;bottom:37px}.ctl-drawer-body{padding:11px;gap:9px}.ctl-drawer-body p{font-size:11px}
+ .ctl-drawer-body:has(.ctl-treasure-grid){padding:8px;gap:5px}.ctl-treasure{min-height:60px;padding:5px}.ctl-treasure small{font-size:8px}.ctl-treasure-icon{width:25px;height:25px;font-size:17px}
+ .ctl-drawer-body .ctl-postcard{min-height:34px;padding:5px;font-size:10px}
  .ctl-quick{top:52px;right:3px;width:min(300px,calc(100% - 6px))}
 }
 @media(max-height:690px) and (min-width:561px){
