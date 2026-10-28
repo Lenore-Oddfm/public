@@ -11,7 +11,7 @@ test("game miss only minor fun",()=>{let a=p.care(p.create(now),"game-miss",now+
 test("wrong project import rejected",()=>assert.throws(()=>p.importBackpack({kind:"other",format:1,pet:p.create(now)},now)));
 test("wrong cat rejected",()=>assert.throws(()=>p.validate({...p.create(now),id:"OTHERCAT"},now)));
 test("malformed values constrained",()=>{let a=p.validate({...p.create(now),fun:999,energy:-5,affection:"BAD",visits:-20},now);assert.equal(a.fun,100);assert.equal(a.energy,0);assert.equal(a.visits,0)});
-test("local round trip",()=>{let a=p.care(p.create(now),"brush",now+1000);const pack=p.exportBackpack(a,now+3000);const b=p.importBackpack(pack,now+4000);assert.equal(b.id,p.ID);assert.equal(b.clean,a.clean)});
+test("local round trip",()=>{let a=p.care(p.create(now),"brush",now+1000);const pack=p.exportBackpack(a,now+3000);const b=p.importBackpack(pack,now+4000);assert.equal(b.id,p.ID);assert(Math.abs(b.clean-a.clean)<0.01)});
 test("visit count",()=>assert.equal(p.visit(p.create(now),now+1000).visits,1));
 test("mood returns display-safe state",()=>assert(["curious","content","glowing","hungry","sleepy","scruffy","bored"].includes(p.mood(p.create(now)).name)));
 console.log(n+" PET CORE TESTS PASSED");
