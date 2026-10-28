@@ -12,7 +12,7 @@
     ['beat','♫','BEAT','Original eight-step rhythm lab','03'],
     ['cat','♥','CAT','Gremble / creative disruption','04'],
     ['sticker','▦','PIXEL','Sixteen-by-sixteen sticker lab','05'],
-    ['quest','⚄','QUEST','Random side assignments','06'],
+    ['quest','⚄','QUEST','The Third Bell / QA adventure · not canon','06'],
     ['radar','◎','RADAR','Verified Song Foundry progress','07'],
     ['projects','▣','FILES','Searchable public project registry','08'],
     ['todo','☷','TASKS','Status queue / not editable','09'],
