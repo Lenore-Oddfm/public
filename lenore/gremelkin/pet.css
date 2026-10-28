@@ -63,60 +63,65 @@
 @media(max-width:390px){.grem-actions{grid-template-columns:repeat(2,1fr)}.grem-room{padding:10px}}
 @media(prefers-reduced-motion:reduce){.grem-avatar,.grem-avatar:not(.sleepy):not(.bounce){animation:none!important}.grem-fill{transition:none}}
 
-/* GREMELKIN HEADER PERCH R002 — return mascot to original upper-right corner.
-   The parent header .wrap is already position:relative in approved main skin.
-   This correction only moves the clickable companion; the main skin is untouched. */
-header .wrap > .pixel-cat-wrap,
-header .wrap > .pixel-cat-wrap[role="button"]{
- position:absolute;
- inset:8px 6px auto auto;
- z-index:4;
- width:176px;
- display:flex;
- flex-direction:column;
- align-items:center;
- gap:2px;
- margin:0;
+
+/* GREMELKIN PERCH R003 — responsive desktop placement with no 1120px fall-back.
+   Human's Firefox screenshots showed R002 flowing at the upper LEFT.
+   Use the actual header wrapper as positioning context; CSS cache is versioned.
+   Keep clickable target enabled despite approved theme's pointer-events:none. */
+header > .wrap {position:relative !important}
+header > .wrap > .pixel-cat-wrap,
+header > .wrap > .pixel-cat-wrap[role="button"] {
+ position:absolute !important;
+ top:7px !important;
+ right:4px !important;
+ left:auto !important;
+ bottom:auto !important;
+ z-index:6 !important;
+ display:flex !important;
+ flex-direction:column !important;
+ align-items:center !important;
+ justify-content:center !important;
+ gap:3px !important;
+ width:180px !important;
+ margin:0 !important;
+ padding:0 !important;
+ pointer-events:auto !important;
  text-align:center;
 }
-header .wrap > .pixel-cat-wrap .pixel-cat{
- width:112px;
- height:112px;
+header > .wrap > .pixel-cat-wrap .pixel-cat {
+ width:136px !important;
+ height:136px !important;
+ margin:0 !important;
  flex:0 0 auto;
- margin:0;
 }
-header .wrap > .pixel-cat-wrap .pixel-cat-label{
+header > .wrap > .pixel-cat-wrap .pixel-cat-label {display:none !important}
+header > .wrap > .pixel-cat-wrap .grem-header-hint {
+ display:block !important;
  font-size:11px;
- line-height:1.35;
+ margin:3px 0 0 !important;
+ white-space:nowrap;
 }
-header .wrap > .pixel-cat-wrap .pixel-cat-label small{
- font-size:10px;
-}
-header .wrap > .pixel-cat-wrap .grem-header-hint{
- display:block;
- margin-top:3px;
-}
-@media(max-width:1120px){
- header .wrap > .pixel-cat-wrap,
- header .wrap > .pixel-cat-wrap[role="button"]{
-  position:static;
-  inset:auto;
-  width:auto;
-  flex-direction:row;
-  justify-content:flex-end;
-  margin:0 0 12px;
-  gap:12px;
-  text-align:left;
+@media(max-width:880px){
+ header > .wrap > .pixel-cat-wrap,
+ header > .wrap > .pixel-cat-wrap[role="button"]{
+  top:8px !important;
+  right:0 !important;
+  width:122px !important;
  }
- header .wrap > .pixel-cat-wrap .pixel-cat{width:80px;height:80px}
- header .wrap > .pixel-cat-wrap .grem-header-hint{margin-top:0}
+ header > .wrap > .pixel-cat-wrap .pixel-cat{width:84px !important;height:84px !important}
+ header > .wrap h1{padding-right:130px !important}
 }
-@media(max-width:600px){
- header .wrap > .pixel-cat-wrap,
- header .wrap > .pixel-cat-wrap[role="button"]{
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:6px 12px;
+@media(max-width:650px){
+ header > .wrap > .pixel-cat-wrap,
+ header > .wrap > .pixel-cat-wrap[role="button"]{
+  position:relative !important;
+  top:auto !important;right:auto !important;left:auto !important;bottom:auto !important;
+  width:100% !important;
+  flex-direction:row !important;
+  justify-content:flex-end !important;
+  gap:10px !important;
+  margin:0 0 9px !important;
  }
- header .wrap > .pixel-cat-wrap .pixel-cat{width:72px;height:72px}
+ header > .wrap > .pixel-cat-wrap .pixel-cat{width:66px !important;height:66px !important}
+ header > .wrap h1{padding-right:0 !important}
 }
