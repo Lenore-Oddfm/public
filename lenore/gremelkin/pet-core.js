@@ -12,7 +12,7 @@ function validate(input,now=Date.now()){
  for(const k of ["visits","meals","games"])s[k]=Math.min(1000000,Math.max(0,Number.isSafeInteger(input[k])?input[k]:0));
  s.bornAt=safeTime(input.bornAt,now);s.updatedAt=safeTime(input.updatedAt,now);
  s.lastAction=typeof input.lastAction==="string"?input.lastAction.slice(0,160):s.lastAction;
- s.lastActionAt=safeTime(input.lastActionAt||0,now);
+ s.lastActionAt=Number.isFinite(Number(input.lastActionAt))&&Number(input.lastActionAt)>0?safeTime(input.lastActionAt,now):0;
  s.favoriteToy="Laser Mouse";s.achievements=Array.isArray(input.achievements)?[...new Set(input.achievements.filter(x=>["first-meal","first-game","ten-cuddles","night-owl","well-loved"].includes(x)))].slice(0,5):[];
  return s;
 }
