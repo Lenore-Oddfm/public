@@ -50,3 +50,6 @@ The public site now uses the `assets/pixel-oddfm.css` design system with flat co
 
 
 **Oct 28:** Software R015 (in-place Director Return import + song-length MP4) is distinct from *Looky Lou* creative R014. No real song MP3 or Quin installation. Human authority and Miss Spock release review remain mandatory.
+
+
+**Oct 28 intake:** Inktober Night Signal DJ reconstructed R051 is an independently reviewed development source, not the original missing release. A001 audit found five data guard gaps; no Quin install or live data actions. Project ownership compared with Studio Inktober Song remains unconfirmed. [Studio status](lenore/README.md).
