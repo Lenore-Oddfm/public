@@ -1,0 +1,63 @@
+/* LENORE.EXE V3 — ART DEPARTMENT TOYROOM
+   All colors are flat indexed pixels. No gradients, remote fonts or assets. */
+.playroom{border:4px solid var(--rose);background:#120f28;box-shadow:9px 9px 0 #030510;padding:22px;margin:17px 0 39px;position:relative}
+.playroom::before{content:'PRESS BUTTONS / DO NOT PUSH THE QUEEN';display:block;position:absolute;right:20px;top:-13px;background:var(--gold);color:#20112b;padding:4px 8px;font:900 9px ui-monospace,Consolas,monospace;letter-spacing:.08em;box-shadow:3px 3px 0 #060713}
+.playroom-banner{display:flex;gap:24px;align-items:center;justify-content:space-between;border-bottom:4px dashed #7e5d95;padding-bottom:20px;margin-bottom:24px}
+.playroom-banner h2{font-size:clamp(29px,4.4vw,52px);text-shadow:5px 5px 0 #69335a;line-height:1.1;margin:5px 0 12px}
+.playroom-banner p:last-child{max-width:630px;margin:0;color:#d6c8e2;font-size:13px}
+.ticket-counter{min-width:180px;border:4px solid var(--gold);background:#2a1c3c;padding:11px 19px;text-align:center;box-shadow:5px 5px 0 #090712;transform:rotate(2deg)}
+.ticket-counter span,.ticket-counter small{display:block;font:900 10px ui-monospace,monospace;color:var(--gold)}
+.ticket-counter output{display:block;font:900 37px/1.2 ui-monospace,Consolas,monospace;color:var(--mint);text-shadow:4px 4px 0 #3d2861;margin:4px 0}
+.ticket-counter small{color:var(--rose);font-size:9px}
+.toy-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+.toy{min-width:0;min-height:440px;border:4px solid #795391;background:#201934;box-shadow:7px 7px 0 #070611;padding:17px;display:flex;flex-direction:column;position:relative}
+.toy-hook{border-color:var(--rose)}.toy-beat{border-color:var(--mint)}.toy-pet{border-color:var(--gold)}.toy-sticker{border-color:#aba0ff}
+.toy-head{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #674d7a;padding-bottom:8px;gap:12px}
+.toy-no{font:900 10px/1.4 ui-monospace,Consolas,monospace;color:var(--gold);letter-spacing:.09em}
+.toy-led{font-size:20px;line-height:1;color:var(--mint);animation:toyBlink 1.5s steps(2,end) infinite}
+.toy h3{font:900 clamp(20px,2.4vw,29px)/1.12 ui-monospace,Consolas,monospace;letter-spacing:-.05em;margin:13px 0 6px;color:#fff5ee;text-shadow:3px 3px 0 #642d59}
+.toy-intro{font:12px/1.55 ui-monospace,Consolas,monospace;color:#ddcfe1;margin:4px 0 15px;max-width:540px}
+.toy-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:14px}
+.toy-button{border:3px solid #b990cf;background:#2d2250;color:#fff4ed;padding:9px 11px;font:900 11px/1.25 ui-monospace,Consolas,monospace;box-shadow:4px 4px 0 #080810;cursor:pointer;letter-spacing:.01em;white-space:normal}
+.toy-button.hot{border-color:var(--rose);background:#5e2753}.toy-button.mint{border-color:var(--mint);background:#164143;color:#dbfff7}
+.toy-button:hover{background:var(--gold);color:#201124;border-color:var(--gold);transform:translate(1px,1px);box-shadow:3px 3px 0 #080810}
+.toy-button:active{transform:translate(4px,4px);box-shadow:none}
+.toy-button:disabled{cursor:not-allowed;opacity:.5}
+.toy-button:focus-visible,.swatch:focus-visible,.beat-step:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.toy-status{font:900 10px/1.55 ui-monospace,Consolas,monospace;color:var(--mint);letter-spacing:.03em;min-height:17px;margin:12px 0 0}
+.slot-machine{border:4px solid #83536e;background:#110f23;padding:10px 12px;margin:3px 0 8px;box-shadow:inset 5px 5px 0 #050611}
+.slot-reel{display:flex;align-items:stretch;min-height:57px;border-bottom:2px dashed #594167}
+.slot-reel:last-child{border-bottom:0}
+.slot-reel span{width:92px;flex:none;align-self:center;font:900 10px/1.2 ui-monospace,monospace;color:var(--rose)}
+.slot-reel output{align-self:center;font:900 clamp(11px,1.4vw,14px)/1.3 ui-monospace,Consolas,monospace;color:var(--gold);overflow-wrap:anywhere;text-shadow:2px 2px 0 #573052}
+.slot-machine.spinning output{animation:slotFlicker .12s steps(2,end) infinite}
+.beat-display{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#0b1528;border:3px solid #685391;padding:7px 10px;margin-bottom:12px;font:900 11px ui-monospace,monospace;color:var(--mint)}
+.beat-lights{display:flex;align-items:end;gap:3px;height:23px}.beat-lights i{display:block;width:8px;height:9px;background:var(--pink,#ff69b7);animation:beatBars .7s steps(3,end) infinite alternate}.beat-lights i:nth-child(2){height:17px;animation-delay:.17s;background:var(--mint)}.beat-lights i:nth-child(3){height:11px;animation-delay:.3s;background:var(--gold)}.beat-lights i:nth-child(4){height:21px;animation-delay:.08s}.beat-lights i:nth-child(5){height:14px;animation-delay:.4s;background:var(--mint)}
+.beat-grid{display:grid;grid-template-columns:65px repeat(8,minmax(0,1fr));gap:4px;align-items:center;min-height:153px}
+.beat-label{font:900 9px/1.3 ui-monospace,monospace;color:var(--gold);letter-spacing:.01em}
+.beat-step{min-width:0;width:100%;aspect-ratio:1;max-height:39px;background:#171328;border:2px solid #655172;box-shadow:2px 2px 0 #090812;cursor:pointer;color:transparent;font-size:1px}
+.beat-step[data-on=true]{background:#ec6dae;border-color:#ffc2e5}.beat-step[data-row=hat][data-on=true]{background:var(--mint);border-color:#e1fff5}.beat-step[data-row=synth][data-on=true]{background:var(--gold);border-color:#fff5c7}
+.beat-step[data-current=true]{outline:2px solid var(--gold);outline-offset:2px;filter:brightness(1.35)}
+.beat-sliders{display:grid;grid-template-columns:105px minmax(80px,1fr);gap:8px 11px;align-items:center;margin:14px 0 2px}
+.beat-sliders label{font:800 10px/1.25 ui-monospace,monospace;color:#e0d0e6}
+.beat-sliders output{color:var(--mint)}
+.beat-sliders input[type=range]{width:100%;min-height:22px;accent-color:var(--rose);cursor:pointer}
+.pet-screen{display:grid;grid-template-columns:minmax(150px,1fr) minmax(115px,.6fr);gap:11px;align-items:center;margin:3px 0 9px}
+#petCanvas{width:100%;max-height:236px;aspect-ratio:10/7;border:4px solid #96705e;background:#111124;image-rendering:pixelated;image-rendering:crisp-edges;cursor:pointer}
+.pet-meter{padding:12px 9px;min-height:116px;border:3px solid #7a567e;background:#101124;font:900 10px/1.9 ui-monospace,monospace;color:var(--gold)}
+.pet-meter span{display:block}.pet-meter output{color:var(--mint);overflow-wrap:anywhere}
+.sticker-workspace{display:flex;gap:15px;align-items:flex-start;margin:3px 0 8px}
+#stickerCanvas{width:min(100%,228px);height:auto;aspect-ratio:1;border:6px solid var(--blue);background:#161429;image-rendering:pixelated;image-rendering:crisp-edges;touch-action:none;cursor:crosshair;box-shadow:4px 4px 0 #090811}
+.sticker-side{flex:1;min-width:115px}.swatches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.swatch{height:32px;border:3px solid #614876;box-shadow:2px 2px 0 #070712;cursor:pointer;min-width:0}
+.swatch[aria-pressed=true]{outline:3px solid var(--gold);outline-offset:2px;border-color:#fff}
+.sticker-help{font:800 10px/1.6 ui-monospace,monospace;color:var(--mint);margin-top:23px}
+.quest-console{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-top:28px;background:#263548;border:4px solid var(--mint);box-shadow:6px 6px 0 #060716;padding:16px 18px}
+.quest-console p{font:900 clamp(12px,1.9vw,17px)/1.45 ui-monospace,Consolas,monospace;margin:8px 0 0;color:var(--gold)}
+.quest-console .toy-button{flex:none}
+@keyframes toyBlink{50%{opacity:.2}}
+@keyframes beatBars{to{height:4px}}
+@keyframes slotFlicker{50%{color:var(--mint);text-shadow:3px 3px 0 var(--rose)}}
+@media(max-width:1050px){.toy-grid{grid-template-columns:1fr}.toy{min-height:0}.playroom{margin-top:8px}}
+@media(max-width:640px){.playroom{padding:14px;margin:5px 0 29px;border-width:3px}.playroom::before{font-size:8px;right:10px}.playroom-banner{flex-direction:column;align-items:stretch}.ticket-counter{align-self:flex-start;min-width:150px}.toy-grid{gap:17px}.toy{padding:12px}.slot-reel span{width:68px;font-size:9px}.slot-reel output{font-size:12px}.beat-grid{grid-template-columns:49px repeat(8,minmax(0,1fr));gap:3px}.beat-label{font-size:8px}.beat-step{border-width:1px}.pet-screen{grid-template-columns:1fr}.pet-screen canvas{max-width:280px}.pet-meter{min-height:0}.sticker-workspace{flex-wrap:wrap}.sticker-side{min-width:100px}.quest-console{flex-direction:column;align-items:stretch}.quest-console .toy-button{align-self:start}}
+@media(prefers-reduced-motion:reduce){.toy-led,.beat-lights i,.slot-machine.spinning output{animation:none}.toy-button:hover{transform:none}.beat-step[data-current=true]{filter:none}}
