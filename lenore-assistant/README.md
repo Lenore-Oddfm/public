@@ -2,7 +2,7 @@
 
 Open the **visual planner**: [Lenore / Expedition on GitHub Pages](https://lenore-oddfm.github.io/public/lenore-assistant/).
 
-This folder provides the read-only public presentation for Lenore Expedition's ODD FM **lyrics writer** project. Its **third** visual revision adds an original, fully interactive **arcade toy room** to the animated pixel-motion Art Department:
+This folder provides the read-only public presentation for Lenore Expedition's ODD FM **lyrics writer** project. **V4, the C.LINK appliance**, encloses the animated pixel-motion Art Department in a fixed one-screen utility terminal with eleven station tabs and three flyout panels. The original V3 gadgets and useful planner records remain intact:
 
 - A foundry project radar and four-stage writing roadmap.
 - Searchable, status-filtered project registry.
@@ -25,8 +25,20 @@ The separate `playroom.js` and `playroom.css` add **five local, optional gadgets
 
 No toys modify Foundry briefs, lyric drafts, official task completions, Quin installations or central Switchboard decisions. Toy data is local to the loaded page and is not uploaded to servers. Motion pauses according to reduced-motion preference; beatbox sound is explicitly started/stopped by the user.
 
+## V4 C.LINK terminal shell
+
+Two new static files, `terminal.css` and `terminal.js`, upgrade the complete existing page into a deliberately **non-scrolling hardware-style appliance** when JavaScript is available. Original V3 remains the fallback if the enhancement cannot load.
+
+- Eleven tab ports: Lounge, Hook, Beat, Cat, Pixel, Quest, Radar, Files, Tasks, Diary, Rules.
+- Three utility flyouts: verified Status, actual beatbox Quick Mixer, and keyboard Help; Escape, overlay-click, and Close return to the screen.
+- Hard viewport frame, pixel indicator lamps, session ticket counter, live local device clock, direct-launch hardware keys and footer buttons; no CSS gradients.
+- One-at-a-time paged records, task entries, and diary notes, with original search and status filters still usable. No scroll-to-anchor website navigation.
+- Native tab semantics and ARIA state updates, focus management for drawers, ALT+1…9 quick tabs and arrow keys when a tab is focused.
+- Responsive compact variants for tablet and phone. On exceptionally tiny displays or text zoom, controlled overflow inside the help drawer may be necessary to keep all controls accessible; the outer document remains fixed.
+- No persistent storage, analytics, paid API, external media, or publication change beyond the public planner itself.
+
 The private operational records remain separately in `Lenore-Oddfm/lenore-animation-studio/planner/lenore-assistant/`; they are **not automatically synchronized** to this public page. Screenshots, unreleased songs, keys, private lyrics, code and ZIP archives do not belong here. Statuses represent a manually reviewed snapshot, not a real-time source of deployment truth.
 
 The other Lenore's lyrics scraper is a different project. Foundry's Quin installation and its central ownership are still unverified/pending coordination. No public page can authorize a release.
 
-**Design history:** v1 established a useful searchable planner but looked like a generic gradient dashboard. At the Queen's request, v2 gave the Art Department some actual pixel life. For v3 she demanded toys and gizmos everywhere—so the Toy Room was born. All project facts, task filters, and diary records remain available.
+**Design history:** v1 established a useful searchable planner but looked like a generic gradient dashboard. At the Queen's request, v2 gave the Art Department some actual pixel life. For v3 she demanded toys and gizmos everywhere—so the Toy Room was born. In v4 the Queen insisted it behave like a C.LINK terminal appliance, not a website, so the full page became a tab-operated switchboard. All project facts, task filters, and diary records remain available.
