@@ -60,6 +60,23 @@
  function load(){try{const v=JSON.parse(localStorage.getItem(KEY)||'null');return v&&typeof v==='object'?v:null}catch{return null}}
  function persist(){try{localStorage.setItem(KEY,JSON.stringify({game,casebook,view}))}catch{}}
  let story=null,game=null,casebook={endings:[],clues:[],rating:0},view='story';
+ // R030: reject damaged or obsolete local checkpoints rather than soft-locking.
+ function validCheckpoint(saved){
+  if(!saved||!saved.game||typeof saved.game!=='object')return false;
+  const g=saved.game;
+  if(typeof g.sceneId!=='string'||!story.nodes.some(n=>n.id===g.sceneId))return false;
+  if(!g.flags||typeof g.flags!=='object'||Array.isArray(g.flags))return false;
+  if(!Number.isSafeInteger(g.steps)||g.steps<0||g.steps>500)return false;
+  if(!Array.isArray(g.history)||g.history.length>500)return false;
+  return g.history.every(h=>h&&story.nodes.some(n=>n.id===h.sceneId)&&h.flags&&typeof h.flags==='object'&&!Array.isArray(h.flags));
+ }
+ function rewind(){
+  if(!game.history.length)return;
+  const previous=game.history.pop();game.sceneId=previous.sceneId;game.flags={...previous.flags};
+  game.steps=Math.max(0,game.steps-1);game.feedback='';game.complete=false;view='story';
+  persist();paint();
+ }
+
  function reset(){game={sceneId:story.nodes[0].id,flags:{},steps:0,history:[],complete:false};view='story';persist();paint()}
  function record(){const node=selected(story,game);if(!node.ending)return;
   game.complete=true;if(!casebook.endings.includes(node.ending.id))casebook.endings.push(node.ending.id);
@@ -194,8 +211,9 @@ function drawArt(canvas,node,flags={}){
   const art=`<aside class="nightqa-aside"><small>ILLUSTRATION ${String(story.nodes.findIndex(n=>n.id===node.id)+1).padStart(2,'0')} / ${story.nodes.length} · ONE-OF-A-KIND</small><canvas class="nightqa-art" id="nightQaArt" width="320" height="150" role="img" aria-label="Pixel-art after-hours ODD FM theater with Lenore on stage"></canvas><div class="nightqa-objective">MISSION: ${h(story.objective)}</div><div class="nightqa-memory"><strong>✧ YOUR NIGHT SO FAR</strong>${mem.length?mem.map(v=>`<span>◆ ${h(v)}</span>`).join(''):'No clues yet. Start exploring.'}</div><div class="nightqa-note">THEATER DETAILS ARE PROVISIONAL / NOT OFFICIAL CANON</div></aside>`;
   const comments=(node.reactions||[]).filter(r=>applicable(r,game.flags)).map(r=>`<p class="nightqa-reaction">↳ ${h(r.text)}</p>`).join('');
   const vary=(node.variants||[]).length?node.variants[game.steps%(node.variants.length)]:'';
-  const choices=node.ending?`<div class="nightqa-rating"><b>PLAY AGAIN URGE?</b> ${[1,2,3,4,5].map(n=>`<button type="button" data-score="${n}" class="${casebook.rating===n?'chosen':''}" aria-label="Replay urge ${n} out of 5">${n}</button>`).join('')}</div><button type="button" data-action="restart">↻ EXPLORE A DIFFERENT ENDING</button><button type="button" data-action="casebook">▣ OPEN CASEBOOK</button>`:
-   available(node,game).map((choice,i)=>`<button type="button" data-choice="${i}"><span>${i+1}. ${h(choice.label)}</span><em>▶</em></button>`).join('');
+  const rewindButton=game.history.length?'<button type="button" class="qa030-undo" data-action="rewind">↶ UNDO LAST CHOICE</button>':'';
+  const choices=node.ending?`<div class="nightqa-rating"><b>PLAY AGAIN URGE?</b> ${[1,2,3,4,5].map(n=>`<button type="button" data-score="${n}" class="${casebook.rating===n?'chosen':''}" aria-label="Replay urge ${n} out of 5">${n}</button>`).join('')}</div><button type="button" data-action="restart">↻ EXPLORE A DIFFERENT ENDING</button><button type="button" data-action="casebook">▣ OPEN CASEBOOK</button>${rewindButton}`:
+   available(node,game).map((choice,i)=>`<button type="button" data-choice="${i}"><span>${i+1}. ${h(choice.label)}</span><em>▶</em></button>`).join('')+rewindButton;
   const dialogue=`<section class="nightqa-story"><small>${node.ending?'★ ENDING DISCOVERED':'SCENE '+(game.steps+1)+' / STORY IN PROGRESS'}</small><h2>${h(node.title)}</h2><div class="nightqa-scroll"><p>${h(node.text)}</p>${comments}${game.feedback?`<div class="nightqa-feedback" role="status">★ ${h(game.feedback)}</div>`:''}${vary?`<p class="nightqa-reaction">✦ ${h(vary)}</p>`:''}</div><div class="nightqa-choices">${choices}</div></section>`;
   const endings=(story.nodes||[]).filter(n=>n.ending);
   const caseHtml=`<div class="nightqa-case"><small>▣ PRIVATE DEVICE-ONLY CASEBOOK</small><h2>YOUR NIGHT SHIFT CASEBOOK</h2><p>${casebook.endings.length} of ${total} endings discovered. Unfound outcomes stay hidden; your clues and rating stay on this browser only.</p><div class="nightqa-tiles">${endings.map(n=>`<div class="nightqa-tile ${casebook.endings.includes(n.ending.id)?'found':''}">${casebook.endings.includes(n.ending.id)?'★ '+h(n.title):'◇ ??? / UNSOLVED'}</div>`).join('')}</div><p>CLUES DISCOVERED: ${casebook.clues.length}</p><div class="nightqa-rating">MOST RECENT REPLAY-URGE RATING: ${casebook.rating||'NOT RATED'} / 5</div><div class="nightqa-actions"><button type="button" data-action="back">▶ BACK TO STORY</button><button type="button" data-action="restart">↻ NEW NIGHT</button><button type="button" data-action="clear">□ CLEAR CASEBOOK</button></div><p class="nightqa-quiet">This is a publicly visible draft for QA, not canon or a fan release. No analytics, accounts, or paid requests.</p></div>`;
@@ -208,7 +226,8 @@ function drawArt(canvas,node,flags={}){
    game.history.push({sceneId:game.sceneId,flags:{...game.flags}});
    Object.assign(game.flags,choice.set||{});game.feedback=choice.feedback||'';game.sceneId=choice.to;game.steps++;record();
   }else if(btn.dataset.score){casebook.rating=Number(btn.dataset.score)}
-  else if(btn.dataset.action==='restart'){reset();return}
+  else if(btn.dataset.action==='rewind'){rewind();return}
+   else if(btn.dataset.action==='restart'){reset();return}
   else if(btn.dataset.action==='casebook'){view='casebook'}
   else if(btn.dataset.action==='back'){view='story'}
   else if(btn.dataset.action==='clear'){if(!confirm('Clear your locally saved endings, clues and rating?'))return;casebook={endings:[],clues:[],rating:0}}
@@ -218,7 +237,7 @@ function drawArt(canvas,node,flags={}){
  unpack().then(ep=>{
   story=ep;const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
   if(!Array.isArray(casebook.endings))casebook.endings=[];if(!Array.isArray(casebook.clues))casebook.clues=[];
-  game=saved?.game&&story.nodes.some(n=>n.id===saved.game.sceneId)?saved.game:null;
+  game=validCheckpoint(saved)?saved.game:null;
   if(!game){reset();return}view=saved?.view==='casebook'?'casebook':'story';paint();
  }).catch(error=>{mount.innerHTML=`<div class="nightqa-error" role="alert">THE THIRD BELL COULD NOT LOAD: ${h(error.message)}. TRY A HARD REFRESH.</div>`});
 })();
