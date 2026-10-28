@@ -11,8 +11,8 @@
 | Project | Whose mission? | Checked status | Next action |
 |---|---|---|---|
 | **Inktober Song Plugin** | **Lenore / Studio** | Assigned; canonical code/checkpoint not yet delivered | Await project-ID-tagged source through Miss Spock |
-| **Lyric Refinement Plugin** | **Lenore / Expedition** | Assigned; source/checkpoint pending | Expedition builds her independent planner |
-| **Looky Lou • Pixel Art Music Video** | **Lenore / Studio** | **CREATIVE ACTIVE** — art & 19 taps recovered | Chosen MP3 → cue review → CRT-glass-only motion proof |
+| **Song Foundry / lyrics writer** | **Lenore / Expedition** (self-recorded; central routing pending) | Independent diary and public artistic page already exist | Expedition independently enhances visibility; Human/Miss Spock resolve writer-versus-scraper IDs |
+| **Looky Lou • Pixel Art Music Video** | **Lenore / Studio** | **CREATIVE ACTIVE** — R014 3.2s CRT-only motion test rendered; Human review pending | Human reviews proof + picks MP3 → cue correction |
 | **Robot Rock / Quin software patch** | Studio historical | R012 staging pass; **NOT installed** | Separate HOLD pending Human + Miss Spock authorization |
 | **25-Song Foundry** | Unconfirmed | Return misrouted; **HOLD** | Human/Miss Spock identify owner |
 | **Quin Switchboard** | **Miss Spock** | Public repository now exists; website not confirmed live | Miss Spock publishes and verifies official link |
@@ -44,3 +44,6 @@ Open [this repository's Settings → Pages](../../settings/pages), choose **Depl
 ## Pixel Motion Art redesign
 
 The public site now uses the `assets/pixel-oddfm.css` design system with flat colors, pixel-edged cards, a hand-drawn 8-bit Gremelkin mascot, subtle stepped animation, and `prefers-reduced-motion` handling. Both the public hub and Studio planner share the skin. No project records, routes, or Lenore Assistant files were modified for this redesign.
+
+
+**2026-10-28:** Studio Looky Lou R014 silent 3.2s CRT-screen-only motion proof is rendered, QA passed (lossless-frame outside-glass equality), and awaits Human art review and final song MP3. Expedition Lenore's independent diary already exists; no stylistic changes to her page were made.

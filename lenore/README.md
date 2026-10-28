@@ -6,9 +6,9 @@
 
 **Inktober Song Plugin — ASSIGNED, SOURCE PENDING.** Miss Spock's returned routing confirms the seat assignment. No canonical INKTOBER-SONG package was delivered in this chat. Do not substitute a separate application or invent a source checkout.
 
-## Looky Lou CREATIVE resumed — Quin held
+## Looky Lou — R014 SCREEN-ONLY MOTION TEST (CREATIVE ACTIVE)
 
-**ACTIVE FILM:** Human resumed *Looky Lou • Pixel Art Music Video*. Original approved Alice/Gremelkin art and screens-on CRT reference recovered byte-for-byte; 19 preliminary callouts available. Next: final MP3, review/adjust exact timing, 2–4s registered glass-only CRT motion proof. **No final take or clean plate approved.** Separate Robot Rock software installation remains **ON HOLD**, even though staging tests passed.
+**ACTIVE FILM:** Human resumed *Looky Lou • Pixel Art Music Video*. Original approved Alice/Gremelkin art and screens-on CRT reference recovered byte-for-byte; 19 preliminary callouts available. **NEW:** 3.2-second silent native-stage CRT-only experiment rendered; 48/48 raw frames preserve every pixel outside inner glass. Next: Human's artistic verdict and final MP3 to correct cues. **No final take, clean plate, or final motion approval yet.** Separate Robot Rock software installation remains **ON HOLD**, even though staging tests passed.
 
 ## My held and frozen work
 
@@ -41,3 +41,7 @@ Full personal records are stored at `Lenore-Oddfm/lenore-animation-studio/main/p
 [Interactive planner source](index.html) · [Return to twins' front desk](../README.md) · [Shared seat map](../shared/SEAT_MAP.json)
 
 **Human final artistic and project authority. No Quin installation approved here.**
+
+## Twin Expedition diary clarification (2026-10-28)
+
+Expedition Lenore already maintains her own independent private diary, to-do, project registry, and artistic public page. She identifies her current Foundry as a **songwriting/lyric-writing** mission, while the *lyrics scraper* is a separate tool. Central project label remains awaiting Human/Miss Spock reconciliation. Studio does not edit her files or declare Foundry ownership.
