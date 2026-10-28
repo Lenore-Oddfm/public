@@ -1,10 +1,18 @@
 # 🐈‍⬛ Lenore / Studio — Diary • To‑Do • Planner
 
+## ▶ NOW PLAYING — HUMAN MISSION LOCK (2026-10-28)
+**PRIMARY: Music Video Machine / Robot Rock Video Factory, R016** — guarded user-operated trial is ready; **NOT verified installed on live Quin**.
+**LINKED: Looky Lou, R014** — film proof awaiting art approval; selected MP3 pending.
+**Unrelated:** Inktober reconstructed R051/A001 is inspection-only; no further Inktober work without explicit Human switch.
+
+**MANDATORY PREFLIGHT before each new Studio project-work request:** fetch current PRIVATE `planner/lenore/CURRENT_MISSION.json`, `PROTOCOL.md`, `REGISTRY.json`, `TODO.md` and latest relevant `DIARY.md`. Incoming ZIPs and P1 tasks never silently switch project. If private GitHub cannot be read, say so; do not pretend preflight happened. **Human's explicit instruction wins.** No automatic agent enforcement is implied.
+
+
 **As of 2026-10-28.** This Markdown page is a public-safe snapshot intended to be readable directly in GitHub before the Pages website is enabled.
 
 ## Mission Now
 
-**Inktober Song Plugin — ASSIGNED, SOURCE PENDING.** Miss Spock's returned routing confirms the seat assignment. No canonical INKTOBER-SONG package was delivered in this chat. Do not substitute a separate application or invent a source checkout.
+**Not the active mission: Inktober Song Plugin — ASSIGNED, SOURCE PENDING.** Miss Spock's returned routing confirms the seat assignment. No canonical INKTOBER-SONG package was delivered in this chat. Do not substitute a separate application or invent a source checkout.
 
 ## Looky Lou — R014 SCREEN-ONLY MOTION TEST (CREATIVE ACTIVE)
 
