@@ -10,6 +10,12 @@
 
 **ACTIVE FILM:** Human resumed *Looky Lou • Pixel Art Music Video*. Original approved Alice/Gremelkin art and screens-on CRT reference recovered byte-for-byte; 19 preliminary callouts available. **NEW:** 3.2-second silent native-stage CRT-only experiment rendered; 48/48 raw frames preserve every pixel outside inner glass. Next: Human's artistic verdict and final MP3 to correct cues. **No final take, clean plate, or final motion approval yet.** Separate Robot Rock software installation remains **ON HOLD**, even though staging tests passed.
 
+## Music Video Machine — R015 DEVELOPMENT, NOT INSTALLED
+
+**Software track:** Added an in-place Director Return ZIP reviewer and song-length animation import to R012-staged Robot Rock. 43/43 tests PASS, 4s synthetic MP4 full render PASS, GIF return test PASS, mock browser GUI PASS. Real Quin live-file staging remains **PENDING**. Human must run the read-only R015 runner and return its report; Miss Spock coordinates any subsequent release. **No installed patch or live Quin changes.**
+
+**Separate creative track:** *Looky Lou* R014 remains an experimental 3.2s silent CRT proof. Final selected MP3 and Human art review are pending.
+
 ## My held and frozen work
 
 - **Robot Rock / Quin integration:** staging R012 passed; **no live installation**. Human and Miss Spock must approve installation separately.

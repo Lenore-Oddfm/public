@@ -13,7 +13,7 @@
 | **Inktober Song Plugin** | **Lenore / Studio** | Assigned; canonical code/checkpoint not yet delivered | Await project-ID-tagged source through Miss Spock |
 | **Song Foundry / lyrics writer** | **Lenore / Expedition** (self-recorded; central routing pending) | Independent diary and public artistic page already exist | Expedition independently enhances visibility; Human/Miss Spock resolve writer-versus-scraper IDs |
 | **Looky Lou • Pixel Art Music Video** | **Lenore / Studio** | **CREATIVE ACTIVE** — R014 3.2s CRT-only motion test rendered; Human review pending | Human reviews proof + picks MP3 → cue correction |
-| **Robot Rock / Quin software patch** | Studio historical | R012 staging pass; **NOT installed** | Separate HOLD pending Human + Miss Spock authorization |
+| **Music Video Machine / Robot Rock software** | **Lenore Studio development / Miss Spock Quin release** | **R015 imported Director Return in offline patch; 43/43 tests pass; NOT INSTALLED** | Human runs read-only staging R015; Miss Spock reviews prior to any approved install |
 | **25-Song Foundry** | Unconfirmed | Return misrouted; **HOLD** | Human/Miss Spock identify owner |
 | **Quin Switchboard** | **Miss Spock** | Public repository now exists; website not confirmed live | Miss Spock publishes and verifies official link |
 | **Guardians R058-R4** | Human final | **FINAL / FROZEN** | Preserve exactly |
@@ -47,3 +47,6 @@ The public site now uses the `assets/pixel-oddfm.css` design system with flat co
 
 
 **2026-10-28:** Studio Looky Lou R014 silent 3.2s CRT-screen-only motion proof is rendered, QA passed (lossless-frame outside-glass equality), and awaits Human art review and final song MP3. Expedition Lenore's independent diary already exists; no stylistic changes to her page were made.
+
+
+**Oct 28:** Software R015 (in-place Director Return import + song-length MP4) is distinct from *Looky Lou* creative R014. No real song MP3 or Quin installation. Human authority and Miss Spock release review remain mandatory.
