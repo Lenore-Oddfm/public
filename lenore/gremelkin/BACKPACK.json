@@ -1,6 +1,7 @@
 {
-  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R001",
-  "release": "R001",
+  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R004",
+  "release": "R004",
+  "previous_release": "R001 pet core; R003 header perch",
   "updated_utc": "2026-10-28",
   "entity_id": "ODDFM-GREMELKIN-ONE",
   "character": "Gremelkin",
@@ -12,7 +13,9 @@
   "visuals": {
     "appearance": "8-bit black cat, yellow eyes, plum ears, magenta nose, cyan whiskers",
     "source": "the existing approved Studio header SVG is cloned into the playable room",
-    "design_lock": "no unsolicited ODD FM pixel planner redesign"
+    "design_lock": "Human explicitly requested a C.Link appliance-style Personal Planner on 2026-10-28; ODD FM pixel cat and palette retained",
+    "interface": "Fixed viewport and seven switchable Studio stations; upper-right cat opens quick care instead of scrolling; flyout utility menus",
+    "interaction": "Six draggable care icons surround the room cat; drop on the sprite or click/tap a tool; pointer, keyboard and touch input supported"
   },
   "care": {
     "actions": [
@@ -52,7 +55,9 @@
   "dependencies": [
     "pet-core.js",
     "pet-ui.js",
-    "pet.css"
+    "pet.css",
+    "../terminal.js",
+    "../terminal.css"
   ],
   "guardrails": [
     "No Quin installs",
@@ -61,5 +66,5 @@
     "Guardians frozen",
     "Other Lenore's workspace untouched"
   ],
-  "director_note": "This GitHub file is the current blueprint checkpoint, not an up-to-the-second snapshot of browser-local emotions."
+  "director_note": "R004 changes presentation and interaction only. R001 local pet save identity/schema, slow decay and existing chase rules remain unchanged. Browser-local state is not a worldwide cat lease. Human visual approval is pending."
 }

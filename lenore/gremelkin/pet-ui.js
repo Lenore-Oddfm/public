@@ -1,4 +1,4 @@
-/* GREMELKIN R001 | Studio Planner | client-only pet: browser save, no global doors */
+/* GREMELKIN R004 | Studio C.Link Personal Planner | R001 save/core preserved */
 (function(){
 "use strict";
 const P=window.GremelkinCore,root=document.getElementById("gremelkin-app");
@@ -31,7 +31,14 @@ root.innerHTML=[
 "<h2>Gremelkin <span aria-hidden='true'>🐾</span></h2>",
 "<p class='grem-note'>Feed him, cuddle him, brush his fur, and chase a pixel mouse together. Your travel-friendly little night cat.</p>",
 "<div class='grem-status'><span id='grem-location' class='grem-chip live'>HOME</span><span id='grem-save' class='grem-chip'>LOCAL SAVE</span><span class='grem-chip limited'>WORLD CAT DOORS: NOT CONNECTED</span></div>",
-"<div class='grem-layout'><div class='grem-stage'><div id='grem-sprite'></div><div class='grem-shadow' aria-hidden='true'></div><div id='grem-mood' class='grem-stage-caption' aria-live='polite'>Checking whiskers…</div></div>",
+"<div class='grem-layout'><div class='grem-stage' id='grem-stage'><div class='grem-stage-prompt'>GRAB A TOOL → DROP ON GREM • OR TAP</div>",
+"<button type='button' class='grem-item item-fish' data-act='feed' aria-label='Fish: drag onto Gremelkin to feed, or click'><span>🐟</span><small>FOOD</small></button>",
+"<button type='button' class='grem-item item-brush' data-act='brush' aria-label='Brush: drag onto Gremelkin to groom, or click'><span>🪮</span><small>BRUSH</small></button>",
+"<button type='button' class='grem-item item-toy' data-act='laser' aria-label='Toy mouse: drag onto Gremelkin to start chase, or click'><span>🐭</span><small>TOY</small></button>",
+"<button type='button' class='grem-item item-pet' data-act='pet' aria-label='Heart: drag onto Gremelkin to pet, or click'><span>💗</span><small>PET</small></button>",
+"<button type='button' class='grem-item item-nap' data-act='nap' aria-label='Moon: drag onto Gremelkin for a nap, or click'><span>🌙</span><small>NAP</small></button>",
+"<button type='button' class='grem-item item-talk' data-act='talk' aria-label='Music note: drag onto Gremelkin to talk, or click'><span>♫</span><small>TALK</small></button>",
+"<div id='grem-sprite' class='grem-drop-target' role='button' tabindex='0' aria-label='Pet Gremelkin directly'></div><div class='grem-shadow' aria-hidden='true'></div><div id='grem-mood' class='grem-stage-caption' aria-live='polite'>Checking whiskers…</div></div>",
 "<div class='grem-controls'><div class='grem-vitals' aria-label='Gremelkin needs'>",
 "<div class='grem-vital' data-stat='hunger'><div class='grem-vital-label'><span>🐟 FULL</span><output>--</output></div><div class='grem-track'><div class='grem-fill'></div></div></div>",
 "<div class='grem-vital' data-stat='energy'><div class='grem-vital-label'><span>🌙 ENERGY</span><output>--</output></div><div class='grem-track'><div class='grem-fill'></div></div></div>",
@@ -49,9 +56,13 @@ root.innerHTML=[
 const header=document.querySelector(".pixel-cat-wrap"),base=document.querySelector(".pixel-cat-wrap .pixel-cat");
 if(base){const sprite=base.cloneNode(true);sprite.classList.add("grem-avatar");sprite.removeAttribute("aria-label");sprite.setAttribute("aria-hidden","true");$("#grem-sprite").append(sprite)}else $("#grem-sprite").textContent="🐈‍⬛";
 if(header){
- header.setAttribute("role","button");header.setAttribute("tabindex","0");header.setAttribute("aria-label","Visit and play with Gremelkin");header.title="Click to play with Gremelkin";
+ header.setAttribute("role","button");header.setAttribute("tabindex","0");header.setAttribute("aria-label","Open Gremelkin quick care");header.title="Open quick care without leaving this screen";
  const hint=document.createElement("span");hint.className="grem-header-hint";hint.textContent="PLAY WITH ME";header.append(hint);
- const jump=()=>{document.getElementById("gremelkin-home").scrollIntoView({behavior:window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth",block:"start"});$("#grem-actions").querySelector("button").focus({preventScroll:true})};
+ const jump=()=>{
+  if(document.documentElement.classList.contains("terminal-ready")){window.dispatchEvent(new CustomEvent("gremelkin:open"));return}
+  document.getElementById("gremelkin-home").scrollIntoView({behavior:"auto",block:"start"});
+  $("#grem-actions").querySelector("button").focus({preventScroll:true});
+ };
  header.addEventListener("click",jump);header.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();jump()}});
 }
 function bounce(){const el=$(".grem-avatar");if(!el)return;el.classList.remove("bounce");void el.getBoundingClientRect();el.classList.add("bounce");setTimeout(()=>el.classList.remove("bounce"),950)}
@@ -70,7 +81,55 @@ function perform(act){
  if(game)return speak("Finish the mouse chase first!");
  try{state=P.care(state,act);save();render();speak(state.lastAction);bounce()}catch(e){speak(e.message)}
 }
-root.querySelectorAll("[data-act]").forEach(btn=>btn.addEventListener("click",()=>btn.dataset.act==="laser"?startGame():perform(btn.dataset.act)));
+root.querySelectorAll("[data-act]").forEach(btn=>btn.addEventListener("click",()=>{
+ if(btn.dataset.dragEnded){delete btn.dataset.dragEnded;return}
+ btn.dataset.act==="laser"?startGame():perform(btn.dataset.act);
+}));
+const spriteTarget=$("#grem-sprite");
+spriteTarget.addEventListener("click",()=>perform("pet"));
+spriteTarget.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();perform("pet")}});
+// Pointer drag for mouse, pen and touch; clicking each tool works as an equal keyboard alternative.
+// Pointer capture keeps releases reliable even when the hand passes over the cat SVG.
+for(const item of root.querySelectorAll(".grem-item")){
+ let drag=null;
+ const cleanup=()=>{
+  if(!drag)return;
+  drag.ghost?.remove();spriteTarget.classList.remove("grem-drop-ready");
+  item.classList.remove("grem-dragging");drag=null;
+ };
+ item.addEventListener("pointerdown",e=>{
+  if(e.button!==0||item.disabled)return;
+  drag={id:e.pointerId,x:e.clientX,y:e.clientY,moved:false,ghost:null};
+  item.setPointerCapture(e.pointerId);
+ });
+ item.addEventListener("pointermove",e=>{
+  if(!drag||drag.id!==e.pointerId)return;
+  if(!drag.moved&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)<9)return;
+  if(!drag.moved){
+   drag.moved=true;drag.ghost=document.createElement("div");
+   drag.ghost.className="grem-drag-ghost";drag.ghost.textContent=item.querySelector("span").textContent;
+   document.body.append(drag.ghost);item.classList.add("grem-dragging");
+  }
+  drag.ghost.style.left=e.clientX+"px";drag.ghost.style.top=e.clientY+"px";
+  const r=spriteTarget.getBoundingClientRect();
+  spriteTarget.classList.toggle("grem-drop-ready",e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom);
+ });
+ item.addEventListener("pointerup",e=>{
+  if(!drag||drag.id!==e.pointerId)return;
+  if(drag.moved){
+   item.dataset.dragEnded="1";
+   const r=spriteTarget.getBoundingClientRect();
+   if(e.clientX>=r.left&&e.clientX<=r.right&&e.clientY>=r.top&&e.clientY<=r.bottom){
+    item.dataset.act==="laser"?startGame():perform(item.dataset.act);
+   }else speak("Drop the item on Gremelkin—or tap the item to use it.");
+   // A canceled click is not guaranteed after touch capture, so clear stale suppression.
+   setTimeout(()=>{delete item.dataset.dragEnded},450);
+  }
+  cleanup();
+ });
+ item.addEventListener("pointercancel",cleanup);
+ item.addEventListener("lostpointercapture",cleanup);
+}
 function randomSpot(exclude){let n=Math.floor(Math.random()*16);if(n===exclude)n=(n+1+Math.floor(Math.random()*15))%16;return n}
 function drawBoard(){
  if(!game)return;$("#grem-score").textContent=game.hits+"/5 • "+Math.max(0,Math.ceil((game.until-Date.now())/1000))+"s";
