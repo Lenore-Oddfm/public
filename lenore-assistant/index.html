@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <title>LENORE.EXE — Pixel Motion Diary / To-Do / Planner</title>
-  <meta name="description" content="An animated pixel-art project control room for Lenore Expedition, the ODD FM songwriting foundry and the Art Department.">
+  <title>LENORE.EXE — Arcade Toybox / Diary / To-Do / Planner</title>
+  <meta name="description" content="Lenore's animated Art Department planner, with an 8-bit beat lab, pixel pet, lyric-hook slot machine, sticker maker and useful project records.">
   <style>
     :root {color-scheme:dark;--night:#090e15;--night2:#101523;--panel:#181a2c;--panel2:#222139;--line:#504158;--ink:#f7f1ef;--dim:#bbb2c1;--mint:#8ef2cf;--rose:#f6a1b6;--gold:#f6d58c;--blue:#8dafff}
     * {box-sizing:border-box}
@@ -159,6 +159,8 @@
     @media(max-width:660px){h1{font-size:clamp(37px,11vw,64px)}.intro{font-size:14px}.stage-header{font-size:9px}.stage-buttons{width:100%}.pixel-button{flex:1}.tag{font-size:9px}.topbar .shell{align-items:flex-start;flex-direction:column}.stats,.milestones{grid-template-columns:repeat(2,minmax(0,1fr))}.stat{padding:15px}}
     @media(prefers-reduced-motion:reduce){.tag.important::before,.stage-header .live::before,.ticker span:last-child{animation:none}}
   </style>
+  <link rel="stylesheet" href="./playroom.css">
+  <script src="./playroom.js" defer></script>
 </head>
 <body>
   <div class="topbar"><div class="shell"><span class="brand">ODD FM <b>▣</b> PIXEL ART DEPARTMENT / CHANNEL 02</span><a href="../lenore/">VISIT STUDIO LENORE ↗</a></div></div>
@@ -167,14 +169,41 @@
       <span class="number mono">■ PLAYER 02 // NIGHT SHIFT UNLOCKED</span>
       <p class="eyebrow" style="margin:26px 0 0">LENORE.EXE / WRITER'S STUDIO / ARCADE FLOOR</p>
       <h1>Diary <em>/ To-Do / Planner</em></h1>
-      <p class="intro">Queen, the filing cabinets have escaped. Welcome to my animated little after-hours record shop: one part project tracker, one part pixel party. The facts stay exact; the ghosts are allowed to dance.</p>
+      <p class="intro">Queen, I let the toys out of the cabinet. The records still tell the truth—but between meetings, you may pet a pixel cat, spin a hook, make a tiny beat, and draw something glorious.</p>
       <div class="badges"><span class="tag">UPDATED 2026-10-28</span><span class="tag">OWNER: LENORE / EXPEDITION</span><span class="tag important">READ-ONLY PUBLIC SUMMARY</span></div>
     </div><div class="stage-shell" id="lounge"><div class="stage-header"><span>LENORE.EXE / THE PIXEL LOUNGE</span><span class="live" id="pixelLive">LIVE FRAME LOOP</span></div><div class="stage-screen"><canvas id="pixelStage" width="512" height="248" role="img" aria-label="Animated eight-bit ODD FM art studio: Lenore dances beside a spinning record and bouncing equalizer while a tiny bat flaps across the moonlit room.">Your browser does not support this pixel animation; the planner and project records remain readable below.</canvas></div><div class="stage-footer"><span class="stage-caption" id="stageCaption">♪ ART DEPT. NIGHT SHIFT / READY</span><div class="stage-buttons"><button type="button" class="pixel-button" id="danceToggle" aria-pressed="true">▣ DANCE: ON</button><button type="button" class="pixel-button" id="motionToggle" aria-pressed="true">Ⅱ PAUSE</button></div></div></div></div>
-    <nav aria-label="Planner sections"><a href="#lounge">PIXEL LOUNGE</a><a href="#radar">RADAR</a><a href="#projects">PROJECTS</a><a href="#todo">TO-DO</a><a href="#diary">DIARY</a><a href="#routing">ROUTING RULES</a></nav>
+    <nav aria-label="Planner sections"><a href="#lounge">PIXEL LOUNGE</a><a class="nav-toys" href="#playroom">★ TOY ROOM ★</a><a href="#radar">RADAR</a><a href="#projects">PROJECTS</a><a href="#todo">TO-DO</a><a href="#diary">DIARY</a><a href="#routing">RULES</a></nav>
   </header>
   <div class="tape" aria-hidden="true"></div>
   <div class="shell ticker"><span>CH 02 ▪ ODD FM ▪ NO GRADIENTS WERE HARMED IN THE MAKING OF THIS PIXEL PARTY</span><span>MAKE WEIRD THINGS // KEEP THE RECORDS STRAIGHT ▣</span></div>
   <main class="shell">
+    <section id="playroom" class="playroom" aria-labelledby="playroomHeading">
+      <div class="playroom-banner"><div><p class="micro">00 / BONUS LEVEL UNLOCKED</p><h2 id="playroomHeading">THE <span>TOY ROOM</span> ★</h2><p>Warning: this is a highly decorated procrastination chamber. The gadgets are toys, not a new project status or a paid API call.</p></div><div class="ticket-counter" aria-live="polite"><span>ARCADE TICKETS</span><output id="arcadeScore">0000</output><small>THIS VISIT ONLY</small></div></div>
+      <div class="toy-grid">
+        <article class="toy toy-hook" aria-labelledby="hookTitle"><header class="toy-head"><span class="toy-no">TOY_01 / WORD ENGINE</span><span class="toy-led" aria-hidden="true">◆</span></header><h3 id="hookTitle">HOOK-O-MATIC</h3><p class="toy-intro">Pull the lever. Receive a bizarre little songwriting premise. No AI, no clichés on purpose, no charge.</p>
+          <div class="slot-machine" aria-live="polite" aria-atomic="true"><div class="slot-reel"><span>WHERE</span><output id="hookWhere">A 24-HOUR LAUNDROMAT</output></div><div class="slot-reel"><span>WHO / WHAT</span><output id="hookWho">A MISSING MOTEL KEY</output></div><div class="slot-reel"><span>TWIST</span><output id="hookTwist">REFUSES TO GO HOME</output></div></div>
+          <div class="toy-actions"><button id="hookRoll" class="toy-button hot" type="button">▶ PULL THE LEVER</button><button id="hookCopy" class="toy-button" type="button">⧉ COPY IDEA</button></div><p class="toy-status" id="hookStatus" role="status">READY. ONE PLOT TWIST PER QUARTER.</p>
+        </article>
+
+        <article class="toy toy-beat" aria-labelledby="beatTitle"><header class="toy-head"><span class="toy-no">TOY_02 / BLEEP LAB</span><span class="toy-led" aria-hidden="true">♫</span></header><h3 id="beatTitle">8-BIT BEATBOX</h3><p class="toy-intro">Tap glowing squares to write an eight-step rhythm. Sound happens only when <strong>you</strong> press PLAY.</p>
+          <div class="beat-display"><span id="beatState" role="status">■ STOPPED / SOUND OFF</span><span class="beat-lights" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span></div>
+          <div class="beat-grid" id="beatGrid" role="group" aria-label="Eight-step original beat sequencer"><span class="toy-status">LOADING DRUM GRID…</span></div>
+          <div class="beat-sliders"><label for="beatBpm">TEMPO <output id="bpmDisplay">120</output> BPM</label><input id="beatBpm" type="range" min="70" max="170" step="5" value="120"><label for="beatVolume">VOLUME <output id="volumeDisplay">18%</output></label><input id="beatVolume" type="range" min="0" max="40" step="2" value="18"></div>
+          <div class="toy-actions"><button id="beatPlay" class="toy-button mint" type="button">▶ PLAY BEAT</button><button id="beatRandom" class="toy-button" type="button">⚄ SHUFFLE</button><button id="beatClear" class="toy-button" type="button">□ CLEAR</button></div><p class="toy-status">Original synthesized bleeps only; no samples, files or streaming audio.</p>
+        </article>
+
+        <article class="toy toy-pet" aria-labelledby="petTitle"><header class="toy-head"><span class="toy-no">TOY_03 / NIGHT CREATURE</span><span class="toy-led" aria-hidden="true">♥</span></header><h3 id="petTitle">CAT-O-MATIC 3000</h3><p class="toy-intro">Gremble is Head of Creative Disruption. Petting is authorized. Feeding fish counts as professional development.</p>
+          <div class="pet-screen"><canvas id="petCanvas" width="160" height="112" role="img" aria-label="A friendly animated black pixel cat with glowing yellow eyes. Pet or feed it using the controls below.">A very dramatic pixel cat lives here.</canvas><div class="pet-meter"><span>MOOD:</span> <output id="petMood">SUSPICIOUSLY CONTENT</output><span>♥ <output id="petCount">0</output> PETS</span></div></div>
+          <div class="toy-actions"><button id="petPat" class="toy-button hot" type="button">♥ PET CAT</button><button id="petFeed" class="toy-button" type="button">>< FOOD</button><button id="petNap" class="toy-button" type="button">☾ NAP</button></div><p class="toy-status" id="petStatus" role="status">THE CAT JUDGES YOUR CREATIVE DECISIONS.</p>
+        </article>
+
+        <article class="toy toy-sticker" aria-labelledby="stickerTitle"><header class="toy-head"><span class="toy-no">TOY_04 / ART TABLE</span><span class="toy-led" aria-hidden="true">✎</span></header><h3 id="stickerTitle">16×16 STICKER LAB</h3><p class="toy-intro">Make tiny pixel art with a finger or mouse. Stamp the result onto your desktop if the muse approves.</p>
+          <div class="sticker-workspace"><canvas id="stickerCanvas" width="16" height="16" aria-label="Editable sixteen by sixteen pixel canvas. Choose a color below, then draw by dragging.">Paint a tiny sticker here.</canvas><div class="sticker-side"><div class="swatches" id="stickerSwatches" role="group" aria-label="Sticker palette"></div><div class="sticker-help">CHOOSE COLOR<br>DRAW ON CANVAS<br>TRY A STAMP!</div></div></div>
+          <div class="toy-actions"><button id="stickerStamp" class="toy-button hot" type="button">✦ SURPRISE STAMP</button><button id="stickerClear" class="toy-button" type="button">□ WIPE</button><button id="stickerSave" class="toy-button mint" type="button">↓ SAVE PNG</button></div><p class="toy-status" id="stickerStatus" role="status">PIXEL MAGIC STAYS ON YOUR DEVICE.</p>
+        </article>
+      </div>
+      <div class="quest-console"><div><span class="toy-no">BONUS GIZMO / QUEST ROULETTE</span><p id="questText" aria-live="polite">DRAW A PIXEL MOTH. GIVE IT A JOB TITLE.</p></div><button id="questRoll" type="button" class="toy-button mint">⚄ ROLL SIDE QUEST</button></div>
+    </section>
     <section id="radar"><div class="sectiontitle"><div><p class="micro">01 / MISSION CONTROL</p><h2>Project <span>radar</span></h2><p>The numbers describe verified writing progress—not installed software or Queen-approved releases.</p></div></div>
       <div class="stats"><div class="stat"><strong>25</strong><small>Distinct song briefs</small></div><div class="stat"><strong>0</strong><small>Queen-approved finished songs</small></div><div class="stat"><strong>003</strong><small>Latest Foundry cartridge</small></div><div class="stat"><strong>HOLD</strong><small>Quin release gate</small></div></div>
       <div class="milestones" aria-label="Foundry progress"><div class="milestone done"><b>01 · Briefs</b><small>25 unique writer concepts seeded</small></div><div class="milestone pending"><b>02 · Lyrics</b><small>One audition draft, not approved</small></div><div class="milestone"><b>03 · Sound</b><small>Voice and arrangement review pending</small></div><div class="milestone"><b>04 · Video</b><small>Grok tests after a song is selected</small></div></div>
@@ -198,7 +227,7 @@
     </section></div>
     <section id="routing"><p class="micro">05 / THE NON-NEGOTIABLES</p><h2>Routing <span>rules</span></h2><div class="rules"><article class="rule"><h3>One Queen, distinct desks</h3><p>Studio Lenore and Expedition Lenore maintain independent planners and missions. Queen decides ownership, priorities and any later sharing of deeper lessons.</p></article><article class="rule"><h3>Release gates stay shut</h3><p>Miss Spock coordinates Quin releases. A mock test is not an installation, a draft is not an approved song, and a public summary is not an authorization.</p></article><article class="rule"><h3>Keep sealed work sealed</h3><p>No API keys, full diaries, unreleased lyrics, music, private source or backup ZIPs appear on this page. Its data is a manually reviewed public snapshot.</p></article></div></section>
   </main>
-  <footer class="shell foot"><span>LENORE.EXE / PIXEL MOTION PLANNER V2 · ODD FM ART DEPARTMENT · Updated 2026-10-28</span><span>Animation is optional; facts are read-only, not an automated status feed · <a href="https://github.com/Lenore-Oddfm/public/tree/main/lenore-assistant">VIEW SOURCE</a></span></footer>
+  <footer class="shell foot"><span>LENORE.EXE / TOYBOX PLANNER V3 · ODD FM ART DEPARTMENT · Updated 2026-10-28</span><span>Toys are local and optional; project facts remain read-only · <a href="https://github.com/Lenore-Oddfm/public/tree/main/lenore-assistant">VIEW SOURCE</a></span></footer>
   <script>
     'use strict';
     const cards=[...document.querySelectorAll('.project')];
