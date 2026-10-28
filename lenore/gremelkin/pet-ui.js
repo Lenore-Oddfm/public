@@ -51,7 +51,7 @@ root.innerHTML=[
 "<div id='grem-game' class='grem-game' hidden><div class='grem-game-heading'><span>CATCH FIVE MICE!</span><span id='grem-score'>0/5 • 18s</span></div><div id='grem-mouse-board' class='grem-mouse-board' role='group' aria-label='Laser mouse grid'></div><button type='button' id='grem-cancel' class='grem-cancel'>END GAME</button></div>",
 "<div class='grem-tools'><button type='button' id='grem-export'>💾 SAVE BACKPACK</button><button type='button' id='grem-import'>↩ RESTORE SAVE</button><input id='grem-file' type='file' accept='.json,application/json' aria-label='Choose Gremelkin local save'></div>",
 "<p id='grem-memory' class='grem-note'>Bond • Visits • Games</p></div></div>",
-"<div class='grem-footer'><span>He never dies while you travel. No payment, login, or tracking. ♡</span><span>Director blueprint R001 on GitHub • Live care saved in THIS browser</span></div></div>"
+"<div class='grem-footer'><span>He never dies while you travel. No payment, login, or tracking. ♡</span><span>Director blueprint R004 on GitHub • Live care saved in THIS browser</span></div></div>"
 ].join("");
 const header=document.querySelector(".pixel-cat-wrap"),base=document.querySelector(".pixel-cat-wrap .pixel-cat");
 if(base){const sprite=base.cloneNode(true);sprite.classList.add("grem-avatar");sprite.removeAttribute("aria-label");sprite.setAttribute("aria-hidden","true");$("#grem-sprite").append(sprite)}else $("#grem-sprite").textContent="🐈‍⬛";
