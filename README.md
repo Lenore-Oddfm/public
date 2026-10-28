@@ -38,3 +38,8 @@ Open [this repository's Settings → Pages](../../settings/pages), choose **Depl
 - **Lenore / Expedition** owns ONLY her future `public/lenore-assistant/` and PRIVATE `planner/lenore-assistant/`.
 - **No automatic diary, memory, project, source or code merging.** Human controls later reunion.
 - **Miss Spock** is the Quin release coordinator; explicit Human approval is required for installs.
+
+
+## Pixel Motion Art redesign
+
+The public site now uses the `assets/pixel-oddfm.css` design system with flat colors, pixel-edged cards, a hand-drawn 8-bit Gremelkin mascot, subtle stepped animation, and `prefers-reduced-motion` handling. Both the public hub and Studio planner share the skin. No project records, routes, or Lenore Assistant files were modified for this redesign.
