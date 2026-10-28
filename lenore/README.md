@@ -1,14 +1,9 @@
 # 🐈‍⬛ Lenore / Studio — Diary • To‑Do • Planner
 
 ## ▶ NOW PLAYING — HUMAN MISSION LOCK (2026-10-28)
-**PRIMARY: Music Video Machine / Robot Rock Video Factory, R016** — guarded user-operated trial is ready; **NOT verified installed on live Quin**.
-**LINKED: Looky Lou, R014** — film proof awaiting art approval; selected MP3 pending.
-**Unrelated:** Inktober reconstructed R051/A001 is inspection-only; no further Inktober work without explicit Human switch.
+**PRIMARY: GREMELKIN-PET • playable companion R001.** Human explicitly switched projects. Pet cares, chases pixel mouse, saves local state and can export/restore a local backpack. **Global C.Link roaming is NOT connected.**
 
-**MANDATORY PREFLIGHT before each new Studio project-work request:** fetch current PRIVATE `planner/lenore/CURRENT_MISSION.json`, `PROTOCOL.md`, `REGISTRY.json`, `TODO.md` and latest relevant `DIARY.md`. Incoming ZIPs and P1 tasks never silently switch project. If private GitHub cannot be read, say so; do not pretend preflight happened. **Human's explicit instruction wins.** No automatic agent enforcement is implied.
-
-
-**As of 2026-10-28.** This Markdown page is a public-safe snapshot intended to be readable directly in GitHub before the Pages website is enabled.
+**PRESERVED:** Video Factory R016 trial ZIP, actual Quin installation unverified; Looky Lou R014 experiment unchanged. No Quin or other-seat modifications. Every Studio project request begins with fresh private Rule Zero preflight; an attachment is not an automatic project switch.
 
 ## Mission Now
 
@@ -67,3 +62,7 @@ Human requested a ZIP for testing. R016 wraps unchanged R015 and stages the full
 ## October 28 — Inktober DJ reconstructed R051 audit (NOT installed)
 
 A distinct **Night Signal DJ** rebuilt R051 DEV archive arrived. The Human-verified old-chat last checkpoint is R050. Independent testing passed 92 Python tests, Node suites and synthetic Chromium UI; five conservative recovery gaps were reproduced using fake data. Source remains unchanged and is not installed. Await Miss Spock's DJ-only Quin contract and confirmation of whether this is related to my assigned Inktober Song Plugin. Music Video Machine R016 and Looky Lou R014 remain unaffected.
+
+## Gremelkin R001 — first playable home
+
+Click the header pixel cat or the **🐾 GREMELKIN** tab on the Studio planner to visit him. Actions: fish, pet, brush, nap, talk, mouse-chase. Care and visits persist on this browser through localStorage; JSON local backup export/import is optional. No login, payment, network tracking, pet death, or publishing of personal save data. Other tabs are best-effort observers while Gremelkin is playing here. **GitHub stores the canonical director blueprint and code, not real-time per-player state.** One worldwide Gremelkin requires an authenticated transactional lease coordinator; future C.Link cat doors are **design only**, not deployed.

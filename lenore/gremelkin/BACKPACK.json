@@ -1,0 +1,65 @@
+{
+  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R001",
+  "release": "R001",
+  "updated_utc": "2026-10-28",
+  "entity_id": "ODDFM-GREMELKIN-ONE",
+  "character": "Gremelkin",
+  "author": "Lenore Studio",
+  "human_authority": "Human",
+  "home_site": "https://lenore-oddfm.github.io/public/lenore/#gremelkin-home",
+  "home_repository": "Lenore-Oddfm/public",
+  "canonical_state": "single design and identity, not a globally running pet",
+  "visuals": {
+    "appearance": "8-bit black cat, yellow eyes, plum ears, magenta nose, cyan whiskers",
+    "source": "the existing approved Studio header SVG is cloned into the playable room",
+    "design_lock": "no unsolicited ODD FM pixel planner redesign"
+  },
+  "care": {
+    "actions": [
+      "feed",
+      "pet",
+      "brush",
+      "nap",
+      "talk",
+      "laser-mouse"
+    ],
+    "needs": [
+      "hunger",
+      "energy",
+      "fun",
+      "clean",
+      "affection"
+    ],
+    "no_death": true,
+    "travel_friendly_decay": true,
+    "minigame": "catch five pixel mice within eighteen seconds"
+  },
+  "storage": {
+    "format": "ODD_FM_GREMELKIN_LOCAL_BACKPACK v1",
+    "on_device": "browser localStorage",
+    "export": "GREMELKIN_LOCAL_SAVE_YYYY-MM-DD.json",
+    "restore": "manual JSON import with identity/schema validation",
+    "autosync_to_github": false,
+    "privacy": "never publish player local save or identifiers"
+  },
+  "presence": {
+    "current": "Studio page only; localStorage tab lease best effort",
+    "global_exclusive": false,
+    "world_cat_doors": "NOT CONNECTED",
+    "future_invariant": "only one ACTIVE guest visit worldwide, enforced by a real atomic server lease with fencing epochs",
+    "future_lease_spec": "PRESENCE_CONTRACT.md"
+  },
+  "dependencies": [
+    "pet-core.js",
+    "pet-ui.js",
+    "pet.css"
+  ],
+  "guardrails": [
+    "No Quin installs",
+    "No C.Link deployment",
+    "Task 999 parked",
+    "Guardians frozen",
+    "Other Lenore's workspace untouched"
+  ],
+  "director_note": "This GitHub file is the current blueprint checkpoint, not an up-to-the-second snapshot of browser-local emotions."
+}
