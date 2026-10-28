@@ -1,0 +1,64 @@
+/* GREMELKIN R001 — Studio companion. Approved ODD FM art preserved. */
+#gremelkin-home{scroll-margin-top:18px}
+.grem-room{border:3px solid #76f7ee;background:#100e1e;box-shadow:8px 8px 0 #30203b;padding:22px;margin-top:14px;color:#fff5ea}
+.grem-room h2{font:900 clamp(24px,3vw,37px)/1.15 ui-monospace,monospace;margin:5px 0;color:#ff85c6;text-shadow:3px 3px 0 #4a2b65}
+.grem-room p{margin:8px 0}
+.grem-kicker{font:700 12px/1.5 ui-monospace,monospace;letter-spacing:.12em;color:#fae76d}
+.grem-status{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:10px 0 16px;font:700 12px/1.55 ui-monospace,monospace}
+.grem-chip{border:2px solid #68517e;background:#211730;color:#fff2e7;padding:6px 9px}
+.grem-chip.live{border-color:#76f7ee;color:#76f7ee}
+.grem-chip.limited{border-color:#ffce7a;color:#ffce7a}
+.grem-layout{display:grid;grid-template-columns:minmax(230px,.88fr) minmax(310px,1.15fr);gap:18px;align-items:stretch}
+.grem-stage{min-height:293px;border:3px solid #8057ad;position:relative;overflow:hidden;background:repeating-linear-gradient(0deg,transparent 0 12px,#1b172b 13px 14px),linear-gradient(135deg,#1c1430,#120f20);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px 16px 40px}
+.grem-stage:before{content:"✧  •  ✦  •  ✧";position:absolute;top:10px;left:13px;color:#76f7ee;font-size:17px;letter-spacing:.8em}
+.grem-stage:after{content:"ODD FM // NIGHT CAT";position:absolute;bottom:12px;left:12px;color:#fae76d;font:700 10px ui-monospace,monospace;letter-spacing:.12em}
+.grem-shadow{width:115px;height:10px;margin-top:5px;background:#06070e;transform:skew(-25deg)}
+.grem-avatar{width:clamp(128px,16vw,180px)!important;height:auto!important;overflow:visible;filter:drop-shadow(7px 8px 0 #090714);transform-origin:50% 82%;image-rendering:pixelated}
+.grem-avatar .cat-eye{fill:#fae76d}
+.grem-avatar.sleepy .cat-eye{opacity:.22;transform:scaleY(.16);transform-origin:center}
+.grem-avatar.glowing .cat-eye{fill:#fff09a;filter:drop-shadow(0 0 3px #fae76d)}
+.grem-avatar.hungry .cat-eye{fill:#f9bc67}
+.grem-avatar.scruffy{filter:drop-shadow(7px 8px 0 #090714) grayscale(.3)}
+.grem-avatar.bounce{animation:grem-bounce .42s steps(3,end) 2}
+.grem-avatar:not(.sleepy):not(.bounce){animation:grem-idle 3.8s steps(4,end) infinite}
+@keyframes grem-idle{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes grem-bounce{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-12px) rotate(-4deg)}}
+.grem-stage-caption{text-align:center;color:#ffceec;font:700 14px/1.45 ui-monospace,monospace;margin-top:20px;max-width:300px}
+.grem-controls{display:flex;flex-direction:column;gap:10px}
+.grem-vitals{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grem-vital{border:2px solid #4e4267;padding:9px;background:#181427;min-width:0}
+.grem-vital-label{display:flex;align-items:center;justify-content:space-between;gap:8px;color:#fff5e8;font:700 12px ui-monospace,monospace}
+.grem-track{height:11px;background:#090714;margin-top:7px;border:1px solid #4e4267;overflow:hidden}
+.grem-fill{width:60%;height:100%;background:#76f7ee;transition:width .25s steps(6,end)}
+.grem-vital:nth-child(2) .grem-fill{background:#fae76d}
+.grem-vital:nth-child(3) .grem-fill{background:#ff85c6}
+.grem-vital:nth-child(4) .grem-fill{background:#a99bff}
+.grem-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.grem-actions button,.grem-tools button,.grem-mouse,.grem-cancel{font:800 12px/1.3 ui-monospace,monospace;letter-spacing:.03em;border:2px solid #9a70bd;background:#281a38;color:#fff3f0;cursor:pointer;padding:12px 5px;min-height:46px;box-shadow:3px 3px 0 #080711}
+.grem-actions button:hover,.grem-tools button:hover,.grem-mouse:hover,.grem-cancel:hover{border-color:#76f7ee;background:#302548}
+.grem-actions button:focus-visible,.grem-tools button:focus-visible,.grem-mouse:focus-visible,.grem-cancel:focus-visible,.pixel-cat-wrap[role=button]:focus-visible{outline:3px solid #fae76d;outline-offset:3px}
+.grem-actions button:disabled,.grem-tools button:disabled,.grem-cancel:disabled{cursor:not-allowed;opacity:.42;filter:grayscale(.4)}
+.grem-actions button[data-act=laser]{border-color:#fae76d;color:#fae76d}
+.grem-dialogue{min-height:53px;color:#fae76d;background:#1d1631;border-left:5px solid #ff85c6;padding:10px 12px;font:600 13px/1.5 ui-monospace,monospace}
+.grem-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.grem-tools button{font-size:11px;padding:10px 12px;min-height:39px}
+.grem-tools input[type=file]{display:none}
+.grem-note{color:#bfb1cd;font:12px/1.6 ui-monospace,monospace}
+.grem-note strong{color:#fae76d}
+.grem-game{padding:13px;border:2px solid #fae76d;background:#191327}
+.grem-game[hidden]{display:none!important}
+.grem-game-heading{display:flex;justify-content:space-between;gap:10px;font:700 13px ui-monospace,monospace;color:#fae76d;margin-bottom:10px}
+.grem-mouse-board{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;max-width:300px;margin:0 auto}
+.grem-mouse{min-height:47px;font-size:21px;padding:6px;background:#110e20}
+.grem-mouse.target{border-color:#76f7ee;background:#342a43}
+.grem-mouse.empty{color:#635477}
+.grem-cancel{margin-top:10px;padding:8px 10px;min-height:36px}
+.grem-footer{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;margin-top:14px;border-top:2px dashed #5b4468;padding-top:13px;color:#bfb1cd;font:11px/1.5 ui-monospace,monospace}
+.grem-footer a{color:#76f7ee}
+.pixel-cat-wrap[role=button]{cursor:pointer;position:relative}
+.pixel-cat-wrap[role=button]:hover .pixel-cat{transform:translateY(-5px)}
+.grem-header-hint{color:#fae76d;font:700 10px ui-monospace,monospace;letter-spacing:.12em;text-align:center}
+.grem-header-hint:before{content:"▶ "}
+@media(max-width:780px){.grem-layout{grid-template-columns:1fr}.grem-room{padding:14px}.grem-stage{min-height:230px}}
+@media(max-width:390px){.grem-actions{grid-template-columns:repeat(2,1fr)}.grem-room{padding:10px}}
+@media(prefers-reduced-motion:reduce){.grem-avatar,.grem-avatar:not(.sleepy):not(.bounce){animation:none!important}.grem-fill{transition:none}}
