@@ -1,0 +1,37 @@
+/* GREMELKIN R015 — control toolbar stays ABOVE all its flyouts.
+   The drawer starts BELOW the bar, aligned under the triggering control. */
+.ctl-panel .grem-r015 .grem-r008-toolbar{
+ position:relative!important;z-index:45!important;
+}
+.ctl-panel .grem-r015 .grem-r008-drawer{
+ top:var(--grem-flyout-top,58px)!important;
+ bottom:auto!important;right:auto!important;
+ left:var(--grem-flyout-left,5px)!important;
+ width:min(325px,calc(100% - 10px))!important;
+ max-height:calc(100% - var(--grem-flyout-top,58px) - 5px)!important;
+ height:auto!important;min-height:0!important;
+ z-index:40!important;overflow:hidden!important;
+ border:3px solid #ff85c6!important;
+ box-shadow:5px 6px 0 #090713!important;
+}
+.ctl-panel .grem-r015 .grem-r008-drawer-content{min-height:0!important;overflow:auto;scrollbar-width:none}
+.ctl-panel .grem-r015 .grem-r008-drawer-content::-webkit-scrollbar{display:none}
+.ctl-panel .grem-r015 .grem-r008-buttons button[aria-expanded=true]{
+ background:#ff85c6;color:#140b25;
+}
+@media(max-height:720px){
+ .ctl-panel .grem-r015 .grem-r008-drawer{padding:6px!important;gap:5px!important}
+ .ctl-panel .grem-r015 .grem-r008-drawer-head{padding-bottom:3px!important}
+ .ctl-panel .grem-r015 .grem-r008-care-items{grid-template-columns:repeat(3,minmax(0,1fr));gap:4px!important}
+ .ctl-panel .grem-r015 .grem-r008-care-items .grem-item{height:45px!important;min-height:0!important}
+ .ctl-panel .grem-r015 .grem-r008-help{display:none!important}
+ .ctl-panel .grem-r015 .grem-r008-needs{gap:6px!important}
+}
+@media(max-height:520px){
+ .ctl-panel .grem-r015 .grem-r008-care-items .grem-item{height:34px!important}
+ .ctl-panel .grem-r015 .grem-r008-care-items .grem-item span{font-size:18px!important}
+ .ctl-panel .grem-r015 .grem-r008-drawer-head{padding-bottom:0!important}
+ .ctl-panel .grem-r015 .grem-r008-close{min-height:24px!important;padding:3px 6px!important}
+ .ctl-panel .grem-r015 .grem-r008-needs{gap:3px!important}
+ .ctl-panel .grem-r015 .grem-r008-bar{height:8px!important;margin-top:2px!important}
+}
