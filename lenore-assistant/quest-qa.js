@@ -29,6 +29,7 @@
  .nightqa-story h2{margin:0;font:1000 clamp(18px,2.2vw,30px)/1.13 ui-monospace,Consolas,monospace;color:#ffe77d;text-shadow:2px 2px #754268}
  .nightqa-scroll{overflow:auto;min-height:0;scrollbar-width:thin;scrollbar-color:#9c719e #1b1a36;flex:1;display:flex;flex-direction:column;gap:7px}
  .nightqa-scroll p{font-size:clamp(11px,1.05vw,15px);line-height:1.55;margin:0;color:#fff0e7;white-space:pre-wrap}
+ .nightqa-scroll p.nightqa-encore{padding:8px 10px;border:3px solid #ffe781;background:#2b2542;color:#fff1b8;font-weight:900;letter-spacing:.01em}
  .nightqa-scroll p.nightqa-reaction{padding-left:9px;border-left:3px solid #ffe787;color:#f7d9ab;font-size:11px}
  .nightqa-scroll .nightqa-feedback{border:2px solid #59cbb8;background:#163b39;color:#b8ffe9;padding:7px;font-size:10px}
  .nightqa-choices{flex:none;display:flex;flex-direction:column;gap:5px;margin-top:auto;padding-top:8px;border-top:2px dashed #644e82;max-height:47%;overflow:auto;scrollbar-width:thin}
@@ -281,6 +282,21 @@ function addR032Review(ep){
   return reactions.map((r,i)=>({r,i,score:priority(r)}))
    .sort((a,b)=>b.score-a.score||a.i-b.i).slice(0,2).map(v=>v.r);
  }
+
+ // R035 CURTAIN CALL: curiosity, not points, streaks or hidden ending spoilers.
+ // This text is a reviewable QA hint and never mutates scene/canon data.
+ function unansweredQuestion(flags, endingId){
+  if(!flags.chose_booth)return 'Why was the sound-booth lamp burning when you never checked it?';
+  if(!flags.chose_seat)return 'Who was keeping an empty theater seat warm all night?';
+  if(!flags.chose_stage)return 'Who called the show when nobody went behind the curtain?';
+  if(!flags.asked_audience)return 'What would the balcony say if you asked it a question?';
+  if(!flags.chicken)return 'What keeps rattling in the prop basket after the curtain falls?';
+  return ({'bow':'What happens if Lenore refuses the spotlight?',
+    'quiet':'Would the theater behave differently if you gave it a performance?',
+    'report':'What would change if you listened instead of writing a report?',
+    'guest':'Would a different first door change the night?'})[endingId]||
+    'Is there another way to answer the bell?';
+ }
  const getMemory=()=>story.clues?.filter(c=>game.flags[c.flag]).map(c=>c.label)||[];
  function paint(){if(!story)return;const node=selected(story,game);if(!node)return;
   const mem=getMemory();const total=story.nodes.filter(n=>n.ending).length;
@@ -288,9 +304,10 @@ function addR032Review(ep){
   const comments=cueR033Reactions(node,game.flags).map(r=>`<p class="nightqa-reaction">↳ ${h(r.text)}</p>`).join('');
   const vary=(node.variants||[]).length?node.variants[game.steps%(node.variants.length)]:'';
   const rewindButton=game.history.length?'<button type="button" class="qa030-undo" data-action="rewind">↶ UNDO LAST CHOICE</button>':'';
-  const choices=node.ending?`<div class="nightqa-rating"><b>PLAY AGAIN URGE?</b> ${[1,2,3,4,5].map(n=>`<button type="button" data-score="${n}" class="${casebook.rating===n?'chosen':''}" aria-label="Replay urge ${n} out of 5">${n}</button>`).join('')}</div><button type="button" data-action="restart">↻ EXPLORE A DIFFERENT ENDING</button><button type="button" data-action="casebook">▣ OPEN CASEBOOK</button>${rewindButton}`:
+  const choices=node.ending?`<div class="nightqa-rating"><b>PLAY AGAIN URGE?</b> ${[1,2,3,4,5].map(n=>`<button type="button" data-score="${n}" class="${casebook.rating===n?'chosen':''}" aria-label="Replay urge ${n} out of 5">${n}</button>`).join('')}</div><button type="button" data-action="restart">↻ FOLLOW ANOTHER LEAD</button><button type="button" data-action="casebook">▣ OPEN CASEBOOK</button>${rewindButton}`:
    available(node,game).map((choice,i)=>`<button type="button" data-choice="${i}"><span>${i+1}. ${h(choice.label)}</span><em>▶</em></button>`).join('')+rewindButton;
-  const dialogue=`<section class="nightqa-story"><small>${node.ending?'★ ENDING DISCOVERED':'SCENE '+(game.steps+1)+' / STORY IN PROGRESS'}</small><h2>${h(node.title)}</h2><div class="nightqa-scroll"><p>${h(node.text)}</p>${comments}${game.feedback?`<div class="nightqa-feedback" role="status">★ ${h(game.feedback)}</div>`:''}${vary?`<p class="nightqa-reaction">✦ ${h(vary)}</p>`:''}</div><div class="nightqa-choices">${choices}</div></section>`;
+  const hook=node.ending?`<p class="nightqa-encore">✧ UNANSWERED QUESTION: ${h(unansweredQuestion(game.flags,node.ending.id))}</p>`:'';
+  const dialogue=`<section class="nightqa-story"><small>${node.ending?'★ ENDING DISCOVERED · '+casebook.endings.length+' / '+total+' IN CASEBOOK':'SCENE '+(game.steps+1)+' / STORY IN PROGRESS'}</small><h2>${h(node.title)}</h2><div class="nightqa-scroll"><p>${h(node.text)}</p>${comments}${hook}${game.feedback?`<div class="nightqa-feedback" role="status">★ ${h(game.feedback)}</div>`:''}${vary?`<p class="nightqa-reaction">✦ ${h(vary)}</p>`:''}</div><div class="nightqa-choices">${choices}</div></section>`;
   const endings=(story.nodes||[]).filter(n=>n.ending);
   const caseHtml=`<div class="nightqa-case"><small>▣ PRIVATE DEVICE-ONLY CASEBOOK</small><h2>YOUR NIGHT SHIFT CASEBOOK</h2><p>${casebook.endings.length} of ${total} endings discovered. Unfound outcomes stay hidden; your clues and rating stay on this browser only.</p><div class="nightqa-tiles">${endings.map(n=>`<div class="nightqa-tile ${casebook.endings.includes(n.ending.id)?'found':''}">${casebook.endings.includes(n.ending.id)?'★ '+h(n.title):'◇ ??? / UNSOLVED'}</div>`).join('')}</div><p>CLUES DISCOVERED: ${casebook.clues.length}</p><div class="nightqa-rating">MOST RECENT REPLAY-URGE RATING: ${casebook.rating||'NOT RATED'} / 5</div><div class="nightqa-actions"><button type="button" data-action="back">▶ BACK TO STORY</button><button type="button" data-action="restart">↻ NEW NIGHT</button><button type="button" data-action="clear">□ CLEAR CASEBOOK</button></div><p class="nightqa-quiet">This is a publicly visible draft for QA, not canon or a fan release. No analytics, accounts, or paid requests.</p></div>`;
   mount.innerHTML=`<section class="nightqa" data-qa030-steps="${game.steps}" data-qa030-title="${h(node.title)}" aria-label="After Hours public QA adventure"><header class="nightqa-toolbar"><span class="nightqa-badge"><b>● QA DRAFT</b> / THE THIRD BELL · NOT CANON</span><div class="nightqa-actions"><button type="button" data-action="back">▶ STORY</button><button type="button" data-action="casebook">▣ CASEBOOK (${casebook.endings.length}/${total})</button><button type="button" data-action="restart">↻</button></div></header><div class="nightqa-layout">${view==='casebook'?`<div style="grid-column:1/-1;min-height:0">${caseHtml}</div>`:art+dialogue}</div><footer class="nightqa-foot"><span>🎭 ${h(story.title)} · DRAFT 028</span><span>NO APPROVAL / NO CANON CHANGE / NO API</span></footer></section>`;
