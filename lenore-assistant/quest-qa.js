@@ -174,6 +174,7 @@ function drawArt(canvas,node,flags={}){
   r(0,0,160,75,'brick2');curtain(0,29);curtain(132,28);r(28,7,106,59,'night');ellipse(78,52,37,17,'amber');ellipse(78,53,23,12,'gold');lenore(79,37,'bow');
   for(let i=0;i<21;i++){let x=(i*37)%151+4,y=(i*29)%58+4;r(x,y,2,4,i%3?'pink':'mint')}
   r(23,56,19,9,'plum');r(119,56,19,9,'plum');r(17,63,129,12,'brick2');
+  if(flags.chicken&&flags.marked_spot){r(104,14,43,10,'gold');txt('STAR',109,16,'night');chicken(115,31);r(113,60,25,3,'mint')}
   // one pair of tiny clapping hands in the house
   r(35,64,6,5,'skin');r(43,61,6,6,'skin');sparkle(42,57);break;
  case 'end-quiet':
@@ -185,7 +186,8 @@ function drawArt(canvas,node,flags={}){
   r(0,0,160,75,'night2');r(0,4,160,63,'brick2');r(4,10,152,55,'brick');r(10,54,140,19,'amber');
   clipboard(51,7);r(59,26,18,2,'night');r(60,31,22,2,'night');r(60,37,18,2,'night');r(56,49,34,4,'red');
   txt('FILED',58,49,'paper',1);r(110,34,28,7,'gold');r(114,26,20,7,'paper');r(116,25,4,5,'pink');
-  r(118,59,4,3,'cream');r(124,54,3,3,'cream');r(128,61,3,2,'cream');bell(17,28);lenore(146,41);break;
+  r(118,59,4,3,'cream');r(124,54,3,3,'cream');r(128,61,3,2,'cream');bell(17,28);lenore(146,41);
+  if(flags.logged_meter&&flags.saved_cue){box(105,8,46,17,'mint','paper');txt('ACK',112,13,'night');r(137,19,7,3,'rose');sparkle(145,8,'mint')}break;
  case 'guest-aisle':
   r(0,0,160,75,'night');r(0,8,160,47,'brick2');for(let i=0;i<7;i++){let x=6+i*22;box(x,21+(i%2)*6,16,26,'plum','paper');r(x+3,25+(i%2)*6,10,3,'rose');r(x+3,32+(i%2)*6,7,2,'night')}
   ellipse(79,37,33,28,'amber');ellipse(79,37,25,22,'gold');ticket(58,21,2);sparkle(117,15,'mint');sparkle(31,48,'pink');
@@ -205,6 +207,24 @@ function drawArt(canvas,node,flags={}){
  canvas.title=(on[sceneIdx]||[])[1]||'THE THIRD BELL';
 }
 
+ // R031: two choice-combination payoffs, not additional scenes or canon.
+ // Hide the older single-flag responses only when the combined payoff applies,
+ // so players receive one distinctive reaction instead of repetitive paragraphs.
+ function addR031Payoffs(ep){
+  function join(id,flagA,flagB,text){
+   const node=ep.nodes.find(n=>n.id===id);if(!node)throw Error('R031 story node missing: '+id);
+   for(const reaction of node.reactions||[]){
+    if(reaction.when?.flag===flagA)reaction.whenAll=[...(reaction.whenAll||[]),{flag:flagB,value:false}];
+    if(reaction.when?.flag===flagB)reaction.whenAll=[...(reaction.whenAll||[]),{flag:flagA,value:false}];
+   }
+   node.reactions.unshift({whenAll:[{flag:flagA,value:true},{flag:flagB,value:true}],text});
+  }
+  join('end-bow','marked_spot','chicken',
+    'The tape mark you laid earlier now reads PRINCIPAL ARTIST. The rubber chicken steps into its spotlight with the confidence of someone who has never attended rehearsal. The balcony applauds once; the chicken demands an encore by falling over. You bow to your co-star. It gets the better review.');
+  join('end-report','logged_meter','saved_cue',
+    'You staple the sound-booth pulse tracing to the copied cue card. Their three marks line up into tidy checkboxes. While you hold the pen still, the third box checks itself. Under VERIFIED WITNESS, the paper adds: THE BUILDING (RELUCTANT). You draw one more box: HUMAN REVIEW REQUIRED.');
+  return ep;
+ }
  const getMemory=()=>story.clues?.filter(c=>game.flags[c.flag]).map(c=>c.label)||[];
  function paint(){if(!story)return;const node=selected(story,game);if(!node)return;
   const mem=getMemory();const total=story.nodes.filter(n=>n.ending).length;
@@ -235,7 +255,7 @@ function drawArt(canvas,node,flags={}){
   persist();paint();
  });
  unpack().then(ep=>{
-  story=ep;const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
+  story=addR031Payoffs(ep);const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
   if(!Array.isArray(casebook.endings))casebook.endings=[];if(!Array.isArray(casebook.clues))casebook.clues=[];
   game=validCheckpoint(saved)?saved.game:null;
   if(!game){reset();return}view=saved?.view==='casebook'?'casebook':'story';paint();
