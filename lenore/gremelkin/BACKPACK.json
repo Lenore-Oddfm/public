@@ -1,13 +1,13 @@
 {
-  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R008",
-  "release": "R008",
-  "previous_release": "R007 rejected for duplicated CAT/CARE and wasteful header rows; R006 box game, R005 pleasures, R001 state still intact",
+  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R011",
+  "release": "R011",
+  "previous_release": "R008 one-room CAT / CARE and NEEDS flyouts / distinct ARCADE; R009 interactive pixel night room; R010 keyboard work; R011 short-height care repair.",
   "updated_utc": "2026-11-02",
   "entity_id": "ODDFM-GREMELKIN-ONE",
   "character": "Gremelkin",
   "author": "Lenore Studio",
   "human_authority": "Human",
-  "home_site": "https://lenore-oddfm.github.io/public/lenore/?fresh=r008#port-cat",
+  "home_site": "https://lenore-oddfm.github.io/public/lenore/?fresh=r011#port-cat",
   "home_repository": "Lenore-Oddfm/public",
   "canonical_state": "single design and identity, not a globally running pet",
   "visuals": {
@@ -18,7 +18,8 @@
     "interaction": "Six draggable care icons surround the room cat; drop on the sprite or click/tap a tool; pointer, keyboard and touch input supported",
     "reactions": "Brief original floating icons after care, occasional eye blink, optional quiet synthesized chirps gated by a user-controlled SOUND toggle (off by default and stored locally)",
     "r007_organization": "Historical rejected presentation; no longer loaded in index",
-    "r008_organization": "One spacious HOME cat scene, CARE tools in a side flyout, separate ARCADE game hub, NEEDS flyout, TREASURES via existing terminal drawer. Redundant GREM title and path header removed ONLY on GREM main station."
+    "r008_organization": "One spacious HOME cat scene, CARE tools in a side flyout, separate ARCADE game hub, NEEDS flyout, TREASURES via existing terminal drawer. Redundant GREM title and path header removed ONLY on GREM main station.",
+    "r011": "ODD FM pixel night room: real cat sprite with flat-color moonlit window, cassette shelf, rug, clickable radio and yarn; separate ARCADE and existing care/needs flyouts. Responsive 320px–1920px mock browser QA."
   },
   "care": {
     "actions": [
@@ -43,7 +44,8 @@
     "postcard": "One original quirky cat line per local calendar day, deterministic and repeatable; no streaks or network calls",
     "box_game": "Optional cardboard-box hide-and-seek: find Gremelkin behind one of three boxes across three rounds, with comic decoys, replay, Escape and keyboard buttons. Uses existing TALK action as completion reward, no new save schema.",
     "r007": "Both R006 box game and original mouse chase are available in dedicated GAMES room; full-size mouse board relocated without changing game handlers. Original six tactile tools in CARE room.",
-    "r008": "Existing six care buttons are moved with listeners preserved; original 18s mouse and R006 3-box games reused. No second CAT screen."
+    "r008": "Existing six care buttons are moved with listeners preserved; original 18s mouse and R006 3-box games reused. No second CAT screen.",
+    "r011": "CARE opens over the actual HOME cat after ARCADE; 6 original action tools stay visible even at 1200x530 and 320x460. Existing game and data handlers remain authoritative."
   },
   "storage": {
     "format": "ODD_FM_GREMELKIN_LOCAL_BACKPACK v1",
@@ -55,7 +57,8 @@
     "optional_preference": "ODDFM.GREMELKIN.R005.SOUND (off by default; local only; portable pet save format unaffected)",
     "r006": "R006 box game uses only transient in-memory round state; no added localStorage keys or new export fields",
     "r007": "Layout change only: R001 local save keys/format preserved, no new preference keys.",
-    "r008": "No save schema change or new save keys. Browser-local R001 state and manual exports preserved."
+    "r008": "No save schema change or new save keys. Browser-local R001 state and manual exports preserved.",
+    "r011": "No new localStorage keys, schema or migration. R001 local pet save and portable format v1 unchanged. No cloud sync or world lease."
   },
   "presence": {
     "current": "Studio page only; localStorage tab lease best effort",
@@ -77,7 +80,11 @@
     "grem-layout.js",
     "grem-layout.css",
     "grem-layout-r008.js",
-    "grem-layout-r008.css"
+    "grem-layout-r008.css",
+    "grem-room-r009.js",
+    "grem-room-r009.css",
+    "grem-quality-r010.js",
+    "grem-quality-r010.css"
   ],
   "guardrails": [
     "No Quin installs",
@@ -86,13 +93,17 @@
     "Guardians frozen",
     "Other Lenore's workspace untouched"
   ],
-  "director_note": "R007 3/10 according to Lenore design audit after Human screenshot; R008 provisional 7/10. Isolated Chromium 4 viewport fixture PASS, Pages workflow action 41384139685 SUCCESS, full live Firefox/Human playtest remains pending.",
+  "director_note": "Studio self-audit candidate A (9.2/10) after Human-approved solo QA initiative; NOT Human approved. Isolated Chromium 9 general widths + 9 low-height/zoom sizes PASS; 25 read-only source/save checks PASS. GitHub Pages R011 source action 41386105043 SUCCESS; real live Firefox Human acceptance still pending.",
   "provenance": {
-    "public_commit": "fa7d4cac35248fc6f0811d7792b5325b48d55b31",
-    "pages_action": 41384139685,
-    "pages_status": "SUCCESS",
-    "published_js_blob": "c5434d7f2f60c91fb7a4e66cc683ed9456e8be0a",
-    "published_css_blob": "395d7983b5aa762eeb0daca7c616849d36a8b0fa",
-    "QA": "Standalone Chromium fixture 1600/1280/390/360 PASS; deployed full site and Human Firefox signoff PENDING"
+    "r008_js": "85d7e77c648c84e8833b759f7f72e30d7a7283a0",
+    "r009_js": "b1728ae186398f895ccc140ade226804a9630ab6",
+    "r009_css": "7fc5d7572b7085e85f5407659df8bf0d0ee3bc5b",
+    "r010_js": "7a5b990ffaea028454c52eda4b1d4eb6b41fd592",
+    "r011_css": "ef02c6922bd25c967d79798e229a572f31676e61",
+    "index_commit": "809ddd221b615c34db2fb546aecd4e390ab30c21",
+    "pages_action": 41386105043,
+    "pages_conclusion": "success",
+    "qa": "Chrome/Chromium isolated fixture only, NOT full live Firefox",
+    "human_acceptance": "PENDING"
   }
 }
