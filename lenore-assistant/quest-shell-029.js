@@ -158,7 +158,7 @@
   if(!review&&root?.dataset.qa042Ended==='1'){
    // New story starts at scene one; the Casebook is preserved by the game engine.
    root.querySelector('.nightqa-toolbar [data-action="restart"]')?.click();
-  } else if(!review&&root?.querySelector('.nightqa-case')){
+  } else if(root?.querySelector('.nightqa-case')){
    root.querySelector('.nightqa-case [data-action="back"]')?.click();
   }
   overlay.hidden=false;refresh();overlay.querySelector('.qa29-exit')?.focus({preventScroll:true});
