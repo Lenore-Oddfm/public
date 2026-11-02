@@ -1,13 +1,13 @@
 {
-  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R006",
-  "release": "R006",
-  "previous_release": "R005 treasures/daily mischief/chirps; R004 C.Link terminal; R001 pet save unchanged",
+  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R007",
+  "release": "R007",
+  "previous_release": "R006 hide-and-seek, R005 treasures/chirps, R004 terminal, R001 saved pet core",
   "updated_utc": "2026-11-02",
   "entity_id": "ODDFM-GREMELKIN-ONE",
   "character": "Gremelkin",
   "author": "Lenore Studio",
   "human_authority": "Human",
-  "home_site": "https://lenore-oddfm.github.io/public/lenore/?fresh=r006#port-cat",
+  "home_site": "https://lenore-oddfm.github.io/public/lenore/?fresh=r007#port-cat",
   "home_repository": "Lenore-Oddfm/public",
   "canonical_state": "single design and identity, not a globally running pet",
   "visuals": {
@@ -16,7 +16,8 @@
     "design_lock": "Human explicitly requested a C.Link appliance-style Personal Planner on 2026-10-28; ODD FM pixel cat and palette retained",
     "interface": "Fixed viewport and seven switchable Studio stations; upper-right cat opens quick care instead of scrolling; flyout utility menus",
     "interaction": "Six draggable care icons surround the room cat; drop on the sprite or click/tap a tool; pointer, keyboard and touch input supported",
-    "reactions": "Brief original floating icons after care, occasional eye blink, optional quiet synthesized chirps gated by a user-controlled SOUND toggle (off by default and stored locally)"
+    "reactions": "Brief original floating icons after care, occasional eye blink, optional quiet synthesized chirps gated by a user-controlled SOUND toggle (off by default and stored locally)",
+    "r007_organization": "CAT, CARE and GAMES are separate GREM subtabs; VITALS and TREASURES are flyouts. CAT gives the existing Gremelkin sprite a spacious uncluttered stage. All original controls and saved pet values remain bound to the existing engine."
   },
   "care": {
     "actions": [
@@ -39,7 +40,8 @@
     "minigame": "catch five pixel mice within eighteen seconds",
     "mementos": "Eight low-pressure tiny treasures derived from existing R001 stats/achievements (no extra save fields or penalty)",
     "postcard": "One original quirky cat line per local calendar day, deterministic and repeatable; no streaks or network calls",
-    "box_game": "Optional cardboard-box hide-and-seek: find Gremelkin behind one of three boxes across three rounds, with comic decoys, replay, Escape and keyboard buttons. Uses existing TALK action as completion reward, no new save schema."
+    "box_game": "Optional cardboard-box hide-and-seek: find Gremelkin behind one of three boxes across three rounds, with comic decoys, replay, Escape and keyboard buttons. Uses existing TALK action as completion reward, no new save schema.",
+    "r007": "Both R006 box game and original mouse chase are available in dedicated GAMES room; full-size mouse board relocated without changing game handlers. Original six tactile tools in CARE room."
   },
   "storage": {
     "format": "ODD_FM_GREMELKIN_LOCAL_BACKPACK v1",
@@ -49,7 +51,8 @@
     "autosync_to_github": false,
     "privacy": "never publish player local save or identifiers",
     "optional_preference": "ODDFM.GREMELKIN.R005.SOUND (off by default; local only; portable pet save format unaffected)",
-    "r006": "R006 box game uses only transient in-memory round state; no added localStorage keys or new export fields"
+    "r006": "R006 box game uses only transient in-memory round state; no added localStorage keys or new export fields",
+    "r007": "Layout change only: R001 local save keys/format preserved, no new preference keys."
   },
   "presence": {
     "current": "Studio page only; localStorage tab lease best effort",
@@ -67,7 +70,9 @@
     "../terminal.css",
     "pet-boxes.js",
     "pet-boxes.css",
-    "pet-boxes.test.js"
+    "pet-boxes.test.js",
+    "grem-layout.js",
+    "grem-layout.css"
   ],
   "guardrails": [
     "No Quin installs",
@@ -76,5 +81,14 @@
     "Guardians frozen",
     "Other Lenore's workspace untouched"
   ],
-  "director_note": "R006 adds an optional single-screen game while keeping R001 core, save format, and R005 behavior unchanged. 9/9 rule tests + 360/390/1280 synthetic fixture tests PASS; production Pages deployment and Human Firefox approval remain unverified."
+  "director_note": "Human's R006 Firefox screenshot showed crowded layout. R007 organizes into tabs and flyouts. Four Chromium isolated-fixture viewports PASS and Node syntax PASS; full live Firefox interaction and Human visual signoff PENDING.",
+  "provenance": {
+    "js_blob": "dadd16aad9119266cc452fcb8407ee23c6cfc308",
+    "css_blob": "e98f59f0f4127a262a7e54eb8158d437597f34d4",
+    "source_index_commit": "0f1fc3125e904198732a0263389bc48f75c616fd",
+    "script_refinement_commit": "0131c043a0e16040375f3af0fb0817266b516f8b",
+    "tests": "Isolated Chromium fixture viewports 1600,1280,390,360 PASS; Node syntax PASS",
+    "live_pages": "CHECK LATEST ACTION",
+    "human_acceptance": "PENDING"
+  }
 }
