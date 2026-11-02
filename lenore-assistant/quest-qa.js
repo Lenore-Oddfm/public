@@ -149,6 +149,10 @@ function drawArt(canvas,node,flags={}){
   r(0,0,160,75,'night');stars(4);r(0,55,160,20,'brick2');for(let i=0;i<3;i++){let x=8+i*53;box(x,11,42,44,'violet','brick',3);r(x+12,31,18,24,'night');r(x+13,31,16,3,'rose')}
   box(57,6,46,30,'gold','paper',2);txt('TONIGHT',66,12,'night',1);r(63,24,34,2,'rose');r(63,29,24,2,'brick2');
   for(let i=0;i<3;i++){let x=20+i*54;r(x,47,6,8,'mint');r(x+2,43,2,4,'mint')}
+  // Three distinct red-ink marks let the player's earlier route affect the art.
+  if(flags.chose_booth){txt('SND',65,21,'night');r(65,31,23,2,'red');r(90,31,5,2,'red')}
+  else if(flags.chose_seat){txt('G7',69,20,'night');r(64,30,30,2,'mint');r(64,34,25,2,'mint')}
+  else if(flags.chose_stage){txt('ACT',64,20,'night');r(64,30,30,2,'gold');r(74,34,9,2,'red')}
   lenore(79,53);sparkle(79,10,'pink');break;
  case 'props':
   r(0,0,160,75,'brick2');r(0,4,160,8,'night');r(0,34,160,4,'night');r(7,9,25,25,'violet');r(120,11,30,21,'night');txt('NO!',126,18,'pink',2);
@@ -165,11 +169,14 @@ function drawArt(canvas,node,flags={}){
   r(0,0,160,75,'brick');for(let i=0;i<7;i++)r(i*22,8,2,58,'brick2');r(4,66,152,6,'night');
   clipboard(49,12);r(56,25,27,16,'paper');txt('1 2 3',55,27,'night',2);r(60,49,24,2,'rose');
   r(107,17,4,40,'amber');r(108,16,3,33,'gold');r(106,13,7,5,'grey');r(109,55,6,6,'red');
-  r(11,17,25,23,'night');txt('CUE',14,23,'gold',2);r(16,44,17,3,'mint');lenore(135,47);break;
+  r(11,17,25,23,'night');txt('CUE',14,23,'gold',2);r(16,44,17,3,'mint');lenore(135,47);
+  if(flags.appealed_review){box(88,23,26,18,'red','paper',2);txt('NO',95,30,'red');sparkle(114,21,'pink')}break;
  case 'last-call':
   r(0,0,160,75,'night');curtain(0,24);curtain(136,24);r(24,10,112,55,'brick');r(38,25,85,37,'night');
   ellipse(78,62,29,9,'amber');ellipse(78,60,19,5,'gold');r(78,3,2,29,'grey');glow(79,29);lenore(70,38);
-  bell(118,47);if(flags.chicken)chicken(14,45);if(flags.kept_ticket)ticket(29,58);if(flags.found_thimble){r(102,51,8,8,'grey');sparkle(106,50,'gold')}if(flags.saved_cue){r(26,58,19,5,'paper')}r(0,69,160,6,'brick2');break;
+  bell(118,47);if(flags.chicken)chicken(14,45);if(flags.kept_ticket)ticket(29,58);if(flags.found_thimble){r(102,51,8,8,'grey');sparkle(106,50,'gold')}if(flags.saved_cue){r(26,58,19,5,'paper')}
+  if(flags.appealed_review){box(119,10,35,17,'red','paper',2);txt('RATE',126,16,'night');sparkle(150,10,'gold')}
+  r(0,69,160,6,'brick2');break;
  case 'end-bow':
   r(0,0,160,75,'brick2');curtain(0,29);curtain(132,28);r(28,7,106,59,'night');ellipse(78,52,37,17,'amber');ellipse(78,53,23,12,'gold');lenore(79,37,'bow');
   for(let i=0;i<21;i++){let x=(i*37)%151+4,y=(i*29)%58+4;r(x,y,2,4,i%3?'pink':'mint')}
@@ -207,6 +214,26 @@ function drawArt(canvas,node,flags={}){
  canvas.title=(on[sceneIdx]||[])[1]||'THE THIRD BELL';
 }
 
+// R032 / Audition Review: a decision-triggered reversal in the MIDDLE of the story.
+// The theater issues an unsolicited review before Lenore has completed her show.
+// Every route gets a different review; players can appeal, and the appeal returns
+// at the final bell. This fiction is a QA draft, NOT a canon or release claim.
+function addR032Review(ep){
+ const get=id=>{const n=ep.nodes.find(v=>v.id===id);if(!n)throw Error('R032 missing '+id);return n};
+ const mid=get('crossroads');
+ mid.reactions.unshift(
+  {when:{flag:'chose_booth',value:true},text:'The program flips over by itself. AUDITION REVIEW: SOUND ENGINEER — TWO STARS. "Listened carefully to a theater with no audience. Overqualified for this vacancy." You have been reviewed by a critic who is not here.'},
+  {when:{flag:'chose_seat',value:true},text:'The program flips over by itself. AUDITION REVIEW: USHER — FIVE STARS. "Seated exactly zero patrons and somehow improved their evening." The critic has signed it: THE EMPTY HOUSE.'},
+  {when:{flag:'chose_stage',value:true},text:'The program flips over by itself. AUDITION REVIEW: LEAD PERFORMER — THREE STARS. "Made a stage mark before discovering whether a show existed. Strong commitment to the bit." The critic has signed it: THE EMPTY HOUSE.'}
+ );
+ mid.choices.push({label:'Appeal your ridiculous review. Demand to see the critic.',to:'cue',set:{appealed_review:true},feedback:'APPEAL SUBMITTED: The house applauds once. You are unsure whether it is mocking you.'});
+ get('cue').reactions.unshift({when:{flag:'appealed_review',value:true},text:'On the back of the cue card, a new red stamp appears: APPEAL DENIED — YOUR OBJECTION WAS THE MOST ENTERTAINING PART. Underneath is a box marked "REVIEW AGAIN AFTER THIRD BELL." You keep the evidence.'});
+ get('last-call').reactions.unshift({when:{flag:'appealed_review',value:true},text:'A folded review slips from the curtain. The stars are blank now. "FINAL RATING PENDING," it says. "PLEASE DO SOMETHING WORTH CLAPPING FOR." Your complaint has become the house’s final cue.'});
+ get('end-bow').reactions.unshift({when:{flag:'appealed_review',value:true},text:'Your rejected appeal returns with a correction in red ink: FOUR STARS. "Surprisingly decent bow. Do not encourage her." You frame the review in your imagination, where it belongs.'});
+ get('end-quiet').reactions.unshift({when:{flag:'appealed_review',value:true},text:'A tiny review card waits on the threshold: FIVE STARS. "Customer declined to perform. The silence was excellent." For once, you decide not to appeal.'});
+ get('end-report').reactions.unshift({when:{flag:'appealed_review',value:true},text:'You attach the denied appeal to your incident report. The page stamps itself: COMPLAINT UPHELD — CRITIC NOT ACTUALLY PRESENT. It may be the most accurate review ever filed here.'});
+ return ep;
+}
  // R031: two choice-combination payoffs, not additional scenes or canon.
  // Hide the older single-flag responses only when the combined payoff applies,
  // so players receive one distinctive reaction instead of repetitive paragraphs.
@@ -255,7 +282,7 @@ function drawArt(canvas,node,flags={}){
   persist();paint();
  });
  unpack().then(ep=>{
-  story=addR031Payoffs(ep);const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
+  story=addR032Review(addR031Payoffs(ep));const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
   if(!Array.isArray(casebook.endings))casebook.endings=[];if(!Array.isArray(casebook.clues))casebook.clues=[];
   game=validCheckpoint(saved)?saved.game:null;
   if(!game){reset();return}view=saved?.view==='casebook'?'casebook':'story';paint();
