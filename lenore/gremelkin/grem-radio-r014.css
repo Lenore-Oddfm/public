@@ -1,0 +1,95 @@
+/* LENORE STUDIO / R014 — real pixel radio, flat-color CSS construction.
+   Uses one existing clickable radio; no imagery, gradients, crosses or words. */
+.ctl-panel .grem-r014 .grem-r009-stereo{
+  position:absolute;right:8%;bottom:16%;width:192px;height:124px;
+  padding:0!important;border:0!important;background:transparent!important;
+  box-shadow:none!important;display:block!important;transform:none!important;
+  color:inherit;font:inherit;cursor:pointer;overflow:visible;
+  touch-action:manipulation;image-rendering:pixelated;
+}
+.ctl-panel .grem-r014 .grem-r009-stereo:before,
+.ctl-panel .grem-r014 .grem-r009-stereo:after{content:none!important;display:none!important}
+/* The old R009 rule styled every <i> as a pink indicator: neutralize it. */
+.ctl-panel .grem-r014 .grem-r009-stereo i{
+  position:static;width:auto;height:auto;background:transparent;
+}
+.ctl-panel .grem-r014 .grem-radio-antenna{
+  position:absolute;z-index:0;left:32px;top:0;width:6px;height:46px;
+  background:#b9a9d3;transform:rotate(-32deg);transform-origin:bottom center;
+  box-shadow:3px 0 0 #191225;
+}
+.ctl-panel .grem-r014 .grem-radio-case{
+  position:absolute;z-index:1;inset:23px 0 0;
+  display:flex;align-items:center;gap:9px;padding:10px;
+  background:#4d335d;border:7px solid #9d7cb0;
+  box-shadow:6px 7px 0 #090713,inset 0 0 0 3px #251b38;
+}
+.ctl-panel .grem-r014 .grem-radio-speaker{
+  flex:none;width:78px;height:62px;border:5px solid #24182e;
+  background:#201b32;display:flex;justify-content:space-evenly;align-items:center;
+  padding:5px 4px;gap:4px;
+}
+.ctl-panel .grem-r014 .grem-radio-speaker i{
+  display:block;width:5px;height:40px;background:#6f607f;
+  box-shadow:1px 1px 0 #120f1f;
+}
+.ctl-panel .grem-r014 .grem-radio-controls{
+  flex:1;min-width:0;display:flex;flex-direction:column;gap:10px;
+  justify-content:center;align-items:stretch;
+}
+.ctl-panel .grem-r014 .grem-radio-dial{
+  height:34px;position:relative;display:block;overflow:hidden;
+  background:#e0c887;border:4px solid #271c39;
+  box-shadow:inset 0 0 0 2px #94794b;
+}
+.ctl-panel .grem-r014 .grem-radio-dial:after{
+  content:'';position:absolute;bottom:5px;left:8px;right:8px;
+  height:3px;background:#69553b;
+}
+.ctl-panel .grem-r014 .grem-radio-scale{
+  position:absolute;top:2px;left:5px;right:5px;display:flex;
+  justify-content:space-between;color:#49372e;
+  font:900 9px/1 monospace;letter-spacing:-.03em;
+}
+.ctl-panel .grem-r014 .grem-radio-needle{
+  position:absolute!important;z-index:2;display:block!important;
+  top:2px;bottom:4px;left:16%;width:4px!important;height:auto!important;
+  background:#e74d9d!important;box-shadow:1px 0 0 #362037;
+  transition:left .16s steps(3,end);
+}
+.ctl-panel .grem-r014 .grem-r009-stereo[data-station='1'] .grem-radio-needle{left:35%}
+.ctl-panel .grem-r014 .grem-r009-stereo[data-station='2'] .grem-radio-needle{left:57%}
+.ctl-panel .grem-r014 .grem-r009-stereo[data-station='3'] .grem-radio-needle{left:77%}
+.ctl-panel .grem-r014 .grem-radio-knobs{
+  display:flex;align-items:center;justify-content:space-around;min-height:22px;
+}
+.ctl-panel .grem-r014 .grem-radio-knobs i{
+  display:block!important;width:19px!important;height:19px!important;
+  border:4px solid #c4b3d3;background:#2a203b!important;
+  box-shadow:2px 2px 0 #120e22;
+}
+.ctl-panel .grem-r014 .grem-radio-led{
+  width:8px;height:8px;background:#7df2de;border:2px solid #18243a;
+}
+.ctl-panel .grem-r014 .grem-r009-stereo:hover .grem-radio-case,
+.ctl-panel .grem-r014 .grem-r009-stereo:focus-visible .grem-radio-case{
+  border-color:#7df2de;
+}
+.ctl-panel .grem-r014 .grem-r009-stereo:focus-visible{
+  outline:3px solid #ffe57a!important;outline-offset:4px!important;
+}
+@media(max-width:980px){
+  .ctl-panel .grem-r014 .grem-r009-stereo{
+    transform:scale(.72)!important;transform-origin:bottom right;
+    right:4%;bottom:13%;
+  }
+}
+@media(max-width:560px){
+  .ctl-panel .grem-r014 .grem-r009-stereo{
+    transform:scale(.42)!important;transform-origin:bottom right;
+    right:3%;bottom:11%;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .ctl-panel .grem-r014 .grem-radio-needle{transition:none!important}
+}
