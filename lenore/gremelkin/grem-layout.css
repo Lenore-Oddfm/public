@@ -1,0 +1,117 @@
+/* GREMELKIN R007 — spacious single-screen rooms & utility flyouts.
+   Scoped to Studio terminal. Original save and game handlers unchanged. */
+.ctl-panel .grem-r007{position:relative;gap:0}
+.ctl-panel .grem-r007>.grem-kicker,.ctl-panel .grem-r007>h2,
+.ctl-panel .grem-r007>.grem-note,.ctl-panel .grem-r007>.grem-status,
+.ctl-panel .grem-r007>.grem-footer{display:none!important}
+.ctl-panel .grem-r007-top{flex:none;display:flex;flex-direction:column;gap:8px;padding:5px 8px 9px;border-bottom:2px solid #65517c;margin-bottom:9px}
+.grem-r007-id{display:flex;align-items:baseline;gap:14px;white-space:nowrap}
+.grem-r007-id strong{font:1000 clamp(18px,2vw,25px)/1 ui-monospace,monospace;color:#ff85c6;text-shadow:2px 2px 0 #3b2b5a}
+.grem-r007-id span{font:800 10px/1.2 ui-monospace,monospace;color:#76f7ee;letter-spacing:.07em}
+.grem-r007-ops{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}
+.grem-r007-tabs,.grem-r007-flyouts{display:flex;gap:8px;min-width:0}
+.grem-r007-top button{min-height:37px;padding:7px 13px;border:2px solid #8b6ba6;background:#211b37;color:#eee0f0;font:900 11px/1.1 ui-monospace,monospace;white-space:nowrap;cursor:pointer}
+.grem-r007-top button:hover,.grem-r007-top button:focus-visible{border-color:#76f7ee;color:#76f7ee}
+.grem-r007-top button[aria-selected=true]{background:#76f7ee;color:#16162d;border-color:#c1fff5}
+.grem-r007-flyouts button{border-color:#d1ad60;color:#ffe57a}
+.grem-r007-top button:focus-visible,.grem-r007-drawer button:focus-visible,.grem-r007-gamecards button:focus-visible{outline:3px solid #ffe57a;outline-offset:2px}
+.ctl-panel .grem-r007 .grem-layout{display:block!important;flex:1;min-height:0;overflow:hidden}
+.ctl-panel .grem-r007 .grem-controls{display:none!important}
+.ctl-panel .grem-r007 .grem-stage{height:100%;min-height:0!important;width:100%;padding:8px 12px 31px!important;display:flex;justify-content:center;align-items:center;overflow:hidden;background:repeating-linear-gradient(0deg,#14102a 0 17px,#201733 18px 19px)}
+.ctl-panel .grem-r007 .grem-stage:before{display:none!important}
+.ctl-panel .grem-r007 .grem-stage:after{font-size:10px;bottom:7px}
+.ctl-panel .grem-r007 .grem-avatar{width:clamp(145px,19vw,270px)!important;max-height:min(52vh,285px)!important}
+.ctl-panel .grem-r007 .grem-shadow{width:160px;height:10px}
+.ctl-panel .grem-r007 #grem-sprite{border:0!important;padding:4px!important}
+.ctl-panel .grem-r007 #grem-sprite:hover .grem-avatar{filter:drop-shadow(7px 8px 0 #090714) drop-shadow(0 0 4px #76f7ee)}
+.ctl-panel .grem-r007 .grem-stage-caption{bottom:17px;font-size:12px;color:#fae76d}
+.ctl-panel .grem-r007 .grem-stage-prompt{top:9px;font-size:11px}
+.ctl-panel .grem-r007[data-grem-mode=cat] .grem-stage-prompt{font-size:0}
+.ctl-panel .grem-r007[data-grem-mode=cat] .grem-stage-prompt:after{content:'CLICK GREMELKIN TO PET HIM  •  CARE & GAMES HAVE THEIR OWN ROOMS';font:900 10px/1.2 ui-monospace,monospace;color:#76f7ee}
+.ctl-panel .grem-r007[data-grem-mode=cat] .grem-item,.ctl-panel .grem-r007[data-grem-mode=games] .grem-item{display:none!important}
+.ctl-panel .grem-r007[data-grem-mode=games] #grem-sprite,
+.ctl-panel .grem-r007[data-grem-mode=games] .grem-shadow,
+.ctl-panel .grem-r007[data-grem-mode=games] #grem-mood,
+.ctl-panel .grem-r007[data-grem-mode=games] .grem-stage-prompt{visibility:hidden}
+.ctl-panel .grem-r007[data-grem-mode=care] .grem-item{width:clamp(58px,7vw,91px);height:clamp(59px,8vh,78px);z-index:5}
+.ctl-panel .grem-r007[data-grem-mode=care] .item-fish{left:8%;top:25%}
+.ctl-panel .grem-r007[data-grem-mode=care] .item-brush{right:8%;top:25%}
+.ctl-panel .grem-r007[data-grem-mode=care] .item-toy{left:8%;bottom:14%}
+.ctl-panel .grem-r007[data-grem-mode=care] .item-pet{right:8%;bottom:14%}
+.ctl-panel .grem-r007[data-grem-mode=care] .item-nap{left:22%;top:3%}
+.ctl-panel .grem-r007[data-grem-mode=care] .item-talk{right:22%;top:3%}
+.ctl-panel .grem-r007>#grem-dialogue{flex:none;min-height:32px;margin:7px 0 0;padding:7px 11px;border-left-width:4px;font-size:11px;line-height:1.2}
+.grem-r007-hub{position:absolute;z-index:10;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;padding:20px;background:#120f26}
+.grem-r007:not([data-grem-mode=games]) .grem-r007-hub{display:none!important}
+.grem-r007-hub-title{font:1000 clamp(16px,2.1vw,23px)/1.1 ui-monospace,monospace;color:#fae76d;text-align:center}
+.grem-r007-hub-title small{display:block;color:#76f7ee;margin-top:9px;font-size:10px}
+.grem-r007-gamecards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;width:min(100%,720px)}
+.grem-r007-gamecards button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;padding:18px;min-height:140px;border:3px solid #a37ac1;box-shadow:5px 5px 0 #070713;background:#241837;color:#fff2e7;cursor:pointer}
+.grem-r007-gamecards button:hover{border-color:#76f7ee;background:#31274b}
+.grem-r007-gamecards button span{font-size:40px}
+.grem-r007-gamecards button strong{color:#ff85c6;font:1000 17px/1.1 ui-monospace,monospace}
+.grem-r007-gamecards button small{color:#76f7ee;font:800 11px/1.3 ui-monospace,monospace}
+.ctl-panel .grem-r007 #grem-game:not([hidden]){position:absolute;z-index:24;inset:0;min-height:0!important;max-height:none!important;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;overflow:hidden!important;background:#181329;border:3px solid #fae76d;padding:10px}
+.ctl-panel .grem-r007 #grem-game[hidden]{display:none!important}
+.ctl-panel .grem-r007 #grem-game .grem-game-heading{width:min(100%,430px);font-size:13px;display:flex;justify-content:space-between}
+.ctl-panel .grem-r007 #grem-mouse-board{width:min(100%,300px);max-width:300px;gap:7px}
+.ctl-panel .grem-r007 #grem-mouse-board .grem-mouse{height:clamp(36px,6vh,60px);font-size:20px}
+.ctl-panel .grem-r007 #grem-cancel{min-height:33px;padding:6px 15px;font-size:11px}
+.ctl-panel .grem-r007 #grem-box-overlay:not([hidden]){z-index:26}
+.grem-r007-drawer[hidden]{display:none!important}
+.grem-r007-drawer{position:absolute;z-index:35;right:0;top:0;bottom:0;width:min(410px,95%);overflow:hidden;background:#211731;border-left:5px solid #76f7ee;box-shadow:-9px 0 0 #090714;padding:14px;display:flex;flex-direction:column;gap:15px}
+.grem-r007-drawerhead{display:flex;align-items:center;justify-content:space-between;gap:9px;color:#fae76d;font:900 13px/1.3 ui-monospace,monospace}
+.grem-r007-drawerhead button,.grem-r007-drawer>button{border:2px solid #76f7ee;background:#102733;color:#76f7ee;font:900 11px ui-monospace,monospace;min-height:35px;padding:5px 10px;cursor:pointer}
+.grem-r007-vital-list{display:flex;flex-direction:column;gap:16px;min-height:0}
+.grem-r007-vital-label{display:flex;justify-content:space-between;color:#fff2e7;font:900 13px ui-monospace,monospace}
+.grem-r007-vital-label strong{color:#fae76d}
+.grem-r007-track{height:13px;margin-top:5px;background:#0e0b1c;border:2px solid #805b9c}
+.grem-r007-track i{display:block;height:100%;background:#76f7ee}
+.grem-r007-vital:nth-child(2) .grem-r007-track i{background:#ffe57a}
+.grem-r007-vital:nth-child(3) .grem-r007-track i{background:#ff85c6}
+.grem-r007-vital:nth-child(4) .grem-r007-track i{background:#b4a5ff}
+.grem-r007-memories{color:#ff85c6;font:800 12px/1.6 ui-monospace,monospace;overflow-wrap:anywhere}
+.grem-r007-drawer-note{color:#cdbedb;font:700 12px/1.5 ui-monospace,monospace;margin:auto 0 0}
+.grem-r007-drawer>button{align-self:stretch}
+@media(max-width:780px){
+ .ctl-panel .grem-r007-top{padding:4px 2px 7px;gap:6px}
+ .grem-r007-top button{min-height:32px;padding:4px 8px;font-size:10px}
+ .grem-r007-ops{gap:4px}
+ .grem-r007-tabs,.grem-r007-flyouts{gap:4px}
+ .ctl-panel .grem-r007 .grem-avatar{width:clamp(135px,27vw,220px)!important}
+ .ctl-panel .grem-r007[data-grem-mode=care] .item-nap{left:20%;top:2%}
+ .ctl-panel .grem-r007[data-grem-mode=care] .item-talk{right:20%;top:2%}
+}
+@media(max-width:560px){
+ .ctl-panel .grem-r007-top{gap:5px;padding:2px 0 6px;margin-bottom:4px}
+ .grem-r007-id strong{font-size:17px}.grem-r007-id span{font-size:8px}
+ .grem-r007-ops{gap:4px;flex-wrap:wrap}
+ .grem-r007-tabs{flex:1}.grem-r007-tabs button{flex:1}
+ .grem-r007-flyouts{margin-left:auto}.grem-r007-flyouts button{padding:4px 7px;font-size:9px}
+ .ctl-panel .grem-r007 .grem-avatar{width:clamp(95px,31vw,155px)!important;max-height:28vh!important}
+ .ctl-panel .grem-r007 .grem-stage{padding:2px 2px 20px!important}
+ .ctl-panel .grem-r007 .grem-stage-caption{font-size:9px;bottom:7px}
+ .ctl-panel .grem-r007 .grem-stage-prompt:after{font-size:8px!important}
+ .ctl-panel .grem-r007[data-grem-mode=care] .grem-item{width:40px;height:40px}
+ .ctl-panel .grem-r007[data-grem-mode=care] .item-fish{left:2%;top:27%}
+ .ctl-panel .grem-r007[data-grem-mode=care] .item-brush{right:2%;top:27%}
+ .ctl-panel .grem-r007[data-grem-mode=care] .item-toy{left:2%;bottom:12%}
+ .ctl-panel .grem-r007[data-grem-mode=care] .item-pet{right:2%;bottom:12%}
+ .ctl-panel .grem-r007[data-grem-mode=care] .item-nap{left:22%;top:4%}
+ .ctl-panel .grem-r007[data-grem-mode=care] .item-talk{right:22%;top:4%}
+ .ctl-panel .grem-r007>#grem-dialogue{font-size:9px;min-height:27px;padding:4px 7px;margin-top:4px}
+ .grem-r007-hub{gap:8px;padding:7px}
+ .grem-r007-hub-title{font-size:13px}.grem-r007-hub-title small{font-size:8px;margin-top:3px}
+ .grem-r007-gamecards{gap:7px}.grem-r007-gamecards button{min-height:85px;padding:7px;gap:3px;border-width:2px}
+ .grem-r007-gamecards button span{font-size:22px}.grem-r007-gamecards button strong{font-size:11px}.grem-r007-gamecards button small{font-size:8px}
+ .grem-r007-drawer{padding:8px;gap:7px}.grem-r007-vital-list{gap:6px}.grem-r007-vital-label{font-size:11px}.grem-r007-track{height:8px}
+ .grem-r007-memories{font-size:10px}
+}
+@media(max-height:670px){
+ .ctl-panel .grem-r007-top{gap:3px;margin-bottom:3px;padding-bottom:3px}
+ .grem-r007-id strong{font-size:16px}.grem-r007-top button{min-height:28px}
+ .ctl-panel .grem-r007 .grem-avatar{max-height:30vh!important}
+ .ctl-panel .grem-r007>#grem-dialogue{min-height:24px;margin-top:3px;padding:4px 8px}
+ .grem-r007-hub{gap:6px}.grem-r007-gamecards button{min-height:78px}
+}
+@media(prefers-reduced-motion:reduce){.grem-r007 *{animation-duration:0s!important;transition:none!important}}
