@@ -336,7 +336,7 @@ function addR032Review(ep){
  function tuneR038Opening(ep){
   const get=id=>{const n=ep.nodes.find(n=>n.id===id);if(!n)throw Error('R038 missing '+id);return n};
   const foyer=get('foyer');
-  foyer.text='1:13 a.m. Two bells ring in the empty ODD FM theater. The third never comes. You are alone with a half-eaten sandwich and a closing checklist someone has amended: “THE LAST HOUSE LIGHT GOES OUT AFTER THE THIRD BELL.” The sound booth meter blinks. A light over Seat G7 flickers. Behind the curtain, somebody clears their throat. You have one job: find out who expects the third bell—or decide what counts as answering it.';
+  foyer.text='1:13 a.m. Two bells ring in the empty ODD FM theater. No third. The checklist says: “ANSWER BEFORE LIGHTS OUT.” The booth blinks. Seat G7 glows. Someone coughs backstage. Your sandwich abstains.';
   const labels=[
    'Check the sound booth — the unplugged meter is blinking.',
    'Inspect the only occupied seat — G7 has a coat, but no person.',
