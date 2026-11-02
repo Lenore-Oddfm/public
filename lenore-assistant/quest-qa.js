@@ -158,7 +158,7 @@ function drawArt(canvas,node,flags={}){
  case 'props':
   r(0,0,160,75,'brick2');r(0,4,160,8,'night');r(0,34,160,4,'night');r(7,9,25,25,'violet');r(120,11,30,21,'night');txt('NO!',126,18,'pink',2);
   r(8,43,142,24,'amber');for(let i=0;i<9;i++)r(11+i*15,47,5,18,'brick2');r(12,38,136,7,'paper');
-  chicken(31,17);r(86,19,13,21,'grey');r(89,23,7,12,'cream');sparkle(97,22,'gold');ticket(115,29);
+  chicken(31,17);if(flags.kept_quiet){box(62,9,22,19,'gold','paper',2);txt('SHH',66,14,'night');r(65,24,12,2,'pink')}r(86,19,13,21,'grey');r(89,23,7,12,'cream');sparkle(97,22,'gold');ticket(115,29);
   r(0,66,160,9,'night');lenore(145,49);break;
  case 'balcony':
   r(0,0,160,75,'night');stars(7);r(0,36,160,8,'plum');r(0,45,160,4,'gold');for(let i=0;i<13;i++)r(i*13,43,3,20,'violet');
@@ -175,7 +175,7 @@ function drawArt(canvas,node,flags={}){
  case 'last-call':
   r(0,0,160,75,'night');curtain(0,24);curtain(136,24);r(24,10,112,55,'brick');r(38,25,85,37,'night');
   ellipse(78,62,29,9,'amber');ellipse(78,60,19,5,'gold');r(78,3,2,29,'grey');glow(79,29);lenore(70,38);
-  bell(118,47);if(flags.chicken)chicken(14,45);if(flags.kept_ticket)ticket(29,58);if(flags.found_thimble){r(102,51,8,8,'grey');sparkle(106,50,'gold')}if(flags.saved_cue){r(26,58,19,5,'paper')}
+  bell(118,47);if(flags.chicken)chicken(14,45);if(flags.silent_contract){box(32,35,23,17,'mint','paper',2);txt('SHH',36,40,'night');r(37,49,13,2,'rose')}if(flags.kept_ticket)ticket(29,58);if(flags.found_thimble){r(102,51,8,8,'grey');sparkle(106,50,'gold')}if(flags.saved_cue){r(26,58,19,5,'paper')}
   if(flags.appealed_review){box(119,10,35,17,'red','paper',2);txt('RATE',126,16,'night');sparkle(150,10,'gold')}
   r(0,69,160,6,'brick2');break;
  case 'end-bow':
@@ -183,18 +183,21 @@ function drawArt(canvas,node,flags={}){
   for(let i=0;i<21;i++){let x=(i*37)%151+4,y=(i*29)%58+4;r(x,y,2,4,i%3?'pink':'mint')}
   r(23,56,19,9,'plum');r(119,56,19,9,'plum');r(17,63,129,12,'brick2');
   if(flags.chicken&&flags.marked_spot){r(104,14,43,10,'gold');txt('STAR',109,16,'night');chicken(115,31);r(113,60,25,3,'mint')}
+  if(flags.silent_contract){chicken(118,28);box(103,12,45,12,'mint','paper');txt('APPLAUSE',109,16,'night');}
   // one pair of tiny clapping hands in the house
   r(35,64,6,5,'skin');r(43,61,6,6,'skin');sparkle(42,57);break;
  case 'end-quiet':
   r(0,0,160,75,'night');stars(10);ellipse(135,13,11,11,'gold');ellipse(139,10,11,11,'night');
   r(11,22,72,46,'brick');box(21,31,49,37,'plum','night');r(47,33,2,34,'violet');txt('EXIT',30,23,'mint',1);
   r(86,40,74,35,'night2');for(let i=0;i<7;i++){let x=89+i*11; r(x,42+(i*9)%18,9,28,'brick2');r(x+2,48+(i*9)%18,2,3,'amber')}
-  r(0,68,160,7,'brick2');lenore(75,46);r(117,68,19,2,'mint');break;
+  r(0,68,160,7,'brick2');lenore(75,46);r(117,68,19,2,'mint');
+  if(flags.silent_contract){box(102,29,44,12,'mint','paper');txt('SHH',113,33,'night');r(109,39,25,1,'rose')}break;
  case 'end-report':
   r(0,0,160,75,'night2');r(0,4,160,63,'brick2');r(4,10,152,55,'brick');r(10,54,140,19,'amber');
   clipboard(51,7);r(59,26,18,2,'night');r(60,31,22,2,'night');r(60,37,18,2,'night');r(56,49,34,4,'red');
   txt('FILED',58,49,'paper',1);r(110,34,28,7,'gold');r(114,26,20,7,'paper');r(116,25,4,5,'pink');
   r(118,59,4,3,'cream');r(124,54,3,3,'cream');r(128,61,3,2,'cream');bell(17,28);lenore(146,41);
+  if(flags.silent_contract){box(5,7,39,15,'gold','paper');txt('NDA',12,12,'night');r(19,18,18,2,'rose')}
   if(flags.logged_meter&&flags.saved_cue){box(105,8,46,17,'mint','paper');txt('ACK',112,13,'night');r(137,19,7,3,'rose');sparkle(145,8,'mint')}break;
  case 'guest-aisle':
   r(0,0,160,75,'night');r(0,8,160,47,'brick2');for(let i=0;i<7;i++){let x=6+i*22;box(x,21+(i%2)*6,16,26,'plum','paper');r(x+3,25+(i%2)*6,10,3,'rose');r(x+3,32+(i%2)*6,7,2,'night')}
@@ -273,7 +276,7 @@ function addR032Review(ep){
   const reactions=(node.reactions||[]).filter(r=>applicable(r,flags));
   if(node.id!=='last-call')return reactions;
   // Hidden-ticket hint and review appeal outrank redundant recap.
-  const priority=r=>r.when?.flag==='appealed_review'?200:
+  const priority=r=>r.when?.flag==='silent_contract'?210:r.when?.flag==='appealed_review'?200:
    (r.whenAll||[]).some(c=>c.flag==='kept_ticket')?180:
    r.when?.flag==='chicken'?150:r.when?.flag==='found_thimble'?140:
    r.when?.flag==='saved_cue'?130:r.when?.flag==='marked_spot'?120:
@@ -296,6 +299,35 @@ function addR032Review(ep){
     'report':'What would change if you listened instead of writing a report?',
     'guest':'Would a different first door change the night?'})[endingId]||
     'Is there another way to answer the bell?';
+ }
+
+ // R036: SILENCE AGREEMENT — one earned cross-room joke with a second payoff.
+ // This is provisional after-hours fiction, not an official ODD FM incident.
+ function addR036SilenceAgreement(ep){
+  const node=id=>{const n=ep.nodes.find(n=>n.id===id);if(!n)throw Error('R036 missing '+id);return n;};
+  const props=node('props');
+  props.reactions.unshift({when:{flag:'kept_quiet',value:true},
+    text:'The rubber chicken is holding a tiny contract: NO SQUEAKS AFTER HOURS. It has no thumbs, but it does have an ink pad. Apparently the MUTE switch has reached the props department.'});
+  props.choices.push({label:'Ask the chicken to sign the after-hours silence agreement.',to:'last-call',
+    when:{flag:'kept_quiet',value:true},set:{chicken:true,silent_contract:true},
+    feedback:'The chicken signs with an inked wingtip. Somewhere in the unplugged sound booth, the meter briefly spells SIGNED.'});
+  const last=node('last-call');
+  for(const r of last.reactions||[])if(['chicken','kept_quiet'].includes(r.when?.flag)){
+   r.whenAll=[...(r.whenAll||[]),{flag:'silent_contract',value:false}];
+  }
+  last.reactions.unshift({when:{flag:'silent_contract',value:true},
+   text:'The chicken holds up its signed silence agreement and slowly opens its beak. Nothing comes out. The house applauds by flashing the EXIT sign once. It is a devastatingly accurate mime.'});
+  const bow=node('end-bow');
+  for(const r of bow.reactions||[])if(['chicken','kept_quiet'].includes(r.when?.flag)){
+   r.whenAll=[...(r.whenAll||[]),{flag:'silent_contract',value:false}];
+  }
+  bow.reactions.unshift({when:{flag:'silent_contract',value:true},
+   text:'The rubber chicken takes its bow in absolute silence, then presents a card reading [APPLAUSE]. The balcony answers with another card: [NO ENCORE]. The chicken immediately requests legal representation.'});
+  node('end-quiet').reactions.unshift({when:{flag:'silent_contract',value:true},
+   text:'As you leave, the chicken slides a note beneath the door: BEST SILENCE OF MY CAREER. There is no squeak. Your agreement has held.'});
+  node('end-report').reactions.unshift({when:{flag:'silent_contract',value:true},
+   text:'Under WITNESSES you write: RUBBER CHICKEN (BOUND BY NDA). At dawn the form gains a second signature in purple ink: COUNSEL FOR THE POULTRY.'});
+  return ep;
  }
  const getMemory=()=>story.clues?.filter(c=>game.flags[c.flag]).map(c=>c.label)||[];
  function paint(){if(!story)return;const node=selected(story,game);if(!node)return;
@@ -328,7 +360,7 @@ function addR032Review(ep){
   persist();paint();
  });
  unpack().then(ep=>{
-  story=trimR033Finale(addR032Review(addR031Payoffs(ep)));const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
+  story=addR036SilenceAgreement(trimR033Finale(addR032Review(addR031Payoffs(ep))));const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
   if(!Array.isArray(casebook.endings))casebook.endings=[];if(!Array.isArray(casebook.clues))casebook.clues=[];
   game=validCheckpoint(saved)?saved.game:null;
   if(!game){reset();return}view=saved?.view==='casebook'?'casebook':'story';paint();
