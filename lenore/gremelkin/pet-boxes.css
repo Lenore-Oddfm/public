@@ -1,0 +1,22 @@
+/* GREMELKIN R006 — an overlay, NOT a new scrollable page. */
+#grem-box-toggle{color:#fae76d;border-color:#fae76d}
+.grem-box-overlay[hidden],#grem-box-again[hidden]{display:none!important}
+.grem-box-overlay{position:absolute;z-index:10;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px;padding:10px;background:#120f24;color:#fff2e7;text-align:center;border:3px solid #fae76d;font:800 12px/1.3 ui-monospace,monospace}
+.grem-box-head{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;color:#fae76d;font-size:16px}
+.grem-box-head button,.grem-box-choices button,#grem-box-again{border:2px solid #b888cf;background:#2d2043;color:#fff2e7;cursor:pointer;font:900 12px/1.2 ui-monospace,monospace;box-shadow:2px 2px 0 #080614}
+.grem-box-head button{padding:4px 9px;min-height:28px}
+.grem-box-overlay p{margin:0;min-height:20px;color:#76f7ee}
+.grem-box-choices{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;max-width:350px}
+.grem-box-choices button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-height:70px;font-size:31px;line-height:1;padding:5px}
+.grem-box-choices button small{font-size:10px;white-space:nowrap;color:#fae76d}
+.grem-box-choices button:disabled{opacity:.72;cursor:default}
+.grem-box-choices button:focus-visible,.grem-box-head button:focus-visible,#grem-box-again:focus-visible,#grem-box-toggle:focus-visible{outline:3px solid #76f7ee;outline-offset:2px}
+#grem-box-again{padding:5px 12px;min-height:28px;border-color:#76f7ee;color:#76f7ee}
+@media(max-width:560px){
+ .grem-box-overlay{gap:3px;padding:3px;border-width:2px;font-size:9px}
+ .grem-box-head{font-size:11px}.grem-box-head button{padding:2px 6px;min-height:20px;font-size:10px}
+ .grem-box-overlay p{min-height:13px;font-size:9px}
+ .grem-box-choices{gap:4px;max-width:270px}.grem-box-choices button{min-height:37px;padding:2px;font-size:19px;gap:1px}
+ .grem-box-choices button small{font-size:7px}#grem-box-again{min-height:20px;padding:2px 8px;font-size:9px}
+}
+@media(prefers-reduced-motion:reduce){.grem-box-overlay *{animation:none!important;transition:none!important}}
