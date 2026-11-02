@@ -2,9 +2,18 @@
  const p=document.getElementById('term-panel-quest');if(!p)return;
  const mount=p.querySelector('.term-panel-body');if(!mount)return;
  const foyer=document.createElement('div');foyer.className='term-panel-body qa29-foyer';
- foyer.innerHTML=`<div class="qa29-poster"><small>▣ NIGHT SHIFT / C.LINK ADVENTURE / QA DRAFT</small><h2>THE THIRD BELL</h2><p>One empty theater. Four endings. Fourteen unique pixel scenes.</p><canvas id="qa29-poster" width="320" height="150" role="img" aria-label="Theater pixel-art preview"></canvas><div class="qa030-save" role="status" id="qa30-save">◈ CHECKPOINT READY</div><div class="qa030-actions"><button type="button" id="qa29-enter">▶ ENTER THE THEATER</button><button type="button" id="qa30-newnight">↻ NEW NIGHT</button></div></div><div class="qa29-desk"><small>STATUS / FIELD DESK</small><div class="qa29-stats"><span><b>14</b> SCENES</span><span><b>04</b> ENDINGS</span><span><b id="qa29-finds">0/4</b> FOUND</span><span><b>HOLD</b> CANON</span></div><h3>THE FOYER'S TWO TOYS</h3><div class="qa29-toys"><div>♫ THE BELL<br><output id="qa29-bell">Suspiciously quiet.</output><button type="button" id="qa29-ring">RING BELL</button></div><div>✧ THE MOTH<br><output id="qa29-moth">Watching the light.</output><button type="button" id="qa29-tap">TAP MOTH</button></div></div><p>PUBLIC PLAYTEST · NO OFFICIAL CANON · NO API CALLS</p></div>`;
+ foyer.innerHTML=`<div class="qa29-poster"><small>▣ AFTER HOURS / PUBLIC QA DRAFT</small><h2>THE THIRD BELL</h2><p>A bell rings twice. Who answers the third?</p><canvas id="qa29-poster" width="320" height="150" role="img" aria-label="Theater pixel-art preview"></canvas><div class="qa030-save" role="status" id="qa30-save">◈ CHECKPOINT READY</div><div class="qa030-actions"><button type="button" id="qa29-enter">▶ ENTER THE THEATER</button><button type="button" id="qa30-newnight">↻ NEW NIGHT</button></div></div><div class="qa29-desk"><small>THE NIGHT DESK</small><div class="qa29-stats"><span><b>14</b> SCENES</span><span><b>04</b> ENDINGS</span><span><b id="qa29-finds">0/4</b> FOUND</span><span><b>HOLD</b> CANON</span></div><h3>TWO UNRELIABLE DISTRACTIONS</h3><div class="qa29-toys"><div>♫ THE BELL<br><output id="qa29-bell">Suspiciously quiet.</output><button type="button" id="qa29-ring">RING BELL</button></div><div>✧ THE MOTH<br><output id="qa29-moth">Watching the light.</output><button type="button" id="qa29-tap">TAP MOTH</button></div></div><p>PUBLIC PLAYTEST · NO OFFICIAL CANON · NO API CALLS</p></div>`;
  const overlay=document.createElement('div');overlay.className='qa29-overlay';overlay.id='qa29-overlay';overlay.hidden=true;
  const origin=mount.parentNode;origin.replaceChild(foyer,mount);document.body.append(overlay);overlay.append(mount);
+ // R041: Quest-only full-bay focus. Other ten ports retain their controls.
+ const stationTab=document.getElementById('term-tab-quest');
+ const stationFrame=document.getElementById('terminalRoot');
+ if(stationTab&&stationFrame){
+   const syncFocus=()=>stationFrame.classList.toggle('qa41-quest-focus',stationTab.getAttribute('aria-selected')==='true');
+   new MutationObserver(syncFocus).observe(stationTab,{attributes:true,attributeFilter:['aria-selected']});
+   syncFocus();
+ }
+
  const subtitle=p.querySelector('.term-panel-head p');if(subtitle)subtitle.textContent='After Hours / Enter the theater';
  const style=document.createElement('style');style.textContent=`
  .qa29-foyer{min-height:0;min-width:0;display:grid!important;grid-template-columns:minmax(0,1.25fr) minmax(240px,.8fr);gap:12px;overflow:hidden!important;padding:13px!important;color:#fff0e7;font:800 11px/1.4 ui-monospace,Consolas,monospace}
@@ -69,6 +78,74 @@
  .qa030-save{font:900 10px/1.35 ui-monospace,monospace;color:#ffe57c;border:2px solid #5ceacb;background:#102d37;padding:5px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
  .qa29-overlay .nightqa-choices button.qa030-undo{flex:0 0 auto;min-height:24px;font-size:10px;padding:3px 7px;background:#302543;color:#ffe27c;border-color:#a17fae}
  @media(max-width:750px){.qa030-save{font-size:8px;padding:3px}.qa030-actions{gap:4px}.qa030-actions #qa30-newnight{font-size:8px;padding:4px}.qa29-overlay .nightqa-choices button.qa030-undo{min-height:19px;padding:2px;font-size:9px}}
+
+/* R041: more stage, less frame. Only while QUEST is selected. */
+.terminal-ready .terminal-frame.qa41-quest-focus{grid-template-rows:45px 54px minmax(0,1fr) 0}
+.terminal-frame.qa41-quest-focus .term-topline{padding:4px 10px;border-bottom-width:3px}
+.terminal-frame.qa41-quest-focus .term-brand strong{font-size:17px}
+.terminal-frame.qa41-quest-focus .term-tabs{padding:4px 8px;border-bottom-width:2px;gap:4px}
+.terminal-frame.qa41-quest-focus .term-tab{padding:2px 1px;gap:0;font-size:9px}
+.terminal-frame.qa41-quest-focus .term-tab-icon{font-size:16px}
+.terminal-frame.qa41-quest-focus .term-commandbar,
+.terminal-frame.qa41-quest-focus .term-rail,
+.terminal-frame.qa41-quest-focus .term-location,
+.terminal-frame.qa41-quest-focus #term-panel-quest>.term-panel-head{display:none!important}
+.terminal-frame.qa41-quest-focus .term-screen{grid-template-columns:minmax(0,1fr);border-width:3px}
+.terminal-frame.qa41-quest-focus .term-workspace{grid-template-rows:minmax(0,1fr)}
+.terminal-frame.qa41-quest-focus #term-panel-quest{grid-template-rows:minmax(0,1fr)}
+.terminal-frame.qa41-quest-focus #term-panel-quest>.term-panel-body{padding:0;min-height:0}
+.terminal-frame.qa41-quest-focus .qa29-foyer{grid-template-columns:minmax(0,2.2fr) minmax(215px,.62fr);gap:8px;padding:7px!important}
+.terminal-frame.qa41-quest-focus .qa29-foyer>div{padding:9px;gap:7px;border-width:2px}
+.terminal-frame.qa41-quest-focus .qa29-poster{display:grid;grid-template-rows:auto auto auto minmax(0,1fr) auto auto;align-content:stretch}
+.terminal-frame.qa41-quest-focus .qa29-poster small{font-size:9px}
+.terminal-frame.qa41-quest-focus .qa29-poster h2{font-size:clamp(22px,3.3vw,48px);line-height:1}
+.terminal-frame.qa41-quest-focus .qa29-poster canvas{width:100%;height:100%;max-height:100%;min-height:0;object-fit:contain;border-width:3px}
+.terminal-frame.qa41-quest-focus .qa29-desk{gap:7px}
+.terminal-frame.qa41-quest-focus .qa29-desk .qa29-stats{gap:5px}
+.terminal-frame.qa41-quest-focus .qa29-stats span{padding:7px}
+.terminal-frame.qa41-quest-focus .qa29-stats b{font-size:20px}
+.terminal-frame.qa41-quest-focus .qa29-desk h3{font-size:11px;margin:3px 0 0}
+.terminal-frame.qa41-quest-focus .qa29-toys{grid-template-columns:1fr;flex:1;min-height:0}
+.terminal-frame.qa41-quest-focus .qa29-toys>div{padding:8px;min-height:0}
+.terminal-frame.qa41-quest-focus .qa29-toys output{min-height:0}
+.terminal-frame.qa41-quest-focus .qa29-desk>p{font-size:8px!important}
+.terminal-frame.qa41-quest-focus #qa29-enter{min-height:52px;font-size:15px}
+@media(max-width:880px){
+ .terminal-ready .terminal-frame.qa41-quest-focus{grid-template-rows:44px 65px minmax(0,1fr) 0}
+ .terminal-frame.qa41-quest-focus .term-tabs{grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));padding:3px;gap:2px}
+ .terminal-frame.qa41-quest-focus .term-tab{font-size:9px;gap:1px}
+}
+@media(max-width:750px){
+ .terminal-frame.qa41-quest-focus .qa29-foyer{grid-template-columns:1fr;grid-template-rows:minmax(0,1.38fr) minmax(0,.62fr);gap:5px;padding:4px!important}
+ .terminal-frame.qa41-quest-focus .qa29-foyer>div{padding:5px;gap:3px}
+ .terminal-frame.qa41-quest-focus .qa29-poster{grid-template-rows:auto auto minmax(0,1fr) auto auto}
+ .terminal-frame.qa41-quest-focus .qa29-poster>p{display:none}
+ .terminal-frame.qa41-quest-focus .qa29-poster small{font-size:8px}
+ .terminal-frame.qa41-quest-focus .qa29-poster h2{font-size:22px}
+ .terminal-frame.qa41-quest-focus .qa29-poster canvas{max-height:100%;height:100%;width:100%;border-width:2px}
+ .terminal-frame.qa41-quest-focus #qa29-enter{min-height:32px;font-size:11px}
+ .terminal-frame.qa41-quest-focus .qa29-desk{display:grid;grid-template-rows:auto auto minmax(0,1fr)}
+ .terminal-frame.qa41-quest-focus .qa29-desk h3{display:none}
+ .terminal-frame.qa41-quest-focus .qa29-stats{grid-template-columns:repeat(4,minmax(0,1fr));gap:3px}
+ .terminal-frame.qa41-quest-focus .qa29-stats span{padding:3px;font-size:7px;border-width:1px}
+ .terminal-frame.qa41-quest-focus .qa29-stats b{font-size:13px}
+ .terminal-frame.qa41-quest-focus .qa29-toys{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+ .terminal-frame.qa41-quest-focus .qa29-toys>div{padding:3px;gap:2px;font-size:9px}
+ .terminal-frame.qa41-quest-focus .qa29-toys output{font-size:8px}
+ .terminal-frame.qa41-quest-focus .qa29-toys button{padding:4px;font-size:9px}
+ .terminal-frame.qa41-quest-focus .qa29-desk>p{display:none}
+}
+@media(max-width:580px){
+ .terminal-ready .terminal-frame.qa41-quest-focus{grid-template-rows:42px 76px minmax(0,1fr) 0}
+ .terminal-frame.qa41-quest-focus .term-tabs{padding:2px;gap:2px}
+ .terminal-frame.qa41-quest-focus .term-tab{font-size:8px}
+ .terminal-frame.qa41-quest-focus .term-tab-icon{font-size:13px}
+ .terminal-frame.qa41-quest-focus .term-topline{padding:3px 5px}
+ .terminal-frame.qa41-quest-focus .term-brand strong{font-size:15px}
+ .terminal-frame.qa41-quest-focus .term-top-tools button{padding:5px 4px;font-size:8px}
+ .terminal-frame.qa41-quest-focus .qa030-save{font-size:8px;padding:2px 4px}
+ .terminal-frame.qa41-quest-focus .qa030-actions #qa30-newnight{padding:4px;font-size:8px}
+}
  `;document.head.append(style);
  let rings=0,taps=0,enhancing=false,readingPage=0,readingPages=[[]];
  const $=id=>document.getElementById(id);
