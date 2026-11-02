@@ -70,6 +70,9 @@ function needs(){
 }
 function showDrawer(which,button){
  if(currentDrawer===which){closeDrawer();return}
+ // CARE uses the actual cat as its target. Leaving ARCADE must reveal the pet.
+ // Existing game close buttons own any score/timeout cleanup.
+ if(which==='care'&&room.dataset.view!=='home')setView('home');
  if(!drawer.hidden)closeDrawer(false);
  focusReturn=button;currentDrawer=which;content.replaceChildren();
  drawer.querySelector('h3').textContent=which==='care'?'♥ CARE TOOLS':'▣ HOW IS GREMELKIN?';
