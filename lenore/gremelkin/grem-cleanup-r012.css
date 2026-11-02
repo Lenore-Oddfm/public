@@ -1,0 +1,12 @@
+/* GREMELKIN R012 — Human art direction: no cross-shaped sparkles.
+ * Remove repetitive station/night-shift copy. One cat, one useful title.
+ * Scoped presentation only; pet state and CARE/ARCADE behaviors untouched. */
+.ctl-panel:has(#gremelkin-home) .grem-r008 #grem-stage:after{
+ content:none!important;
+ display:none!important;
+}
+.ctl-panel:has(#gremelkin-home) .grem-r009-hint{display:none!important;}
+/* GREM is already identified by the main title and a small PIXEL COMPANION caption.
+   The terminal-wide footer slogan offers no useful information in this room. */
+.ctl-terminal:has(.ctl-panel:not([hidden]) #gremelkin-home) .ctl-commandbar>span{display:none!important;}
+.ctl-terminal:has(.ctl-panel:not([hidden]) #gremelkin-home) .ctl-commandbar{justify-content:flex-end;}
