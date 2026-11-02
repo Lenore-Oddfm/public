@@ -16,7 +16,7 @@
  room.classList.add('grem-r007');room.dataset.gremMode='cat';
  const top=document.createElement('div');
  top.className='grem-r007-top';
- top.innerHTML=\`<div class="grem-r007-id"><strong>GREMELKIN</strong><span>CAT.EXE / NIGHT SHIFT COMPANION</span></div>
+ top.innerHTML=`<div class="grem-r007-id"><strong>GREMELKIN</strong><span>CAT.EXE / NIGHT SHIFT COMPANION</span></div>
   <div class="grem-r007-ops"><div class="grem-r007-tabs" role="tablist" aria-label="Gremelkin rooms">
     <button type="button" role="tab" data-grem-mode="cat" aria-selected="true">🐈 CAT</button>
     <button type="button" role="tab" data-grem-mode="care" aria-selected="false">♥ CARE</button>
@@ -24,24 +24,24 @@
    </div><div class="grem-r007-flyouts">
     <button type="button" id="grem-r007-vitals" aria-controls="grem-r007-drawer" aria-expanded="false">▣ VITALS</button>
     <button type="button" id="grem-r007-treasures">✧ TREASURES</button>
-   </div></div>\`;
+   </div></div>`;
  room.insertBefore(top,layout);
  // Move the EXISTING elements instead of cloning state or replacing event listeners.
  stage.append(game);
  room.insertBefore(dialogue,room.querySelector('.grem-footer'));
  const hub=document.createElement('div');hub.className='grem-r007-hub';
- hub.innerHTML=\`<div class="grem-r007-hub-title">CHOOSE A GAME <small>NO PENALTIES. JUST MISCHIEF.</small></div>
+ hub.innerHTML=`<div class="grem-r007-hub-title">CHOOSE A GAME <small>NO PENALTIES. JUST MISCHIEF.</small></div>
   <div class="grem-r007-gamecards">
    <button type="button" data-grem-play="mouse"><span>🐭</span><strong>LASER MOUSE</strong><small>Catch five in 18 seconds</small></button>
    <button type="button" data-grem-play="boxes"><span>📦</span><strong>HIDE &amp; SEEK</strong><small>Find the cat in three rounds</small></button>
-  </div>\`;
+  </div>`;
  stage.append(hub);
  const drawer=document.createElement('aside');
  drawer.id='grem-r007-drawer';drawer.className='grem-r007-drawer';drawer.hidden=true;
  drawer.setAttribute('aria-label','Gremelkin vital statistics flyout');
- drawer.innerHTML=\`<div class="grem-r007-drawerhead"><strong>▣ GREMELKIN / VITALS</strong><button type="button" id="grem-r007-close">✕ CLOSE</button></div>
+ drawer.innerHTML=`<div class="grem-r007-drawerhead"><strong>▣ GREMELKIN / VITALS</strong><button type="button" id="grem-r007-close">✕ CLOSE</button></div>
   <div class="grem-r007-vital-list"></div><p class="grem-r007-drawer-note">These are local pet readings. World cat doors are not connected.</p>
-  <button type="button" id="grem-r007-save">▥ SAVE / RESTORE</button>\`;
+  <button type="button" id="grem-r007-save">▥ SAVE / RESTORE</button>`;
  room.append(drawer);
  const tabs=[...top.querySelectorAll('[data-grem-mode]')];
  const vitals=top.querySelector('#grem-r007-vitals');
@@ -51,7 +51,7 @@
  function renderVitals(){
   statList.replaceChildren();
   for(const [key,[name]] of Object.entries(labels)){
-   const origin=app.querySelector(\`.grem-vitals [data-stat="\${key}"]\`);
+   const origin=app.querySelector(`.grem-vitals [data-stat="${key}"]`);
    const val=origin?.querySelector('output')?.textContent||'--';
    const row=document.createElement('div');row.className='grem-r007-vital';
    const caption=document.createElement('div');caption.className='grem-r007-vital-label';
