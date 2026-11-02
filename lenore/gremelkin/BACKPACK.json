@@ -1,13 +1,13 @@
 {
-  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R015",
-  "release": "R015",
-  "previous_release": "R014 recognizable pixel radio preserved; R015 fixes flyout placement and keyboard accessibility.",
+  "schema": "ODD_FM_GREMELKIN_DIRECTOR_BACKPACK_R016",
+  "release": "R016",
+  "previous_release": "R015 CARE/NEEDS below their control buttons; R016 fixes TREASURES use of obscuring terminal-wide drawer.",
   "updated_utc": "2026-11-02",
   "entity_id": "ODDFM-GREMELKIN-ONE",
   "character": "Gremelkin",
   "author": "Lenore Studio",
   "human_authority": "Human",
-  "home_site": "https://lenore-oddfm.github.io/public/lenore/?fresh=r015#port-cat",
+  "home_site": "https://lenore-oddfm.github.io/public/lenore/?fresh=r016#port-cat",
   "home_repository": "Lenore-Oddfm/public",
   "canonical_state": "single design and identity, not a globally running pet",
   "visuals": {
@@ -23,7 +23,8 @@
     "r012": "Human explicitly prohibits crosses/cross-shaped decorative sparkles in Gremelkin artwork. Removed both cat-star SVG paths at the canonical source, affecting both header mascot and cloned large pet. Removed repeated Odd FM/night shift text in the cat room. Radio now reads TUNE IN; single useful companion label remains.",
     "art_rule": "NO CROSS OR CROSS-SHAPED ORNAMENTS in Gremelkin art, including pixel stars or plus-sign sparkles. Use dots, moons, diamonds, circles, or other approved motifs instead; avoid repetitive ornamental labels.",
     "r014": "Playable pixel tabletop radio: six grille slots, analog 88–108 dial with pointer advancing through four positions, two knobs, pilot lamp, angled antenna. No cross-like ornaments, no station slogans, no TUNE IN or music-note-only radio front.",
-    "r015": "CARE and NEEDS flyout panels open below the GREM control toolbar and under their own triggers, not covering any control buttons. The same button toggles closed; compact 3×2 care layout in short windows."
+    "r015": "CARE and NEEDS flyout panels open below the GREM control toolbar and under their own triggers, not covering any control buttons. The same button toggles closed; compact 3×2 care layout in short windows.",
+    "r016": "TREASURES now opens as a local compact popup BELOW the original TREASURES button in the GREM toolbar. No full-height dimming/shade and no obstruction of HOME/ARCADE/CARE/NEEDS/TREASURES controls; the same TREASURES button toggles it closed."
   },
   "care": {
     "actions": [
@@ -52,7 +53,8 @@
     "r011": "CARE opens over the actual HOME cat after ARCADE; 6 original action tools stay visible even at 1200x530 and 320x460. Existing game and data handlers remain authoritative.",
     "r012": "R001 pet core, old local save, feed/care, two games and treasures unchanged.",
     "r014": "Existing R009 clickable radio button and its comedic dialogue handler preserved, with native keyboard click. Added a second listener to animate tuning needle only; no audio streaming claim.",
-    "r015": "Six original care controls, original four needs readings and games unaffected. Old R010 Tab trapping bypassed for R015; keyboard can return to flyout trigger."
+    "r015": "Six original care controls, original four needs readings and games unaffected. Old R010 Tab trapping bypassed for R015; keyboard can return to flyout trigger.",
+    "r016": "Treasure gallery is read from the existing GremelkinCompanion.collection() and daily report via postcard(), uses pager, Escape and outside click; CARE/NEEDS switch closes gallery. Core saved progress is never copied or migrated."
   },
   "storage": {
     "format": "ODD_FM_GREMELKIN_LOCAL_BACKPACK v1",
@@ -68,7 +70,8 @@
     "r011": "No new localStorage keys, schema or migration. R001 local pet save and portable format v1 unchanged. No cloud sync or world lease.",
     "r012": "No schema migration, state reset, sync, or new persistent keys.",
     "r014": "Purely DOM/class presentation. No R001 save schema, import/export or storage changes.",
-    "r015": "No new localStorage keys, sync, state changes or pet save schema migration."
+    "r015": "No new localStorage keys, sync, state changes or pet save schema migration.",
+    "r016": "No new localStorage keys, no saving or resetting pet state. All existing R001 save and treasure fields intact."
   },
   "presence": {
     "current": "Studio page only; localStorage tab lease best effort",
@@ -99,7 +102,9 @@
     "grem-radio-r014.js",
     "grem-radio-r014.css",
     "grem-flyout-r015.js",
-    "grem-flyout-r015.css"
+    "grem-flyout-r015.css",
+    "grem-treasures-r016.js",
+    "grem-treasures-r016.css"
   ],
   "guardrails": [
     "No Quin installs",
@@ -108,7 +113,7 @@
     "Guardians frozen",
     "Other Lenore's workspace untouched"
   ],
-  "director_note": "Human explicitly ordered flyout panels below their own controlling buttons. R015 GitHub Pages action 41509720793 SUCCESS on 452392dca8d4b76e5a00765676d81a9b397ae01d. 10 Chromium reconstructed viewports PASS (no obstruction; same-button toggle; 6 CARE tools, 4 NEEDS, keyboard focus). Human Firefox approval pending.",
+  "director_note": "Human screenshot of R015 showed TREASURES still opening old full-size global utility drawer, covering its button and dimming game. R016 adds a scoped GREM-only popover that reads the original collection, independent of global terminal-wide drawers elsewhere. Pages action 41513865670 SUCCESS on index commit 217e2528e2a111a5baae0f611f0f13513ec764c4. Ten reconstructed Chromium fixture sizes PASS, Human Firefox review PENDING.",
   "provenance": {
     "r008_js": "85d7e77c648c84e8833b759f7f72e30d7a7283a0",
     "r009_js": "b1728ae186398f895ccc140ade226804a9630ab6",
@@ -140,6 +145,13 @@
     "r015_focus_blob": "e5d91ba97e5215418abc1938867d529fd87039a1",
     "r015_pages_action": 41509720793,
     "r015_pages": "SUCCESS",
-    "r015_qa": "10 reconstructed Chromium fixtures PASS; live Firefox Human approval PENDING"
+    "r015_qa": "10 reconstructed Chromium fixtures PASS; live Firefox Human approval PENDING",
+    "r016_index_commit": "217e2528e2a111a5baae0f611f0f13513ec764c4",
+    "r016_index_blob": "f31e4a96cc4d617d20e2f36b5e141b4df412ed9d",
+    "r016_js_blob": "33dcf6718847a4b6436c53426c86607a91662174",
+    "r016_css_blob": "91eed6314170cef3902a17c048569c92e74e1314",
+    "r016_pages_action": 41513865670,
+    "r016_pages_conclusion": "SUCCESS",
+    "r016_qa": "Local reconstructed Chromium fixture ten sizes PASS, production source logic/syntax reviewed; not complete live Firefox test"
   }
 }
