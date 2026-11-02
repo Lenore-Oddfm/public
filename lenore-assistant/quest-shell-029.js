@@ -75,6 +75,7 @@
  .qa030-actions{display:flex;gap:7px;margin-top:auto;min-width:0}
  .qa030-actions #qa29-enter{flex:1;margin-top:0;min-width:0}
  .qa030-actions #qa30-newnight{flex:0 0 auto;min-width:0;font-size:10px;padding:7px}
+ .qa030-actions #qa30-newnight[hidden]{display:none!important}
  .qa030-save{font:900 10px/1.35 ui-monospace,monospace;color:#ffe57c;border:2px solid #5ceacb;background:#102d37;padding:5px 8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
  .qa29-overlay .nightqa-choices button.qa030-undo{flex:0 0 auto;min-height:24px;font-size:10px;padding:3px 7px;background:#302543;color:#ffe27c;border-color:#a17fae}
  @media(max-width:750px){.qa030-save{font-size:8px;padding:3px}.qa030-actions{gap:4px}.qa030-actions #qa30-newnight{font-size:8px;padding:4px}.qa29-overlay .nightqa-choices button.qa030-undo{min-height:19px;padding:2px;font-size:9px}}
@@ -151,12 +152,25 @@
  const $=id=>document.getElementById(id);
  $('qa29-ring').addEventListener('click',()=>{$('qa29-bell').textContent=`DING ${++rings}. Still not the third cue.`});
  $('qa29-tap').addEventListener('click',()=>{$('qa29-moth').textContent=['It evades capture.','It lands on the EXIT sign.','It looks disappointed.'][++taps%3]});
- $('qa29-enter').addEventListener('click',()=>{overlay.hidden=false;refresh();overlay.querySelector('.qa29-exit')?.focus({preventScroll:true})});
+ // R042: A completed story is NOT an unfinished run. Never present its ending as RESUME.
+ function enterStory({review=false}={}){
+  const root=mount.querySelector('.nightqa');
+  if(!review&&root?.dataset.qa042Ended==='1'){
+   // New story starts at scene one; the Casebook is preserved by the game engine.
+   root.querySelector('.nightqa-toolbar [data-action="restart"]')?.click();
+  } else if(!review&&root?.querySelector('.nightqa-case')){
+   root.querySelector('.nightqa-case [data-action="back"]')?.click();
+  }
+  overlay.hidden=false;refresh();overlay.querySelector('.qa29-exit')?.focus({preventScroll:true});
+ }
+ $('qa29-enter').addEventListener('click',()=>enterStory());
  $('qa30-newnight').addEventListener('click',()=>{
   const root=mount.querySelector('.nightqa');if(!root)return;
-  const marker=root.querySelector('.nightqa-story small')?.textContent||'';
-  if(Number(root.dataset.qa030Steps||0)>0&&!window.confirm('Start a NEW NIGHT? Your current choices will be replaced. Discovered endings remain in your Casebook.'))return;
-  root.querySelector('[data-action="restart"]')?.click();refresh();
+  const secondary=$('qa30-newnight');
+  if(secondary.dataset.mode==='review'){enterStory({review:true});return;}
+  if(Number(root.dataset.qa030Steps||0)>0&&root.dataset.qa042Ended!=='1'&&
+     !window.confirm('Start over? This unfinished route will be replaced. Casebook discoveries remain saved.'))return;
+  root.querySelector('.nightqa-toolbar [data-action="restart"]')?.click();refresh();
  });
  async function leave(){if(document.fullscreenElement===overlay)try{await document.exitFullscreen()}catch{}overlay.hidden=true;p.querySelector('.term-panel-head h1')?.focus?.();const diary=$('term-tab-diary');diary?.click();diary?.focus({preventScroll:true})}
  async function full(){try{if(document.fullscreenElement===overlay)await document.exitFullscreen();else await overlay.requestFullscreen()}catch(e){const foot=overlay.querySelector('.nightqa-foot');if(foot)foot.textContent='Fullscreen unavailable in this browser; full-window mode stays active.'}refreshButtons()}
@@ -205,10 +219,16 @@
  function refresh(){const root=mount.querySelector('.nightqa');if(!root)return;
   const marker=root.querySelector('.nightqa-story small')?.textContent||'';
   const heading=root.dataset.qa030Title||root.querySelector('.nightqa-story h2')?.textContent||'';
-  const progressed=Number(root.dataset.qa030Steps||0)>0;
-  const info=$('qa30-save'),enter=$('qa29-enter');
-  if(info)info.textContent=progressed?('◈ SAVED NIGHT · '+heading+' · '+marker):'◈ NEW NIGHT · YOUR PROGRESS SAVES ON THIS DEVICE';
-  if(enter)enter.textContent=progressed?'▶ RESUME NIGHT':'▶ ENTER THE THEATER';
+  const finished=root.dataset.qa042Ended==='1';
+  const progressed=Number(root.dataset.qa030Steps||0)>0&&!finished;
+  const info=$('qa30-save'),enter=$('qa29-enter'),secondary=$('qa30-newnight');
+  if(info)info.textContent=finished?'✓ LAST NIGHT COMPLETE · YOUR CASEBOOK IS SAFE':progressed?('◈ STORY IN PROGRESS · '+heading):'◈ READY FOR SCENE ONE · PROGRESS SAVES AUTOMATICALLY';
+  if(enter)enter.textContent=finished?'▶ START NEW STORY':progressed?'▶ CONTINUE STORY':'▶ BEGIN THE ADVENTURE';
+  if(secondary){
+   secondary.dataset.mode=finished?'review':'restart';
+   secondary.textContent=finished?'▣ REVIEW LAST ENDING':'↻ START OVER';
+   secondary.hidden=!finished&&!progressed;
+  }
   const actions=root.querySelector('.nightqa-actions');if(actions&&!actions.querySelector('.qa29-exit'))actions.insertAdjacentHTML('beforeend','<button type="button" class="qa29-full">▣ FULLSCREEN</button><button type="button" class="qa29-exit">✕ EXIT TO DIARY</button>');
   const count=(actions?.textContent||'').match(/CASEBOOK\s*\((\d+)\/4\)/);if(count)$('qa29-finds').textContent=count[1]+'/4';
   const art=root.querySelector('.nightqa-art'),poster=$('qa29-poster');if(art&&poster)try{const c=poster.getContext('2d');c.imageSmoothingEnabled=false;c.clearRect(0,0,320,150);c.drawImage(art,0,0)}catch{}
