@@ -13,7 +13,7 @@ const dialogue=app.querySelector('#grem-dialogue');
 if(dialogue)room.insertBefore(dialogue,room.querySelector('.grem-footer'));
 const toolbar=doc.createElement('nav');toolbar.className='grem-r008-toolbar';
 toolbar.setAttribute('aria-label','Gremelkin room controls');
-toolbar.innerHTML=`<div class="grem-r008-name"><strong>GREMELKIN</strong><small>ODD FM · NIGHT CAT</small></div>
+toolbar.innerHTML=`<div class="grem-r008-name"><strong>GREMELKIN</strong><small>PIXEL COMPANION</small></div>
 <div class="grem-r008-buttons">
 <button type="button" data-view="home" aria-pressed="true">🐈 HOME</button>
 <button type="button" data-view="arcade" aria-pressed="false">✦ ARCADE</button>
