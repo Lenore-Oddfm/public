@@ -329,6 +329,29 @@ function addR032Review(ep){
    text:'Under WITNESSES you write: RUBBER CHICKEN (BOUND BY NDA). At dawn the form gains a second signature in purple ink: COUNSEL FOR THE POULTRY.'});
   return ep;
  }
+
+ // R038 FIRST FIVE MINUTES: fewer explanatory paragraphs, an immediate mystery,
+ // three honest choices and a distinct payback on each first investigation.
+ // All additions are provisional QA fiction. No new canon, scenes or releases.
+ function tuneR038Opening(ep){
+  const get=id=>{const n=ep.nodes.find(n=>n.id===id);if(!n)throw Error('R038 missing '+id);return n};
+  const foyer=get('foyer');
+  foyer.text='1:13 a.m. Two bells ring in the empty ODD FM theater. The third never comes. You are alone with a half-eaten sandwich and a closing checklist someone has amended: “THE LAST HOUSE LIGHT GOES OUT AFTER THE THIRD BELL.” The sound booth meter blinks. A light over Seat G7 flickers. Behind the curtain, somebody clears their throat. You have one job: find out who expects the third bell—or decide what counts as answering it.';
+  const labels=[
+   'Check the sound booth — the unplugged meter is blinking.',
+   'Inspect the only occupied seat — G7 has a coat, but no person.',
+   'Step behind the curtain — somebody just cleared their throat.'
+  ];
+  if(foyer.choices.length!==3)throw Error('R038 opening routes changed');
+  foyer.choices.forEach((c,i)=>c.label=labels[i]);
+  get('booth').reactions=[{when:{flag:'chose_booth',value:true},
+    text:'The unplugged console flashes 3, then changes its mind and shows 2. It seems to be counting on you to finish the job.'}];
+  get('aisle').reactions=[{when:{flag:'chose_seat',value:true},
+    text:'The aisle lights chase you to G7, one bulb at a time. When you reach the coat, they switch off behind you. Very considerate. Very unsettling.'}];
+  get('stage').reactions=[{when:{flag:'chose_stage',value:true},
+    text:'A spotlight snaps on before you touch the switch. It waits in the exact place someone would stand to take a bow. The theater has cast you without an audition.'}];
+  return ep;
+ }
  const getMemory=()=>story.clues?.filter(c=>game.flags[c.flag]).map(c=>c.label)||[];
  function paint(){if(!story)return;const node=selected(story,game);if(!node)return;
   const mem=getMemory();const total=story.nodes.filter(n=>n.ending).length;
@@ -362,7 +385,7 @@ function addR032Review(ep){
   persist();paint();
  });
  unpack().then(ep=>{
-  story=addR036SilenceAgreement(trimR033Finale(addR032Review(addR031Payoffs(ep))));const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
+  story=tuneR038Opening(addR036SilenceAgreement(trimR033Finale(addR032Review(addR031Payoffs(ep)))));const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
   if(!Array.isArray(casebook.endings))casebook.endings=[];if(!Array.isArray(casebook.clues))casebook.clues=[];
   game=validCheckpoint(saved)?saved.game:null;
   if(!game){reset();return}view=saved?.view==='casebook'?'casebook':'story';paint();
