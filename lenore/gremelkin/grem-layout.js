@@ -82,6 +82,11 @@
  });
  function setMode(mode,focus=false){
   if(!['cat','care','games'].includes(mode))return;
+  // Leaving GAMES closes active overlays; no invisible timers over other rooms.
+  if(mode!=='games'){
+   if(!game.hidden)app.querySelector('#grem-cancel')?.click();
+   if(!box.hidden)app.querySelector('#grem-box-close')?.click();
+  }
   room.dataset.gremMode=mode;
   tabs.forEach(btn=>{
    const selected=btn.dataset.gremMode===mode;
