@@ -16,7 +16,7 @@
  '<div class="grem-r009-window" aria-hidden="true"><div class="grem-r009-moon"></div><i></i><i></i><i></i><i></i><i></i><div class="grem-r009-sill"></div></div>'+
  '<div class="grem-r009-shelf" aria-hidden="true"><div class="grem-r009-book"></div><div class="grem-r009-book"></div><div class="grem-r009-plant"><i></i></div></div>'+
  '<div class="grem-r009-rug" aria-hidden="true"></div>'+
- '<button type="button" class="grem-r009-stereo" aria-label="Tune Gremelkin’s little radio" title="Tune the radio"><span aria-hidden="true">♫</span><small>TUNE IN</small><i></i></button>'+
+ '<button type="button" class="grem-r009-stereo" aria-label="Play with Gremelkin’s little radio" title="Play with Gremelkin’s radio"><span aria-hidden="true">♫</span><i></i></button>'+
  '<button type="button" class="grem-r009-yarn" aria-label="Bat the yarn" title="Bat the yarn"><span aria-hidden="true">◉</span></button>'+
  '';
  stage.prepend(scene);
