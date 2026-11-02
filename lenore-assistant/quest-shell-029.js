@@ -36,6 +36,12 @@
  .qa29-overlay .nightqa-memory{overflow:hidden!important}.qa29-overlay .nightqa-case{overflow:hidden!important}
  .qa29-pager{display:flex;align-items:center;justify-content:space-between;min-height:34px;gap:6px;border:2px solid #684e82;padding:3px 5px;background:#211b37}
  .qa29-pager button{font-size:10px;padding:5px 9px}.qa29-pager span{color:#ffe57c;font-size:10px}
+ /* R034: a hardware-style DECISION TIME cue; disabled controls are unmistakable. */
+ .qa29-overlay .qa29-pager .qa34-decision{color:#11162a;background:#ffe575;border:2px solid #ff83c2;font:1000 11px/1.1 ui-monospace,monospace;padding:5px 8px;letter-spacing:.04em;text-align:center}
+ .qa29-overlay .qa29-pager .qa34-reading{color:#85f1db;letter-spacing:.05em}
+ .qa29-overlay .qa29-pager button:disabled{color:#887e99!important;border-color:#4e4469!important;background:#151526!important;box-shadow:none!important;cursor:not-allowed;opacity:.92}
+ .qa29-overlay .qa29-pager .qa34-text-done{color:#857e93!important}
+ @media(max-width:750px){.qa29-overlay .qa29-pager .qa34-decision{font-size:8px;padding:4px 3px;letter-spacing:0}.qa29-overlay .qa29-pager .qa34-text-done{font-size:8px;padding:4px 2px}}
  .qa29-overlay .nightqa-choices .qa29-next{background:#ffe575;color:#121326;text-align:center;justify-content:center}
  @media(max-width:750px){.qa29-foyer{grid-template-columns:1fr;grid-template-rows:minmax(0,1.08fr) minmax(0,.92fr);padding:6px!important;gap:5px}.qa29-foyer>div{padding:7px;border-width:2px;gap:5px}.qa29-foyer h2{font-size:21px}.qa29-foyer p{font-size:9px}.qa29-foyer canvas{max-height:calc(100% - 96px);height:auto}#qa29-enter{min-height:35px;padding:6px;font-size:12px}.qa29-stats{gap:4px}.qa29-stats span{padding:4px}.qa29-stats b{font-size:16px}.qa29-desk h3{font-size:11px;margin:0}.qa29-toys{gap:5px}.qa29-toys>div{padding:4px;gap:3px}.qa29-toys output{font-size:9px;min-height:0}.qa29-toys button{padding:4px}.qa29-desk>p{display:none}
  .qa29-overlay .nightqa{grid-template-rows:47px minmax(0,1fr) 24px}.qa29-overlay .nightqa-toolbar{gap:4px;padding:4px}.qa29-overlay .nightqa-badge{font-size:10px;min-width:0}.qa29-overlay .nightqa-actions{gap:3px}.qa29-overlay .nightqa-actions button{font-size:8px;padding:5px 3px}
@@ -78,12 +84,29 @@
    if(area.scrollHeight>area.clientHeight+2){q.remove();if(readingPages.at(-1).length){readingPages.push([]);area.replaceChildren();i--;continue}if(v.t.length>22){let mid=v.t.lastIndexOf(' ',Math.floor(v.t.length/2));if(mid<8)mid=Math.floor(v.t.length/2);src.splice(i,1,{...v,t:v.t.slice(0,mid)},{...v,t:v.t.slice(mid).trim()});i--;continue}area.append(q)}readingPages.at(-1).push(v)
   }
   readingPage=0;const pager=document.createElement('nav');pager.className='qa29-pager';pager.setAttribute('aria-label','Story pages');area.after(pager);const choices=story.querySelector('.nightqa-choices');const choiceHTML=choices.innerHTML;
-  function show(){area.replaceChildren();for(const v of readingPages[readingPage]){const q=document.createElement('p');q.className=v.cls;q.textContent=v.t;area.append(q)}
-   const done=readingPage===readingPages.length-1;pager.innerHTML=`<button type="button" data-page="prev" ${readingPage?'':'disabled'}>◀ BACK</button><span>PAGE ${readingPage+1} / ${readingPages.length}</span><button type="button" data-page="next" ${done?'disabled':''}>CONTINUE ▶</button>`;
+  function show({focus=''}={}){
+   area.replaceChildren();for(const v of readingPages[readingPage]){const q=document.createElement('p');q.className=v.cls;q.textContent=v.t;area.append(q)}
+   const done=readingPage===readingPages.length-1;
+   const state=done?'<span class="qa34-decision" role="status" aria-live="polite">✦ DECISION TIME · CHOOSE BELOW</span>':`<span class="qa34-reading" role="status" aria-live="polite">PAGE ${readingPage+1} / ${readingPages.length}</span>`;
+   const nextLabel=done?'■ STORY READ':'CONTINUE ▶';
+   pager.innerHTML=`<button type="button" data-page="prev" ${readingPage?'':'disabled aria-disabled="true"'}>◀ BACK</button>${state}<button type="button" data-page="next" ${done?'disabled aria-disabled="true" class="qa34-text-done"':'aria-label="Continue reading story text"'}>${nextLabel}</button>`;
    choices.innerHTML=done?choiceHTML:'<button type="button" class="qa29-next" data-page="next">▶ CONTINUE READING</button>';
+   if(focus){const target=focus==='choice'?choices.querySelector('[data-choice]:not([disabled]),[data-action]:not([disabled])'):
+      pager.querySelector(`[data-page="${focus}"]:not([disabled])`);
+    (target||pager.querySelector('[data-page="next"]:not([disabled]),[data-page="prev"]:not([disabled])'))?.focus({preventScroll:true});}
   }
-  pager.addEventListener('click',e=>{const x=e.target.closest('[data-page]');if(!x)return;readingPage=Math.max(0,Math.min(readingPages.length-1,readingPage+(x.dataset.page==='next'?1:-1)));show()});
-  choices.addEventListener('click',e=>{if(e.target.closest('[data-page]')){readingPage=Math.min(readingPage+1,readingPages.length-1);show()}},true);
+  function move(direction,fromChoices=false){
+   readingPage=Math.max(0,Math.min(readingPages.length-1,readingPage+direction));
+   const done=readingPage===readingPages.length-1;
+   show({focus:done?'choice':(fromChoices?'next':direction>0?'next':'prev')});
+  }
+  pager.addEventListener('click',e=>{const x=e.target.closest('[data-page]:not([disabled])');if(x)move(x.dataset.page==='next'?1:-1)});
+  pager.addEventListener('keydown',e=>{
+   if(['ArrowRight','PageDown','ArrowLeft','PageUp'].includes(e.key)){
+    e.preventDefault();move(e.key==='ArrowRight'||e.key==='PageDown'?1:-1);
+   }
+  });
+  choices.addEventListener('click',e=>{if(e.target.closest('[data-page]'))move(1,true)},true);
   show();
  }
  function refresh(){const root=mount.querySelector('.nightqa');if(!root)return;
