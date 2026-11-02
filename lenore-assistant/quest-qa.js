@@ -252,11 +252,40 @@ function addR032Review(ep){
     'You staple the sound-booth pulse tracing to the copied cue card. Their three marks line up into tidy checkboxes. While you hold the pen still, the third box checks itself. Under VERIFIED WITNESS, the paper adds: THE BUILDING (RELUCTANT). You draw one more box: HUMAN REVIEW REQUIRED.');
   return ep;
  }
+
+ // R033: the FINAL CUE is the player's decision, not another recap chapter.
+ // Compact only the last-call screen; leave all earned ending payoffs intact.
+ function trimR033Finale(ep){
+  const node=ep.nodes.find(n=>n.id==='last-call');
+  if(!node)throw Error('Finale scene missing');
+  node.text='One amber house light remains. The third bell is yours to answer: put on a show, give the theater silence, or file a report. The curtain stirs. A seat creaks. Even your sandwich waits for direction.';
+  const concise=[
+   ['Use the tiny clapper','Use the tiny clapper for one real third ring.'],
+   ['Let the third bell be silence','Let the third bell be silence.'],
+   ['Show the absentee ticket','Show the absentee ticket to the invisible spectator.'],
+   ['Write a sober report','Write a sober report for the morning shift.']
+  ];
+  for(const [match,label] of concise){const c=node.choices.find(c=>c.label.startsWith(match));if(!c)throw Error('Finale choice missing: '+match);c.label=label}
+  return ep;
+ }
+ function cueR033Reactions(node,flags){
+  const reactions=(node.reactions||[]).filter(r=>applicable(r,flags));
+  if(node.id!=='last-call')return reactions;
+  // Hidden-ticket hint and review appeal outrank redundant recap.
+  const priority=r=>r.when?.flag==='appealed_review'?200:
+   (r.whenAll||[]).some(c=>c.flag==='kept_ticket')?180:
+   r.when?.flag==='chicken'?150:r.when?.flag==='found_thimble'?140:
+   r.when?.flag==='saved_cue'?130:r.when?.flag==='marked_spot'?120:
+   r.when?.flag==='offered_exit'?110:r.when?.flag==='rewrote_cue'?100:
+   r.when?.flag==='asked_audience'?90:r.when?.flag==='kept_quiet'?80:50;
+  return reactions.map((r,i)=>({r,i,score:priority(r)}))
+   .sort((a,b)=>b.score-a.score||a.i-b.i).slice(0,2).map(v=>v.r);
+ }
  const getMemory=()=>story.clues?.filter(c=>game.flags[c.flag]).map(c=>c.label)||[];
  function paint(){if(!story)return;const node=selected(story,game);if(!node)return;
   const mem=getMemory();const total=story.nodes.filter(n=>n.ending).length;
   const art=`<aside class="nightqa-aside"><small>ILLUSTRATION ${String(story.nodes.findIndex(n=>n.id===node.id)+1).padStart(2,'0')} / ${story.nodes.length} · ONE-OF-A-KIND</small><canvas class="nightqa-art" id="nightQaArt" width="320" height="150" role="img" aria-label="Pixel-art after-hours ODD FM theater with Lenore on stage"></canvas><div class="nightqa-objective">MISSION: ${h(story.objective)}</div><div class="nightqa-memory"><strong>✧ YOUR NIGHT SO FAR</strong>${mem.length?mem.map(v=>`<span>◆ ${h(v)}</span>`).join(''):'No clues yet. Start exploring.'}</div><div class="nightqa-note">THEATER DETAILS ARE PROVISIONAL / NOT OFFICIAL CANON</div></aside>`;
-  const comments=(node.reactions||[]).filter(r=>applicable(r,game.flags)).map(r=>`<p class="nightqa-reaction">↳ ${h(r.text)}</p>`).join('');
+  const comments=cueR033Reactions(node,game.flags).map(r=>`<p class="nightqa-reaction">↳ ${h(r.text)}</p>`).join('');
   const vary=(node.variants||[]).length?node.variants[game.steps%(node.variants.length)]:'';
   const rewindButton=game.history.length?'<button type="button" class="qa030-undo" data-action="rewind">↶ UNDO LAST CHOICE</button>':'';
   const choices=node.ending?`<div class="nightqa-rating"><b>PLAY AGAIN URGE?</b> ${[1,2,3,4,5].map(n=>`<button type="button" data-score="${n}" class="${casebook.rating===n?'chosen':''}" aria-label="Replay urge ${n} out of 5">${n}</button>`).join('')}</div><button type="button" data-action="restart">↻ EXPLORE A DIFFERENT ENDING</button><button type="button" data-action="casebook">▣ OPEN CASEBOOK</button>${rewindButton}`:
@@ -282,7 +311,7 @@ function addR032Review(ep){
   persist();paint();
  });
  unpack().then(ep=>{
-  story=addR032Review(addR031Payoffs(ep));const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
+  story=trimR033Finale(addR032Review(addR031Payoffs(ep)));const saved=load();casebook=saved?.casebook&&typeof saved.casebook==='object'?saved.casebook:casebook;
   if(!Array.isArray(casebook.endings))casebook.endings=[];if(!Array.isArray(casebook.clues))casebook.clues=[];
   game=validCheckpoint(saved)?saved.game:null;
   if(!game){reset();return}view=saved?.view==='casebook'?'casebook':'story';paint();
