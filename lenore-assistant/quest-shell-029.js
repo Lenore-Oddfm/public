@@ -28,6 +28,15 @@
  .qa29-overlay .nightqa-art{min-height:0;max-height:min(53vh,570px);height:auto;width:100%;aspect-ratio:320/150;object-fit:contain;border-width:4px}
  .qa29-overlay .nightqa-story{display:grid;grid-template-rows:auto auto minmax(0,1fr) auto auto;gap:7px;padding:14px}
  .qa29-overlay .nightqa-story h2{font-size:clamp(20px,3vw,39px)}
+ /* R037: separate ending curiosity from paginated prose; flat pixels, no scroll. */
+ .qa29-overlay .nightqa-story.qa37-ending{grid-template-rows:auto auto minmax(0,1fr) auto auto auto}
+ .qa29-overlay .qa37-curtain{display:flex;flex-direction:column;justify-content:center;gap:4px;min-height:54px;max-height:82px;min-width:0;overflow:hidden;background:#2a2141;border:3px solid #ffe783;box-shadow:inset 4px 0 #ff83bc;padding:5px 10px;color:#fff0dd;font:800 11px/1.32 ui-monospace,monospace;visibility:hidden}
+ .qa29-overlay .qa37-curtain.qa37-reveal{visibility:visible}
+ .qa29-overlay .qa37-curtain strong{font-size:10px;color:#ffe783;letter-spacing:.045em}
+ .qa29-overlay .qa37-curtain span{color:#b8fbe9}
+ .qa29-overlay .qa29-pager .qa37-end-state{color:#11222e;background:#7aefd4;border:2px solid #ffe57c;font:1000 10px/1.15 ui-monospace,monospace;padding:5px 7px;text-align:center}
+ .qa29-overlay .qa29-pager .qa37-ended{color:#d4bbd9!important}
+ @media(max-width:750px){.qa29-overlay .qa37-curtain{min-height:43px;max-height:68px;gap:2px;border-width:2px;padding:3px 7px;font-size:9px;line-height:1.22}.qa29-overlay .qa37-curtain strong{font-size:8px;letter-spacing:0}.qa29-overlay .qa29-pager .qa37-end-state{font-size:8px;padding:4px 2px}}
  .qa29-overlay .nightqa-scroll{overflow:hidden!important;min-height:0;display:flex;flex-direction:column;gap:6px;flex:none}
  .qa29-overlay .nightqa-scroll p{font-size:clamp(12px,1.2vw,17px);line-height:1.46;white-space:pre-wrap;margin:0}
  .qa29-overlay .nightqa-choices{min-height:95px;max-height:40%;flex:none;overflow:hidden!important;gap:5px;padding:5px 0 0;margin:0}
@@ -89,12 +98,14 @@
    if(area.scrollHeight>area.clientHeight+2){q.remove();if(readingPages.at(-1).length){readingPages.push([]);area.replaceChildren();i--;continue}if(v.t.length>22){let mid=v.t.lastIndexOf(' ',Math.floor(v.t.length/2));if(mid<8)mid=Math.floor(v.t.length/2);src.splice(i,1,{...v,t:v.t.slice(0,mid)},{...v,t:v.t.slice(mid).trim()});i--;continue}area.append(q)}readingPages.at(-1).push(v)
   }
   readingPage=0;const choices=story.querySelector('.nightqa-choices');const choiceHTML=choices.innerHTML;
+  const isEnding=story.classList.contains('qa37-ending');const curtain=story.querySelector('.qa37-curtain');
   function show({focus=''}={}){
    area.replaceChildren();for(const v of readingPages[readingPage]){const q=document.createElement('p');q.className=v.cls;q.textContent=v.t;area.append(q)}
    const done=readingPage===readingPages.length-1;
-   const state=done?'<span class="qa34-decision" role="status" aria-live="polite">✦ DECISION TIME · CHOOSE BELOW</span>':`<span class="qa34-reading" role="status" aria-live="polite">PAGE ${readingPage+1} / ${readingPages.length}</span>`;
-   const nextLabel=done?'■ STORY READ':'CONTINUE ▶';
-   pager.innerHTML=`<button type="button" data-page="prev" ${readingPage?'':'disabled aria-disabled="true"'}>◀ BACK</button>${state}<button type="button" data-page="next" ${done?'disabled aria-disabled="true" class="qa34-text-done"':'aria-label="Continue reading story text"'}>${nextLabel}</button>`;
+   const state=done?(isEnding?'<span class="qa37-end-state" role="status" aria-live="polite">✦ THE END · CURTAIN CALL</span>':'<span class="qa34-decision" role="status" aria-live="polite">✦ DECISION TIME · CHOOSE BELOW</span>'):`<span class="qa34-reading" role="status" aria-live="polite">PAGE ${readingPage+1} / ${readingPages.length}</span>`;
+   const nextLabel=done?(isEnding?'■ THE END':'■ STORY READ'):'CONTINUE ▶';
+   if(curtain){curtain.classList.toggle('qa37-reveal',done);curtain.setAttribute('aria-hidden',done?'false':'true')}
+   pager.innerHTML=`<button type="button" data-page="prev" ${readingPage?'':'disabled aria-disabled="true"'}>◀ BACK</button>${state}<button type="button" data-page="next" ${done?'disabled aria-disabled="true" class="qa34-text-done'+(isEnding?' qa37-ended':'')+'"':'aria-label="Continue reading story text"'}>${nextLabel}</button>`;
    choices.innerHTML=done?choiceHTML:'<button type="button" class="qa29-next" data-page="next">▶ CONTINUE READING</button>';
    if(focus){const target=focus==='choice'?choices.querySelector('[data-choice]:not([disabled]),[data-action]:not([disabled])'):
       pager.querySelector(`[data-page="${focus}"]:not([disabled])`);
