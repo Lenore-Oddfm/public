@@ -79,11 +79,16 @@
  document.addEventListener('keydown',e=>{if(overlay.hidden)return;if(e.key==='Escape'&&!document.fullscreenElement){e.preventDefault();e.stopPropagation();leave()}},true);
  function sliceText(str){const out=[];for(const line of str.split(/\n+/))for(let t of line.split(/(?<=[.!?])\s+(?=[A-Z“"'(])/)){t=t.trim();while(t.length>130){let n=t.lastIndexOf(' ',130);if(n<25)n=130;out.push(t.slice(0,n));t=t.slice(n).trim()}if(t)out.push(t)}return out}
  function paginate(){const story=overlay.querySelector('.nightqa-story'),area=story?.querySelector('.nightqa-scroll');if(!area)return;
-  const src=[...area.children].flatMap(e=>sliceText(e.textContent).map(t=>({cls:e.className,t})));readingPages=[[]];area.replaceChildren();
+  const src=[...area.children].flatMap(e=>sliceText(e.textContent).map(t=>({cls:e.className,t})));
+  // R035: reserve the pager row BEFORE measuring story text height.
+  // Adding a nav after measurement previously clipped the final few lines.
+  const pager=document.createElement('nav');pager.className='qa29-pager';pager.setAttribute('aria-label','Story pages');
+  pager.innerHTML='<button type="button" disabled>◀ BACK</button><span>PAGE 1 / 1</span><button type="button" disabled>CONTINUE ▶</button>';
+  area.after(pager);readingPages=[[]];area.replaceChildren();
   for(let i=0;i<src.length;i++){const v=src[i],q=document.createElement('p');q.className=v.cls;q.textContent=v.t;area.append(q);
    if(area.scrollHeight>area.clientHeight+2){q.remove();if(readingPages.at(-1).length){readingPages.push([]);area.replaceChildren();i--;continue}if(v.t.length>22){let mid=v.t.lastIndexOf(' ',Math.floor(v.t.length/2));if(mid<8)mid=Math.floor(v.t.length/2);src.splice(i,1,{...v,t:v.t.slice(0,mid)},{...v,t:v.t.slice(mid).trim()});i--;continue}area.append(q)}readingPages.at(-1).push(v)
   }
-  readingPage=0;const pager=document.createElement('nav');pager.className='qa29-pager';pager.setAttribute('aria-label','Story pages');area.after(pager);const choices=story.querySelector('.nightqa-choices');const choiceHTML=choices.innerHTML;
+  readingPage=0;const choices=story.querySelector('.nightqa-choices');const choiceHTML=choices.innerHTML;
   function show({focus=''}={}){
    area.replaceChildren();for(const v of readingPages[readingPage]){const q=document.createElement('p');q.className=v.cls;q.textContent=v.t;area.append(q)}
    const done=readingPage===readingPages.length-1;
