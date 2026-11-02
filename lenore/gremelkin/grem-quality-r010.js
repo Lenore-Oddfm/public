@@ -19,7 +19,7 @@
  drawer.id='grem-r010-drawer';
  function focusables(){return [...drawer.querySelectorAll('button:not([disabled]),[tabindex="0"]')].filter(e=>e.getClientRects().length>0)}
  document.addEventListener('keydown',e=>{
-  if(drawer.hidden||e.key!=='Tab')return;
+  if(drawer.hidden||e.key!=='Tab'||room.classList.contains('grem-r015'))return;
   const list=focusables();if(!list.length)return;
   const first=list[0],last=list.at(-1);
   if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus({preventScroll:true})}
